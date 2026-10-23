@@ -64,7 +64,8 @@ body { min-width: 300px; }
 .sr-card p {color:var(--ink-text-soft);font-size:14px;line-height:1.6;}
 .sr-card .sr-link {color:var(--seal);font-size:13px;font-weight:700;margin-top:auto;}
 .sr-feature {background:var(--ink);color:var(--cream-text);padding:48px;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(220px,.6fr);gap:30px;align-items:center;}
-.sr-feature h2 {font-size:clamp(34px,4vw,48px);margin:12px 0;}
+.sr-feature h2 {font-size:clamp(34px,4vw,48px);margin:12px 0;line-height:1.2;}
+.sr-feature .sr-feature-qualifier {display:block;font-family:var(--font-body,Inter,sans-serif);font-size:clamp(18px,2.15vw,27px);font-weight:500;line-height:1.35;margin-top:9px;color:var(--cream-text);}
 .sr-feature p {color:var(--cream-text-soft);font-size:15px;line-height:1.7;max-width:700px;}
 .sr-feature .sr-star {font-size:93px;color:var(--gold);line-height:1;text-align:center;}
 .sr-feature .btn {margin-top:24px;}
@@ -283,7 +284,7 @@ def nav(lang):
 
 def footer(lang):
  x=LANGS[lang]
- return f'''<footer class="sr-footer"><div class="sr-width"><div><div class="sr-footer-brand">SalutRussie</div><p class="sr-small">{'SalutRussie — профессиональная помощь для иностранцев в России' if lang=='ru' else 'Services juridiques et pratiques pour les étrangers en Russie. Le périmètre et le prestataire sont précisés avant tout contrat.'}</p></div><div><a href="{path(lang,'services')}">{x['services']}</a><a href="{path(lang,'consultations')}">{x['consult']}</a><a href="{path(lang,'knowledge')}">{x['kb']}</a><a href="{path(lang,'pricing')}">{x['prices']}</a><a href="{path(lang,'contacts')}">{x['contacts']}</a><br><a href="{path(lang,'privacy')}">{'Персональные данные' if lang=='ru' else 'Données personnelles'}</a><p class="sr-small">{'© 2018–2026 SalutRussie' if lang=='ru' else '© 2026 SalutRussie'} · ООО «Инновационные правовые решения»</p></div></div></footer>'''
+ return f'''<footer class="sr-footer"><div class="sr-width"><div><div class="sr-footer-brand">SalutRussie</div><p class="sr-small">{'Профессиональная помощь для иностранцев в России' if lang=='ru' else 'Services juridiques et pratiques pour les étrangers en Russie. Le périmètre et le prestataire sont précisés avant tout contrat.'}</p></div><div><a href="{path(lang,'services')}">{x['services']}</a><a href="{path(lang,'consultations')}">{x['consult']}</a><a href="{path(lang,'knowledge')}">{x['kb']}</a><a href="{path(lang,'pricing')}">{x['prices']}</a><a href="{path(lang,'contacts')}">{x['contacts']}</a><br><a href="{path(lang,'privacy')}">{'Персональные данные' if lang=='ru' else 'Données personnelles'}</a><p class="sr-small">{'© 2018–2026 SalutRussie' if lang=='ru' else '© 2026 SalutRussie'} · ООО «Инновационные правовые решения»</p></div></div></footer>'''
 
 def link_msg(lang,topic):
  txt=(f'Здравствуйте! Обращаюсь с сайта SalutRussie. Тема: {topic}. Хотел(а) бы узнать о консультации.' if lang=='ru' else f'Bonjour ! Je vous contacte via SalutRussie. Sujet : {topic}. Je souhaite réserver une consultation.')
@@ -293,11 +294,11 @@ def feature(lang):
  if lang=='ru':
   paragraphs=[
    'Популярная программа переезда для иностранцев, разделяющих традиционные российские ценности.',
-   'У нас есть практический опыт сопровождения клиентов по Указу 702 — от выбора миграционной стратегии до оформления документов и взаимодействия с государственными органами.',
-   'Для начала необходимо проверить, распространяется ли программа на вашу страну гражданства или постоянного проживания.'
+   'Мы много работаем по Указу 702: выбираем миграционную стратегию, готовим документы, сопровождаем оформление специальной частной визы на срок до трёх месяцев и дальнейшее получение РВП.',
+   'Для начала проверьте, входит ли страна вашего гражданства в перечень государств программы.'
   ]
   body=''.join(f'<p>{esc(x)}</p>' for x in paragraphs)
-  return f"""<section class="sr-sec"><div class="sr-width"><div class="sr-feature"><div><span class="sr-eyebrow">СПЕЦИАЛЬНАЯ ПРОГРАММА</span><h2>Переезд в Россию по Указу 702 — идеологическая программа</h2>{body}<a class="btn btn-primary" href="{path(lang,'migration/decree-702')}">Подробнее об Указе 702 →</a></div><span class="sr-star" aria-hidden="true">✳</span></div></div></section>"""
+  return f"""<section class="sr-sec"><div class="sr-width"><div class="sr-feature"><div><span class="sr-eyebrow">СПЕЦИАЛЬНАЯ ПРОГРАММА «РАЗДЕЛЕНИЕ ЦЕННОСТЕЙ»</span><h2>Переезд в Россию по Указу 702<span class="sr-feature-qualifier">Разделение ценностей (идеологическая программа)</span></h2>{body}<a class="btn btn-primary" href="{path(lang,'migration/decree-702')}">Подробнее об Указе 702 →</a></div><span class="sr-star" aria-hidden="true">✳</span></div></div></section>"""
  return f"""<section class="sr-sec"><div class="sr-width"><div class="sr-feature"><div><span class="sr-eyebrow">PROGRAMME DE RELOCALISATION</span><h2>S’installer en Russie : décret n° 702</h2><p>Un dispositif spécifique soumis à des conditions légales. Nous évaluons votre éligibilité et vous accompagnons dans la préparation du dossier.</p><a class="btn btn-primary" href="{path(lang,'migration/decree-702')}">Découvrir le décret 702 →</a></div><span class="sr-star" aria-hidden="true">✳</span></div></div></section>"""
 
 def cards(lang,items):
@@ -311,8 +312,8 @@ def heading(lang,title,subtitle,kicker='SalutRussie'):
  return f'<div class="sr-top"><div class="sr-width"><div class="sr-eyebrow">{esc(kicker)}</div><h1>{esc(title)}</h1><p>{esc(subtitle)}</p></div></div>'
 
 def cta(lang,title=None):
- text=title or ('Нужна помощь с вашей ситуацией?' if lang=='ru' else 'Un accompagnement pour votre situation ?')
- sub='Выберите направление консультации. Объём работы и стоимость согласуем до начала.' if lang=='ru' else 'Choisissez votre domaine de consultation. Le périmètre et les tarifs seront confirmés avant tout engagement.'
+ text=title or ('Нужна помощь?' if lang=='ru' else 'Un accompagnement pour votre situation ?')
+ sub='Выберите направление консультации. Объём работы и стоимость согласуем.' if lang=='ru' else 'Choisissez votre domaine de consultation. Le périmètre et les tarifs seront confirmés avant tout engagement.'
  return f'<section class="sr-sec"><div class="sr-width"><div class="sr-cta"><div><h2>{esc(text)}</h2><p>{sub}</p></div><a class="btn btn-primary" data-analytics-event="consultation_click" href="{path(lang,"consultations")}">{LANGS[lang]["start"]} →</a></div></div></section>'
 
 def shell(lang,url,title,description,body,noindex=False,article=False):
@@ -335,7 +336,8 @@ def home(lang):
  for a in ARTICLES[:3]:opts.append((f'knowledge/articles/{a["slug"]}',{'symbol':'↗',lang:(a[lang][0],a[lang][0],a[lang][1])}))
  knowledge+=cards(lang,opts)+f'<p style="margin-top:25px"><a class="btn btn-ghost" href="{path(lang,"knowledge")}">{"Все материалы и поиск →" if ru else "Rechercher dans les ressources →"}</a></p></div></section>'
  about=f'''<section class="sr-sec alt"><div class="sr-width"><div class="sr-section-head"><span class="eyebrow">{'О КОМАНДЕ' if ru else 'NOTRE ÉQUIPE'}</span><h2>{'Небольшая команда профессионалов: бутик, а не масс-маркет' if ru else 'Expertise juridique et coordination des spécialistes'}</h2><p>{'Все специалисты SalutRussie придерживаются единого стандарта качества услуг. Мы делаем только то, что приближает к результату. Наш главный принцип — сначала стратегия, потом реализация' if ru else 'Chaque situation commence par l’analyse de vos besoins. Nous précisons les prestations réalisées par notre équipe et celles de nos partenaires.'}</p></div><a class="btn btn-primary" href="{path(lang,"about")}">{'О нас →' if ru else 'Notre équipe →'}</a></div></section>'''
- return shell(lang,path(lang),title,detail,hero+services+feature(lang)+process+knowledge+about+cta(lang))
+ meta_description=('Помощь иностранцам в России: миграция, РВП, ВНЖ, Указ 702 (разделение ценностей, идеологическая программа), недвижимость, бизнес и юридическая помощь.' if ru else detail)
+ return shell(lang,path(lang),title,meta_description,hero+services+feature(lang)+process+knowledge+about+cta(lang))
 
 def about_ru():
  source=BeautifulSoup((SRC/'o-kompanii-ru.html').read_text(encoding='utf-8'),'html.parser')

@@ -30,9 +30,16 @@ class SiteTests(unittest.TestCase):
   self.assertEqual(home.h1.get_text(strip=True),'Живите, работайте и развивайте бизнес в России — опираясь на наш опыт и знания')
   self.assertIn('Мы помогаем по всем вопросам в России, организуем профессиональное сопровождение.',home.select_one('.hero-lede').get_text(' ',strip=True))
   self.assertNotIn('Мы помогаем разобраться в вопросе и организовать профессиональное сопровождение.',home.get_text(' ',strip=True))
-  for phrase in ['Выберите интересующее вас направление — мы подскажем, с чего начать','Переезд в Россию по Указу 702 — идеологическая программа','Ваша заявка','План действий','Небольшая команда профессионалов: бутик, а не масс-маркет']:
+  for phrase in ['Выберите интересующее вас направление — мы подскажем, с чего начать','Переезд в Россию по Указу 702','Ваша заявка','План действий','Небольшая команда профессионалов: бутик, а не масс-маркет']:
    self.assertIn(phrase,home.get_text(' ',strip=True))
   self.assertNotIn('предложим партнёрскую услугу',home.get_text(' ',strip=True))
+  self.assertIn('СПЕЦИАЛЬНАЯ ПРОГРАММА «РАЗДЕЛЕНИЕ ЦЕННОСТЕЙ»',home.get_text(' ',strip=True))
+  self.assertIn('Разделение ценностей (идеологическая программа)',home.get_text(' ',strip=True))
+  self.assertIn('специальной частной визы на срок до трёх месяцев',home.get_text(' ',strip=True))
+  self.assertNotIn('постоянного проживания',home.select_one('.sr-feature').get_text(' ',strip=True))
+  self.assertIn('Нужна помощь?',home.select_one('.sr-cta').get_text(' ',strip=True))
+  self.assertIn('Указ 702 (разделение ценностей, идеологическая программа)',home.select_one('meta[name=description]')['content'])
+  self.assertIn('Выберите направление консультации. Объём работы и стоимость согласуем.',home.select_one('.sr-cta').get_text(' ',strip=True))
  def test_russian_about_founder_only(self):
   about=BeautifulSoup((ROOT/'ru/about/index.html').read_text(), 'html.parser')
   t=about.get_text(' ',strip=True)
@@ -62,6 +69,8 @@ class SiteTests(unittest.TestCase):
     footer=BeautifulSoup(f.read_text(),'html.parser').footer.get_text(' ',strip=True)
     self.assertIn('© 2018–2026 SalutRussie',footer)
     self.assertNotIn('Состав и исполнитель услуги',footer)
+    self.assertIn('Профессиональная помощь для иностранцев в России',footer)
+    self.assertNotIn('SalutRussie — профессиональная помощь',footer)
  def test_languages(self):
   self.assertTrue((ROOT/'fr/index.html').exists())
   self.assertTrue((ROOT/'ru/index.html').exists())

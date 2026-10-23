@@ -31,7 +31,8 @@ body { min-width: 300px; }
 .sr-card p {color:var(--ink-text-soft);font-size:14px;line-height:1.6;}
 .sr-card .sr-link {color:var(--seal);font-size:13px;font-weight:700;margin-top:auto;}
 .sr-feature {background:var(--ink);color:var(--cream-text);padding:48px;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(220px,.6fr);gap:30px;align-items:center;}
-.sr-feature h2 {font-size:clamp(34px,4vw,48px);margin:12px 0;}
+.sr-feature h2 {font-size:clamp(34px,4vw,48px);margin:12px 0;line-height:1.2;}
+.sr-feature .sr-feature-qualifier {display:block;font-family:var(--font-body,Inter,sans-serif);font-size:clamp(18px,2.15vw,27px);font-weight:500;line-height:1.35;margin-top:9px;color:var(--cream-text);}
 .sr-feature p {color:var(--cream-text-soft);font-size:15px;line-height:1.7;max-width:700px;}
 .sr-feature .sr-star {font-size:93px;color:var(--gold);line-height:1;text-align:center;}
 .sr-feature .btn {margin-top:24px;}
