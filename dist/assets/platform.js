@@ -20,5 +20,19 @@
    document.querySelectorAll('[data-format-filter]').forEach(b=>b.addEventListener('click',()=>{format=b.dataset.formatFilter;document.querySelectorAll('[data-format-filter]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));update()}));
    update();
  }
+ document.querySelectorAll('.sr-copy-topic').forEach(b=>b.addEventListener('click',async()=>{
+  const el=document.getElementById(b.dataset.copyTarget);
+  if(!el)return;
+  const text=el.textContent||'';
+  let ok=false;
+  try {await navigator.clipboard.writeText(text);ok=true;}catch(e){
+   const t=document.createElement('textarea');t.value=text;t.style.position='fixed';t.style.opacity='0';document.body.append(t);t.select();
+   try{ok=document.execCommand('copy')}catch(e){}t.remove();
+  }
+  const previous=b.textContent;
+  b.textContent=ok?'Скопировано':'Выделите и скопируйте текст';
+  if(!ok){const sel=window.getSelection();const range=document.createRange();range.selectNodeContents(el);sel.removeAllRanges();sel.addRange(range);}
+  b.focus();
+ }));
  document.querySelectorAll('[data-analytics-event]').forEach(el=>el.addEventListener('click',()=>{if(typeof window.ym==='function'&&window.SALUTRUSSIE_METRIKA_ID){window.ym(window.SALUTRUSSIE_METRIKA_ID,'reachGoal',el.dataset.analyticsEvent);}}));
 })();

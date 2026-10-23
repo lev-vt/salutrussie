@@ -22,8 +22,44 @@ class SiteTests(unittest.TestCase):
     with self.subTest(file=file,link=v):self.assertTrue(dest.is_file(),str(dest))
  def test_russian_home_has_key_services(self):
   t=(ROOT/'ru/index.html').read_text()
-  for needle in ['Недвижимость','Миграция','Инвестиции','Бизнес в России','Указу № 702','Полезная информация','Консультация']:
+  for needle in ['Недвижимость','Миграция','Инвестиции','Бизнес в России','Указ 702','Полезная информация','Консультация']:
    with self.subTest(needle=needle):self.assertIn(needle,t)
+ def test_approved_russian_copy(self):
+  root=ROOT/'ru/index.html'
+  home=BeautifulSoup(root.read_text(), 'html.parser')
+  self.assertEqual(home.h1.get_text(strip=True),'Живите, работайте и развивайте бизнес в России — опираясь на наш опыт и знания')
+  for phrase in ['Выберите интересующее вас направление — мы подскажем, с чего начать','Переезд в Россию по Указу 702 — идеологическая программа','Ваша заявка','План действий','Небольшая команда профессионалов: бутик, а не масс-маркет']:
+   self.assertIn(phrase,home.get_text(' ',strip=True))
+  self.assertNotIn('предложим партнёрскую услугу',home.get_text(' ',strip=True))
+ def test_russian_about_founder_only(self):
+  about=BeautifulSoup((ROOT/'ru/about/index.html').read_text(), 'html.parser')
+  t=about.get_text(' ',strip=True)
+  self.assertEqual(len(about.select('main img')),1)
+  for phrase in ['Миграционный юрист — основатель','Как устроено наше бюро','Единые стандарты работы','Философия и миссия SalutRussie','Безопасно и легально на каждом этапе']:
+   self.assertIn(phrase,t)
+  self.assertNotIn('Юлиан',t)
+  for h in ['Статус и пребывание','Обустройство и повседневная жизнь','Бизнес и налоги']:
+   self.assertIn(h,t)
+ def test_russian_consultation_choices(self):
+  cons=BeautifulSoup((ROOT/'ru/consultations/index.html').read_text(), 'html.parser')
+  self.assertEqual(len(cons.select('details.sr-contact-details')),4)
+  for det in cons.select('details.sr-contact-details'):
+   self.assertEqual(len(det.select('.sr-channel-links a')),3)
+   links=[a['href'] for a in det.select('.sr-channel-links a')]
+   self.assertTrue(links[0].startswith('https://wa.me/'))
+   self.assertEqual(links[1],'https://t.me/lev_vt')
+   self.assertTrue(links[2].startswith('mailto:salutrussie@salutrussie.ru'))
+   self.assertEqual(len(det.select('.sr-copy-topic')),1)
+  t=cons.get_text(' ',strip=True)
+  self.assertIn('Вопросы к юристу',t)
+  self.assertIn('Любые вопросы к российскому юристу',t)
+  self.assertIn('Ваше обращение ни к чему вас не обязывает',t)
+ def test_russian_footer(self):
+  for f in (ROOT/'ru').rglob('index.html'):
+   with self.subTest(page=str(f)):
+    footer=BeautifulSoup(f.read_text(),'html.parser').footer.get_text(' ',strip=True)
+    self.assertIn('© 2018–2026 SalutRussie',footer)
+    self.assertNotIn('Состав и исполнитель услуги',footer)
  def test_languages(self):
   self.assertTrue((ROOT/'fr/index.html').exists())
   self.assertTrue((ROOT/'ru/index.html').exists())

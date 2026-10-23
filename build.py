@@ -112,6 +112,40 @@ body { min-width: 300px; }
 .sr-kb-empty {padding:30px;color:var(--ink-text-soft);}
 .sr-mobile-consult {display:none;}
 .sr-theme-compat {display:none;}
+/* Russian consultation chooser: source-language specific markup only */
+.sr-contact-details {min-width:0;border:1px solid var(--line);background:var(--parchment-2);align-self:start;}
+.sr-contact-details[open] {border-color:var(--gold);}
+.sr-contact-details .sr-contact-choice {border:0;cursor:pointer;list-style:none;}
+.sr-contact-details .sr-contact-choice::-webkit-details-marker {display:none;}
+.sr-contact-details .sr-contact-choice:focus-visible {outline:2px solid var(--gold);outline-offset:-3px;}
+.sr-contact-channels {padding:0 22px 22px;}
+.sr-contact-channels p {font-size:13px;line-height:1.6;margin:0 0 10px;}
+.sr-channel-links {display:flex;gap:9px;flex-wrap:wrap;margin:12px 0 20px;}
+.sr-channel-links a,.sr-copy-topic {padding:10px 12px;color:var(--ink-text);border:1px solid var(--gold);background:var(--parchment);text-decoration:none;font-size:13px;line-height:1.35;}
+.sr-channel-links a:hover,.sr-copy-topic:hover {background:var(--gold-soft);}
+.sr-channel-caption {color:var(--ink-text-soft);}
+.sr-copy-row {display:grid;gap:10px;}
+.sr-draft {font-size:12px;line-height:1.6;overflow-wrap:anywhere;}
+.sr-copy-topic {justify-self:start;}
+/* Russian About: built with original Claude colors, fonts, portrait layout */
+.sr-about-founder .founder-card h2 {font-family:var(--font-display);font-size:clamp(26px,3vw,35px);margin-bottom:8px;}
+.sr-about-flow {display:grid;justify-items:center;gap:0;margin-top:24px;}
+.sr-about-node {border:1px solid var(--line);padding:24px;background:var(--parchment);width:min(100%,720px);text-align:center;}
+.sr-about-node h3 {font-size:24px;margin:0 0 7px;}
+.sr-about-node p {font-size:14px;line-height:1.7;color:var(--ink-text-soft);margin:0;}
+.sr-about-node.main {background:var(--ink);color:var(--cream-text);border-color:var(--gold);}
+.sr-about-node.main p {color:var(--cream-text-soft);}
+.sr-about-branches {display:grid;grid-template-columns:1fr 1fr;gap:15px;width:min(100%,890px);}
+.sr-about-branches .sr-about-node {height:100%;width:100%;}
+.sr-about-connector {height:35px;width:1px;background:var(--gold);}
+.sr-about-cities {font-size:13px;color:var(--ink-text-soft);margin-top:24px;line-height:1.85;text-align:center;}
+.sr-about-standards {max-width:820px;}
+.sr-about-mission {max-width:900px;}
+.sr-about-mission p {line-height:1.8;margin-bottom:14px;}
+.sr-about-vision {font-family:var(--font-display);font-size:clamp(24px,2.8vw,35px);color:var(--seal);margin-bottom:20px;}
+.sr-about-services .service-col p {line-height:1.7;margin-top:14px;}
+.sr-about-services .service-col a {color:var(--seal);font-size:13px;font-weight:700;display:inline-block;margin-top:18px;}
+@media(max-width:650px){.sr-about-branches{grid-template-columns:1fr;}.sr-about-founder .lev-photo{width:100%;max-width:400px;}}
 @media(max-width:1130px) {.nav-links {gap:10px;font-size:12px;} .nav-cta {font-size:12px;padding:8px 11px}}
 @media(max-width:980px) {
   .sr-grid {grid-template-columns:repeat(2,minmax(0,1fr));}
@@ -160,22 +194,36 @@ JS=r'''(() => {
    document.querySelectorAll('[data-format-filter]').forEach(b=>b.addEventListener('click',()=>{format=b.dataset.formatFilter;document.querySelectorAll('[data-format-filter]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));update()}));
    update();
  }
+ document.querySelectorAll('.sr-copy-topic').forEach(b=>b.addEventListener('click',async()=>{
+  const el=document.getElementById(b.dataset.copyTarget);
+  if(!el)return;
+  const text=el.textContent||'';
+  let ok=false;
+  try {await navigator.clipboard.writeText(text);ok=true;}catch(e){
+   const t=document.createElement('textarea');t.value=text;t.style.position='fixed';t.style.opacity='0';document.body.append(t);t.select();
+   try{ok=document.execCommand('copy')}catch(e){}t.remove();
+  }
+  const previous=b.textContent;
+  b.textContent=ok?'Скопировано':'Выделите и скопируйте текст';
+  if(!ok){const sel=window.getSelection();const range=document.createRange();range.selectNodeContents(el);sel.removeAllRanges();sel.addRange(range);}
+  b.focus();
+ }));
  document.querySelectorAll('[data-analytics-event]').forEach(el=>el.addEventListener('click',()=>{if(typeof window.ym==='function'&&window.SALUTRUSSIE_METRIKA_ID){window.ym(window.SALUTRUSSIE_METRIKA_ID,'reachGoal',el.dataset.analyticsEvent);}}));
 })();'''
 (OUT/'assets'/'platform.js').write_text(JS,encoding='utf-8')
 
 def esc(x):return html.escape(str(x),quote=True)
 LANGS={
- 'ru':{'home':'Главная','services':'Услуги','decree':'Указ № 702','kb':'Полезная информация','about':'О нас','contacts':'Контакты','consult':'Консультация','reviews':'Отзывы','prices':'Тарифы','more':'Подробнее →','discuss':'Обсудить задачу →','start':'Начать с консультации','all':'Все','articles':'Статьи','instructions':'Инструкции','news':'Новости'},
+ 'ru':{'home':'Главная','services':'Услуги','decree':'Указ 702','kb':'Полезная информация','about':'О нас','contacts':'Контакты','consult':'Консультация','reviews':'Отзывы','prices':'Тарифы','more':'Подробнее →','discuss':'Обсудить задачу →','start':'Начать с консультации','all':'Все','articles':'Статьи','instructions':'Инструкции','news':'Новости'},
  'fr':{'home':'Accueil','services':'Services','decree':'Décret n° 702','kb':'Informations utiles','about':'Notre équipe','contacts':'Contact','consult':'Consultation','reviews':'Avis','prices':'Tarifs','more':'En savoir plus →','discuss':'Discuter de votre projet →','start':'Demander une consultation','all':'Tout','articles':'Articles','instructions':'Guides','news':'Actualités'},
 }
 SECTIONS={
- 'migration':{'ru':('Immigration et statuts','Миграция и переезд','РВП, ВНЖ, гражданство, визы, Указ № 702 и правовая помощь при сложных миграционных ситуациях.'),'fr':('Immigration','Immigration et séjour','Titres de séjour, visas, nationalité russe et accompagnement juridique.') ,'symbol':'✦'},
- 'real-estate':{'ru':('Недвижимость','Недвижимость','Поиск аренды и покупка недвижимости, анализ договоров и юридическая проверка сделки.'),'fr':('Immobilier','Immobilier en Russie','Location, acquisition, analyse de contrats et vérification juridique.'),'symbol':'⌂'},
- 'business':{'ru':('Бизнес','Бизнес в России','Создание компании, юридическое сопровождение деятельности и вопросы иностранных предпринимателей.'),'fr':('Entreprises','Créer une entreprise','Constitution de sociétés et accompagnement juridique des entrepreneurs étrangers.'),'symbol':'§'},
- 'investments':{'ru':('Инвестиции','Инвестиции','Юридическая проверка и сопровождение инвестиционных проектов в России.'),'fr':('Investissements','Investissements en Russie','Audit juridique et accompagnement de projets d’investissement.'),'symbol':'↗'},
- 'legal':{'ru':('Правовая помощь','Юридическая помощь','Подготовка документов, анализ рисков, судебная защита и нестандартные вопросы.'),'fr':('Juridique','Assistance juridique','Documents, analyse des risques, litiges et solutions personnalisées.'),'symbol':'⚖'},
- 'relocation':{'ru':('Переезд','Переезд и адаптация','Помощь с организационными вопросами переезда; доступность отдельных услуг уточняется.'),'fr':('Installation','Installation et intégration','Assistance pratique pour préparer et organiser votre installation en Russie.'),'symbol':'◎'},
+ 'migration':{'ru':('Immigration et statuts','Миграция и переезд','РВП, ВНЖ, гражданство, визы, Указ 702 и правовая помощь при простых и сложных миграционных ситуациях.'),'fr':('Immigration','Immigration et séjour','Titres de séjour, visas, nationalité russe et accompagnement juridique.') ,'symbol':'✦'},
+ 'real-estate':{'ru':('Недвижимость','Недвижимость','Поиск недвижимости для аренды и покупки. Проверка объекта и безопасное проведение сделки.'),'fr':('Immobilier','Immobilier en Russie','Location, acquisition, analyse de contrats et vérification juridique.'),'symbol':'⌂'},
+ 'business':{'ru':('Бизнес','Бизнес в России','Создание компании. Юридическое сопровождение бизнеса с иностранным участием. Налоги, избежание двойного налогообложения, бухгалтерское сопровождение.'),'fr':('Entreprises','Créer une entreprise','Constitution de sociétés et accompagnement juridique des entrepreneurs étrangers.'),'symbol':'§'},
+ 'investments':{'ru':('Инвестиции','Инвестиции','Выбор объектов для инвестиций. Юридическая проверка и сопровождение инвестиционных проектов в России.'),'fr':('Investissements','Investissements en Russie','Audit juridique et accompagnement de projets d’investissement.'),'symbol':'↗'},
+ 'legal':{'ru':('Правовая помощь','Юридическая помощь','Правовая поддержка иностранцев в России по всем сферам права.'),'fr':('Juridique','Assistance juridique','Documents, analyse des risques, litiges et solutions personnalisées.'),'symbol':'⚖'},
+ 'relocation':{'ru':('Переезд','Переезд и адаптация','Помощь с организационными и бытовыми вопросами переезда: транспортировка личных вещей, выбор региона проживания, профессии и направления деятельности; подбор языковых курсов, помощь в адаптации семей с детьми.'),'fr':('Installation','Installation et intégration','Assistance pratique pour préparer et organiser votre installation en Russie.'),'symbol':'◎'},
 }
 PROGRAMS={
  'rvp':{'ru':('Разрешение на временное проживание','РВП в России','Проверяем основание для оформления РВП, документы и применимую процедуру. В отдельных ситуациях необходим индивидуальный правовой анализ.'),'fr':('Permis de séjour temporaire','Séjour temporaire (RVP)','Vérification de l’éligibilité, des pièces et de la procédure adaptée.')},
@@ -235,14 +283,22 @@ def nav(lang):
 
 def footer(lang):
  x=LANGS[lang]
- return f'''<footer class="sr-footer"><div class="sr-width"><div><div class="sr-footer-brand">SalutRussie</div><p class="sr-small">{'Юридические и организационные услуги для иностранных граждан в России. Состав и исполнитель услуги уточняются до заключения договора.' if lang=='ru' else 'Services juridiques et pratiques pour les étrangers en Russie. Le périmètre et le prestataire sont précisés avant tout contrat.'}</p></div><div><a href="{path(lang,'services')}">{x['services']}</a><a href="{path(lang,'consultations')}">{x['consult']}</a><a href="{path(lang,'knowledge')}">{x['kb']}</a><a href="{path(lang,'pricing')}">{x['prices']}</a><a href="{path(lang,'contacts')}">{x['contacts']}</a><br><a href="{path(lang,'privacy')}">{'Персональные данные' if lang=='ru' else 'Données personnelles'}</a><p class="sr-small">© 2026 SalutRussie · ООО «Инновационные правовые решения»</p></div></div></footer>'''
+ return f'''<footer class="sr-footer"><div class="sr-width"><div><div class="sr-footer-brand">SalutRussie</div><p class="sr-small">{'SalutRussie — профессиональная помощь для иностранцев в России' if lang=='ru' else 'Services juridiques et pratiques pour les étrangers en Russie. Le périmètre et le prestataire sont précisés avant tout contrat.'}</p></div><div><a href="{path(lang,'services')}">{x['services']}</a><a href="{path(lang,'consultations')}">{x['consult']}</a><a href="{path(lang,'knowledge')}">{x['kb']}</a><a href="{path(lang,'pricing')}">{x['prices']}</a><a href="{path(lang,'contacts')}">{x['contacts']}</a><br><a href="{path(lang,'privacy')}">{'Персональные данные' if lang=='ru' else 'Données personnelles'}</a><p class="sr-small">{'© 2018–2026 SalutRussie' if lang=='ru' else '© 2026 SalutRussie'} · ООО «Инновационные правовые решения»</p></div></div></footer>'''
 
 def link_msg(lang,topic):
  txt=(f'Здравствуйте! Обращаюсь с сайта SalutRussie. Тема: {topic}. Хотел(а) бы узнать о консультации.' if lang=='ru' else f'Bonjour ! Je vous contacte via SalutRussie. Sujet : {topic}. Je souhaite réserver une consultation.')
  return 'https://wa.me/79685341915?text='+quote(txt)
 
 def feature(lang):
- return f'''<section class="sr-sec"><div class="sr-width"><div class="sr-feature"><div><span class="sr-eyebrow">{'ОСОБАЯ ПРОГРАММА ПЕРЕЕЗДА' if lang=='ru' else 'PROGRAMME DE RELOCALISATION'}</span><h2>{'Переезд в Россию по Указу № 702' if lang=='ru' else 'S’installer en Russie : décret n° 702'}</h2><p>{'Отдельная правовая процедура для лиц, подпадающих под предусмотренные условия. Поможем оценить применимость, подготовить документы и выбрать формат сопровождения.' if lang=='ru' else 'Un dispositif spécifique soumis à des conditions légales. Nous évaluons votre éligibilité et vous accompagnons dans la préparation du dossier.'}</p><a class="btn btn-primary" href="{path(lang,'migration/decree-702')}">{'Подробнее об Указе № 702 →' if lang=='ru' else 'Découvrir le décret 702 →'}</a></div><span class="sr-star" aria-hidden="true">✳</span></div></div></section>'''
+ if lang=='ru':
+  paragraphs=[
+   'Популярная программа переезда для иностранцев, разделяющих традиционные российские ценности.',
+   'У нас есть практический опыт сопровождения клиентов по Указу 702 — от выбора миграционной стратегии до оформления документов и взаимодействия с государственными органами.',
+   'Для начала необходимо проверить, распространяется ли программа на вашу страну гражданства или постоянного проживания.'
+  ]
+  body=''.join(f'<p>{esc(x)}</p>' for x in paragraphs)
+  return f"""<section class="sr-sec"><div class="sr-width"><div class="sr-feature"><div><span class="sr-eyebrow">СПЕЦИАЛЬНАЯ ПРОГРАММА</span><h2>Переезд в Россию по Указу 702 — идеологическая программа</h2>{body}<a class="btn btn-primary" href="{path(lang,'migration/decree-702')}">Подробнее об Указе 702 →</a></div><span class="sr-star" aria-hidden="true">✳</span></div></div></section>"""
+ return f"""<section class="sr-sec"><div class="sr-width"><div class="sr-feature"><div><span class="sr-eyebrow">PROGRAMME DE RELOCALISATION</span><h2>S’installer en Russie : décret n° 702</h2><p>Un dispositif spécifique soumis à des conditions légales. Nous évaluons votre éligibilité et vous accompagnons dans la préparation du dossier.</p><a class="btn btn-primary" href="{path(lang,'migration/decree-702')}">Découvrir le décret 702 →</a></div><span class="sr-star" aria-hidden="true">✳</span></div></div></section>"""
 
 def cards(lang,items):
  z='<div class="sr-grid">'
@@ -264,22 +320,37 @@ def shell(lang,url,title,description,body,noindex=False,article=False):
 
 def home(lang):
  ru=lang=='ru';title='Помощь иностранцам в России: миграция, недвижимость, бизнес' if ru else 'Services aux étrangers en Russie : immigration, immobilier, affaires'
- intro='Живите, работайте и развивайте бизнес в России — мы поможем.' if ru else 'Vivre, s’installer et entreprendre en Russie — avec le bon accompagnement.'
+ intro='Живите, работайте и развивайте бизнес в России — опираясь на наш опыт и знания' if ru else 'Vivre, s’installer et entreprendre en Russie — avec le bon accompagnement.'
  detail=('Миграция, недвижимость, создание бизнеса, инвестиции и юридическая помощь. Мы помогаем разобраться в вопросе и организовать профессиональное сопровождение.' if ru else 'Immigration, immobilier, création d’entreprise, investissement et conseil juridique. Un interlocuteur pour trouver la bonne solution et organiser votre accompagnement.')
  emblem=BeautifulSoup((SRC/('index-ru.html' if ru else 'index.html')).read_text(),'html.parser').select_one('.hero-seal')
  emblem=str(emblem) if emblem else '<div class="hero-seal" aria-hidden="true">SR</div>'
  hero=f'''<section class="hero v2-home"><div class="wrap"><div><div class="sr-hero-kicker">{'УСЛУГИ ДЛЯ ИНОСТРАНЦЕВ В РОССИИ' if ru else 'SERVICES AUX ÉTRANGERS EN RUSSIE'}</div><h1>{esc(intro)}</h1><p class="hero-lede">{esc(detail)}</p><div class="hero-actions"><a class="btn btn-primary" data-analytics-event="consultation_click" href="{path(lang,'consultations')}">{'Получить консультацию →' if ru else 'Demander une consultation →'}</a><a class="btn btn-ghost" href="{path(lang,'services')}">{'Все услуги' if ru else 'Tous nos services'}</a></div></div>{emblem}</div></section>'''
- services=f'''<section class="sr-sec" id="services"><div class="sr-width"><div class="sr-section-head"><span class="eyebrow">{'НАПРАВЛЕНИЯ' if ru else 'NOS SERVICES'}</span><h2>{'Чем мы можем помочь' if ru else 'Comment pouvons-nous vous aider ?'}</h2><p>{'Выберите задачу — подскажем подходящий формат работы и исполнителя.' if ru else 'Choisissez votre besoin : nous définirons l’accompagnement approprié.'}</p></div>{cards(lang,list(SECTIONS.items()))}</div></section>'''
- steps=[('01','Расскажите о задаче','Опишите вопрос без передачи конфиденциальных документов при первом обращении.'),('02','Выберите консультацию','Определим специалиста, объём работы и условия.'),('03','Получите план','Разберём документы и согласуем действия.'),('04','Сопровождение','Поможем на выбранных этапах либо предложим партнёрскую услугу.')] if ru else [('01','Expliquez votre projet','Présentez votre besoin sans documents sensibles au premier contact.'),('02','Choisissez une consultation','Nous définissons la prestation et le spécialiste.'),('03','Obtenez un plan','Analyse des pièces et étapes suivantes.'),('04','Accompagnement','Nous intervenons selon le périmètre convenu.')]
+ services=f'''<section class="sr-sec" id="services"><div class="sr-width"><div class="sr-section-head"><span class="eyebrow">{'НАПРАВЛЕНИЯ' if ru else 'NOS SERVICES'}</span><h2>{'Чем мы можем помочь' if ru else 'Comment pouvons-nous vous aider ?'}</h2><p>{'Выберите интересующее вас направление — мы подскажем, с чего начать' if ru else 'Choisissez votre besoin : nous définirons l’accompagnement approprié.'}</p></div>{cards(lang,list(SECTIONS.items()))}</div></section>'''
+ steps=[('01','Ваша заявка','Опишите свой вопрос своими словами в том формате, как вам удобно'),('02','Консультация','Проводим подробную консультацию, разбираем вашу ситуацию и отвечаем на все вопросы'),('03','План действий','Готовим пошаговый план действий для достижения вашей цели'),('04','Сопровождение','Сопровождаем на всех этапах согласно выбранному тарифу')] if ru else [('01','Expliquez votre projet','Présentez votre besoin sans documents sensibles au premier contact.'),('02','Choisissez une consultation','Nous définissons la prestation et le spécialiste.'),('03','Obtenez un plan','Analyse des pièces et étapes suivantes.'),('04','Accompagnement','Nous intervenons selon le périmètre convenu.')]
  process=f'''<section class="sr-sec alt"><div class="sr-width"><div class="sr-section-head"><span class="eyebrow">{'ПРОЦЕСС' if ru else 'NOTRE MÉTHODE'}</span><h2>{'Как мы работаем' if ru else 'Comment nous travaillons'}</h2></div><div class="sr-steps">'''
  for n,h,p in steps:process+=f'<div class="sr-step"><b>{n}</b><h3>{esc(h)}</h3><p>{esc(p)}</p></div>'
  process+='</div></div></section>'
- knowledge=f'''<section class="sr-sec"><div class="sr-width"><div class="sr-section-head"><span class="eyebrow">{'ЭКСПЕРТНЫЕ МАТЕРИАЛЫ' if ru else 'RESSOURCES'}</span><h2>{'Полезная информация' if ru else 'Informations utiles'}</h2><p>{'Практические инструкции, юридические разборы, статьи и важные изменения — в одном месте.' if ru else 'Guides pratiques, analyses juridiques, articles et actualités dans un seul espace.'}</p></div>'''
+ knowledge=f'''<section class="sr-sec"><div class="sr-width"><div class="sr-section-head"><span class="eyebrow">{'ЭКСПЕРТНЫЕ МАТЕРИАЛЫ' if ru else 'RESSOURCES'}</span><h2>{'Полезная информация' if ru else 'Informations utiles'}</h2><p>{'Всё, что важно знать о жизни, переезде и бизнесе в России. Делимся профессиональным опытом, объясняем законодательство, разбираем практические ситуации и рассказываем о важных изменениях.' if ru else 'Guides pratiques, analyses juridiques, articles et actualités dans un seul espace.'}</p></div>'''
  opts=[]
  for a in ARTICLES[:3]:opts.append((f'knowledge/articles/{a["slug"]}',{'symbol':'↗',lang:(a[lang][0],a[lang][0],a[lang][1])}))
  knowledge+=cards(lang,opts)+f'<p style="margin-top:25px"><a class="btn btn-ghost" href="{path(lang,"knowledge")}">{"Все материалы и поиск →" if ru else "Rechercher dans les ressources →"}</a></p></div></section>'
- about=f'''<section class="sr-sec alt"><div class="sr-width"><div class="sr-section-head"><span class="eyebrow">{'О КОМАНДЕ' if ru else 'NOTRE ÉQUIPE'}</span><h2>{'Юридическая экспертиза и координация специалистов' if ru else 'Expertise juridique et coordination des spécialistes'}</h2><p>{'Сложные вопросы начинаются с анализа обстоятельств. Мы отдельно объясняем, какие услуги оказывает наша команда, а какие выполняются совместно с партнёрами.' if ru else 'Chaque situation commence par l’analyse de vos besoins. Nous précisons les prestations réalisées par notre équipe et celles de nos partenaires.'}</p></div><a class="btn btn-primary" href="{path(lang,"about")}">{'О нас →' if ru else 'Notre équipe →'}</a></div></section>'''
+ about=f'''<section class="sr-sec alt"><div class="sr-width"><div class="sr-section-head"><span class="eyebrow">{'О КОМАНДЕ' if ru else 'NOTRE ÉQUIPE'}</span><h2>{'Небольшая команда профессионалов: бутик, а не масс-маркет' if ru else 'Expertise juridique et coordination des spécialistes'}</h2><p>{'Все специалисты SalutRussie придерживаются единого стандарта качества услуг. Мы делаем только то, что приближает к результату. Наш главный принцип — сначала стратегия, потом реализация' if ru else 'Chaque situation commence par l’analyse de vos besoins. Nous précisons les prestations réalisées par notre équipe et celles de nos partenaires.'}</p></div><a class="btn btn-primary" href="{path(lang,"about")}">{'О нас →' if ru else 'Notre équipe →'}</a></div></section>'''
  return shell(lang,path(lang),title,detail,hero+services+feature(lang)+process+knowledge+about+cta(lang))
+
+def about_ru():
+ source=BeautifulSoup((SRC/'o-kompanii-ru.html').read_text(encoding='utf-8'),'html.parser')
+ portrait=source.select_one('main img.lev-photo')['src']
+ kind,data=portrait.split(',',1)
+ asset='/assets/ru-o-kompanii-ru-0.jpg'
+ (OUT/asset.lstrip('/')).write_bytes(base64.b64decode(data))
+ body="""<div class="page-head"><div class="wrap"><span class="eyebrow">МИГРАЦИОННОЕ БЮРО</span><h1>Мы начинали как семейное бюро — сегодня работаем по всей России</h1><p>SalutRussie выросло из небольшой семейной практики в команду профессионалов. Наш основной центр находится в Москве, а сотрудничество со специалистами в регионах позволяет сопровождать клиентов в разных городах России.</p></div></div>
+ <section class="sr-sec"><div class="wrap"><div class="lev-about sr-about-founder"><img class="lev-photo" src="/assets/ru-o-kompanii-ru-0.jpg" alt="Лев Втюрин — основатель SalutRussie" width="600" height="750"><div class="founder-card"><h2>Лев Втюрин</h2><span class="role">Миграционный юрист — основатель</span><p class="bio">Более 20 лет юридической практики, включая опыт международного консалтинга. Специализация — миграционное право, судебная защита и сложные миграционные ситуации.</p><p class="bio">Большой опыт правового взаимодействия с государственными органами: МВД, ФСБ, ФНС, пограничными и таможенными органами. Лично определяет стратегию сложных дел и участвует в судебной защите клиентов.</p></div></div></div></section>
+ <section class="sr-sec alt"><div class="sr-width"><div class="sr-section-head"><span class="eyebrow">КОМАНДА И ГЕОГРАФИЯ</span><h2>Как устроено наше бюро</h2><p>Мы начинали как семейное бюро, а сегодня объединяем московскую команду и профессиональные связи в разных городах страны. Каждый проект ведётся по общим стандартам SalutRussie.</p></div><div class="sr-about-flow"><div class="sr-about-node main"><h3>SalutRussie — Москва</h3><p>Основной профессиональный центр<br>Лев Втюрин — основатель<br>Команда миграционных юристов</p></div><div class="sr-about-connector" aria-hidden="true"></div><div class="sr-about-branches"><div class="sr-about-node"><h3>Профильные специалисты</h3><p>Переводчики, нотариусы и другие специалисты, необходимые для решения задачи клиента</p></div><div class="sr-about-node"><h3>Региональное сотрудничество</h3><p>Профессиональные партнёры в разных городах России. Координацию сопровождения осуществляет SalutRussie</p></div></div><div class="sr-about-connector" aria-hidden="true"></div><div class="sr-about-node"><h3>Профессиональное сообщество</h3><p>Обучение миграционных юристов, единые стандарты, сотрудничество с экспертными блогерами и сообществами иностранцев</p></div></div><p class="sr-about-cities"><strong>География сотрудничества:</strong> Москва · Санкт-Петербург · Казань · Екатеринбург · Пермь · Новосибирск · Челябинск · Уфа</p></div></section>
+ <section class="sr-sec"><div class="sr-width sr-about-standards"><div class="sr-section-head"><span class="eyebrow">КАЧЕСТВО</span><h2>Единые стандарты работы</h2></div><p>Мы разработали единые стандарты подготовки документов и сопровождения миграционных дел. Обучаем юристов миграционному праву и развиваем профессиональное сотрудничество.</p><p>Мы также взаимодействуем с экспертными блогерами и сообществами иностранцев, в том числе в Telegram.</p><p class="sr-about-vision">Наш главный принцип — сначала стратегия, потом реализация</p></div></section>
+ <section class="sr-sec alt"><div class="sr-width sr-about-mission"><div class="sr-section-head"><span class="eyebrow">НАШ ПОДХОД</span><h2>Философия и миссия SalutRussie</h2></div><h3 class="sr-about-vision">Безопасно и легально на каждом этапе</h3><p>Мы считаем, что переезд в Россию — это гораздо больше, чем оформление визы или вида на жительство.</p><p>Наша задача — помогать иностранцам не только с юридическими вопросами, но и с практическими задачами новой жизни: поиском жилья, адаптацией, трудоустройством, открытием бизнеса и созданием законных источников дохода в России.</p><p>Мы стремимся сделать жизнь в новой стране понятнее, безопаснее и комфортнее.</p></div></section>
+ <section class="services sr-sec sr-about-services"><div class="wrap"><div class="sec-head"><span class="eyebrow">НАПРАВЛЕНИЯ РАБОТЫ</span><h2>В чём мы помогаем</h2></div><div class="service-grid"><div class="service-col"><span class="num">01</span><h3>Статус и пребывание</h3><p>Миграционные программы, оформление правового статуса и защита прав иностранных граждан.</p><a href="/ru/migration/">Миграционные услуги →</a></div><div class="service-col"><span class="num">02</span><h3>Обустройство и повседневная жизнь</h3><p>Переезд, жильё, документы и практические вопросы жизни в России.</p><a href="/ru/relocation/">Переезд и адаптация →</a></div><div class="service-col"><span class="num">03</span><h3>Бизнес и налоги</h3><p>Создание компаний, юридическое сопровождение бизнеса с иностранным участием и связанные налоговые вопросы.</p><a href="/ru/business/">Бизнес в России →</a></div></div></div></section>
+ <section class="sr-sec"><div class="sr-width"><div class="sr-cta"><div><h2>Обсудим вашу ситуацию?</h2><p>Расскажите, какая задача стоит перед вами. Мы подскажем, с чего начать.</p></div><a class="btn btn-primary" href="/ru/consultations/" data-analytics-event="consultation_click">Получить консультацию →</a></div></div></section>"""
+ return shell('ru','/ru/about/','О нас — миграционное бюро SalutRussie','Наше миграционное бюро: основатель Лев Втюрин, московская команда, профессиональные стандарты и региональное сотрудничество.',body)
 
 def basic_page(lang,url,title,desc,items=None,rich=None):
  z=heading(lang,title,desc,LANGS[lang]['services'])
@@ -296,7 +367,7 @@ def service_pages(lang):
   sub=[]
   if slug=='migration':
    for k,d in PROGRAMS.items():sub.append((f'migration/{k}',{'symbol':'↗',lang:(d[lang][0],d[lang][1],d[lang][2])}))
-   sub.insert(0,('migration/decree-702',{'symbol':'✳',lang:('Указ № 702' if ru else 'Décret 702','Переезд по Указу № 702' if ru else 'S’installer via le décret 702','Отдельная программа с анализом условий и сопровождением.' if ru else 'Vérification d’éligibilité et accompagnement spécifique.')}))
+   sub.insert(0,('migration/decree-702',{'symbol':'✳',lang:('Указ 702' if ru else 'Décret 702','Переезд по Указу 702' if ru else 'S’installer via le décret 702','Отдельная программа с анализом условий и сопровождением.' if ru else 'Vérification d’éligibilité et accompagnement spécifique.')}))
   elif slug in SUBPAGES:
    for part in SUBPAGES[slug]:
     lab=SUBLABEL[part][0 if ru else 1];sub.append((f'{slug}/{part}',{'symbol':'↗',lang:(lab,lab,'Условия и состав услуги обсуждаются индивидуально.' if ru else 'Prestations adaptées aux besoins individuels.')}))
@@ -315,13 +386,21 @@ def service_pages(lang):
   write(url,basic_page(lang,url,title,desc,rich=rich))
 
 def consultations(lang):
- ru=lang=='ru';entries=[('migration','Миграция и переезд','Immigration et séjour','РВП, ВНЖ, Указ № 702, визы и гражданство','RVP, VNZh, décret 702, visas, nationalité'),('real-estate','Недвижимость','Immobilier','Аренда, договоры, покупка и юридическая проверка','Location, achat et contrats'),('business','Бизнес и инвестиции','Entreprises et investissements','Создание компании, инвестиционные сделки и сопровождение','Création de société, projets et investissements'),('legal','Юридические вопросы','Questions juridiques','Документы, споры, нестандартные ситуации','Documents, contentieux et questions spécifiques')]
+ ru=lang=='ru'
+ entries=[('migration','Миграция и переезд','Immigration et séjour','РВП, ВНЖ, Указ 702, визы и гражданство','RVP, VNZh, décret 702, visas, nationalité'),('real-estate','Недвижимость','Immobilier','Аренда, договоры, покупка и юридическая проверка','Location, achat et contrats'),('business','Бизнес и инвестиции','Entreprises et investissements','Создание компании, инвестиционные сделки и сопровождение','Création de société, projets et investissements'),('legal','Вопросы к юристу','Questions juridiques','Любые вопросы к российскому юристу','Documents, contentieux et questions spécifiques')]
  s=heading(lang,'Выберите вид консультации' if ru else 'Choisissez votre consultation','Выберите направление, затем напишите нам. Стоимость, формат и объём согласуем до оплаты.' if ru else 'Choisissez un domaine. Nous confirmerons le format, le périmètre et le prix avant paiement.',LANGS[lang]['consult'])
  s+='<section class="sr-sec"><div class="sr-width"><div class="sr-contact-list">'
  for slug,r,f,rd,fd in entries:
   name=r if ru else f;summary=rd if ru else fd
-  s+=f'<a class="sr-contact-choice" href="{link_msg(lang,name)}" target="_blank" rel="noopener" data-analytics-event="consultation_outbound"><strong>{esc(name)} ↗</strong><span>{esc(summary)}</span></a>'
- s+='</div><p class="sr-note">'+('Это запрос на платную консультацию. При первом обращении не отправляйте паспортные или медицинские документы через мессенджер.' if ru else 'Il s’agit d’une demande de consultation payante. Ne transmettez pas de documents sensibles lors du premier contact.')+'</p>'
+  if ru:
+   text=f'Здравствуйте! Обращаюсь с сайта SalutRussie. Тема: {name}. Хочу описать свою ситуацию и узнать о возможных вариантах помощи.'
+   wa='https://wa.me/79685341915?text='+quote(text)
+   subject=quote('Обращение с сайта SalutRussie — '+name)
+   email='mailto:salutrussie@salutrussie.ru?subject='+subject+'&body='+quote(text)
+   s+=f"""<details class="sr-contact-details"><summary class="sr-contact-choice"><strong>{esc(name)} <span aria-hidden="true">⌄</span></strong><span>{esc(summary)}</span></summary><div class="sr-contact-channels"><p>Выберите, как вам удобнее связаться с нами:</p><div class="sr-channel-links"><a href="{esc(wa)}" target="_blank" rel="noopener noreferrer" data-analytics-event="consultation_outbound">WhatsApp ↗</a><a href="https://t.me/lev_vt" target="_blank" rel="noopener noreferrer" data-analytics-event="consultation_outbound">Telegram ↗</a><a href="{esc(email)}" data-analytics-event="consultation_outbound">Электронная почта ↗</a></div><p class="sr-channel-caption">Для Telegram можно скопировать текст обращения и вставить его в переписку:</p><div class="sr-copy-row"><span class="sr-draft" id="draft-{slug}">{esc(text)}</span><button class="sr-button sr-copy-topic" type="button" data-copy-target="draft-{slug}" aria-label="Скопировать текст обращения">Скопировать текст</button></div></div></details>"""
+  else:
+   s+=f'<a class="sr-contact-choice" href="{link_msg(lang,name)}" target="_blank" rel="noopener" data-analytics-event="consultation_outbound"><strong>{esc(name)} ↗</strong><span>{esc(summary)}</span></a>'
+ s+='</div><p class="sr-note">'+('Ваше обращение ни к чему вас не обязывает. Опишите свою ситуацию или задайте вопрос своими словами — так, как вам удобно. Если для решения вашего вопроса потребуется платная консультация или другая услуга, мы заранее сообщим вам стоимость.' if ru else 'Il s’agit d’une demande de consultation payante. Ne transmettez pas de documents sensibles lors du premier contact.')+'</p>'
  s+=f'<p style="margin-top:28px"><a class="btn btn-ghost" href="{path(lang,"pricing")}">{"Посмотреть действующие тарифы →" if ru else "Consulter les tarifs →"}</a></p></div></section>'
  return shell(lang,path(lang,'consultations'),'Консультации SalutRussie' if ru else 'Consultations SalutRussie','Миграционные, юридические, имущественные и бизнес-консультации' if ru else 'Consultations en immigration, immobilier, affaires et droit',s)
 
@@ -403,8 +482,9 @@ for lang in ('ru','fr'):
  write(path(lang,'knowledge'),knowledge(lang))
  for a in ARTICLES:write(path(lang,'knowledge/articles/'+a['slug']),article_page(lang,a))
  write(path(lang,'privacy'),privacy(lang))
- legacy_map={'ru':{'o-kompanii-ru.html':('about','О нас','Команда SalutRussie и наш подход к работе'), 'tarify-ru.html':('pricing','Тарифы','Тарифы и услуги SalutRussie'),'dekret-702-ru.html':('migration/decree-702','Указ № 702','Переезд в Россию по Указу № 702'),'kontakty-ru.html':('contacts','Контакты','Связаться со специалистами SalutRussie'),'otzyvy-ru.html':('reviews','Отзывы','Отзывы клиентов SalutRussie')},'fr':{'o-kompanii.html':('about','Notre équipe','Notre cabinet et notre méthode'),'tarify.html':('pricing','Tarifs','Les services et tarifs de SalutRussie'),'dekret-702.html':('migration/decree-702','Décret n° 702','S’installer en Russie avec le décret 702'),'kontakty.html':('contacts','Contact','Contactez SalutRussie'),'otzyvy.html':('reviews','Avis','Témoignages des clients SalutRussie')}}
- for old,(slug,title,desc) in legacy_map[lang].items():write(path(lang,slug),legacy(lang,old,path(lang,slug),title,desc))
+ legacy_map={'ru':{'o-kompanii-ru.html':('about','О нас','Команда SalutRussie и наш подход к работе'), 'tarify-ru.html':('pricing','Тарифы','Тарифы и услуги SalutRussie'),'dekret-702-ru.html':('migration/decree-702','Указ 702','Переезд в Россию по Указу 702'),'kontakty-ru.html':('contacts','Контакты','Связаться со специалистами SalutRussie'),'otzyvy-ru.html':('reviews','Отзывы','Отзывы клиентов SalutRussie')},'fr':{'o-kompanii.html':('about','Notre équipe','Notre cabinet et notre méthode'),'tarify.html':('pricing','Tarifs','Les services et tarifs de SalutRussie'),'dekret-702.html':('migration/decree-702','Décret n° 702','S’installer en Russie avec le décret 702'),'kontakty.html':('contacts','Contact','Contactez SalutRussie'),'otzyvy.html':('reviews','Avis','Témoignages des clients SalutRussie')}}
+ for old,(slug,title,desc) in legacy_map[lang].items():
+  write(path(lang,slug),about_ru() if lang=='ru' and slug=='about' else legacy(lang,old,path(lang,slug),title,desc))
 
 # All links and assets are converted to relative URLs so the full dist can be previewed directly by opening index.html.
 all_pages=list(OUT.rglob('*.html'))
