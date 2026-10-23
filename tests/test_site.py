@@ -28,6 +28,8 @@ class SiteTests(unittest.TestCase):
   root=ROOT/'ru/index.html'
   home=BeautifulSoup(root.read_text(), 'html.parser')
   self.assertEqual(home.h1.get_text(strip=True),'Живите, работайте и развивайте бизнес в России — опираясь на наш опыт и знания')
+  self.assertIn('Мы помогаем по всем вопросам в России, организуем профессиональное сопровождение.',home.select_one('.hero-lede').get_text(' ',strip=True))
+  self.assertNotIn('Мы помогаем разобраться в вопросе и организовать профессиональное сопровождение.',home.get_text(' ',strip=True))
   for phrase in ['Выберите интересующее вас направление — мы подскажем, с чего начать','Переезд в Россию по Указу 702 — идеологическая программа','Ваша заявка','План действий','Небольшая команда профессионалов: бутик, а не масс-маркет']:
    self.assertIn(phrase,home.get_text(' ',strip=True))
   self.assertNotIn('предложим партнёрскую услугу',home.get_text(' ',strip=True))
