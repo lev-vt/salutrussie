@@ -14,10 +14,10 @@
 
 AI-команда реально работала в независимых CLI-сессиях:
 
-1. [Manager: задание](night/manager_plan.json).
-2. [Website QA: находки](night/website_qa.json).
-3. [Reviewer: независимая проверка](night/independent_reviewer.json).
-4. [Manager: приоритеты](night/manager_report.json).
+1. [Manager: задание](manager_plan.json).
+2. [Website QA: находки](website_qa.json).
+3. [Reviewer: независимая проверка](independent_reviewer.json).
+4. [Manager: приоритеты](manager_report.json).
 
 QA и Reviewer получили сводку всех страниц, основной текст RU и фактический
 JavaScript. Reviewer получил итог QA, но не его рассуждения/инструментальные
