@@ -1,0 +1,335 @@
+{
+  "status": "DRAFT_TEST_CASES_NOT_LEGAL_APPROVAL",
+  "verified_as_of": "2026-11-01",
+  "fixture_notice": "Все денежные значения ниже — СИНТЕТИЧЕСКИЕ тестовые данные для проверки арифметики, НЕ реальные нормативы регионов России. В production fixture не включать.",
+  "source": "https://www.consultant.ru/document/cons_doc_LAW_540338/3d0cac60971a511280cbba229d9b6329c07731f7/",
+  "applicability_tests": [
+    {
+      "id": "A01",
+      "input": {
+        "target_date": "2026-12-31",
+        "status": "RVP"
+      },
+      "expected": "NOT_YET_EFFECTIVE",
+      "why": "Новое основание ст.7 с 01.01.2027"
+    },
+    {
+      "id": "A02",
+      "input": {
+        "target_date": "2027-01-01",
+        "status": "PATENT"
+      },
+      "expected": "OUT_OF_SCOPE",
+      "why": "У патента отдельная процедура"
+    },
+    {
+      "id": "A03",
+      "input": {
+        "target_date": "2027-01-01",
+        "status": "RVP",
+        "status_basis": "DECREE_702_RVP",
+        "all_other_flags": "NO"
+      },
+      "expected": "POTENTIAL_EXCEPTION",
+      "why": "Исключение в ст.7 для РВП по 702, сохраняются иные обязанности"
+    },
+    {
+      "id": "A04",
+      "input": {
+        "target_date": "2027-01-01",
+        "status": "VNZH",
+        "vnzh_from_previous_rvp_702": "YES",
+        "status_basis": "OTHER",
+        "all_other_flags": "NO",
+        "activity_kind": "EMPLOYMENT"
+      },
+      "expected": "POTENTIALLY_APPLIES",
+      "why": "ВНЖ после РВП 702 не имеет общего исключения"
+    },
+    {
+      "id": "A05",
+      "input": {
+        "target_date": "2027-02-01",
+        "status": "VNZH",
+        "pensioner": "YES",
+        "all_other_flags": "NO"
+      },
+      "expected": "POTENTIAL_EXCEPTION"
+    },
+    {
+      "id": "A06",
+      "input": {
+        "target_date": "2027-01-01",
+        "status": "RVP",
+        "russian_full_time_student": "YES",
+        "all_other_flags": "NO"
+      },
+      "expected": "POTENTIAL_EXCEPTION",
+      "requires": "Подтверждение юридически квалифицируемой формы обучения"
+    },
+    {
+      "id": "A07",
+      "input": {
+        "target_date": "2027-01-01",
+        "status": "VNZH",
+        "activity_kind": "NPD",
+        "all_other_flags": "NO",
+        "status_basis": "OTHER"
+      },
+      "expected": "NEEDS_LEGAL_REVIEW",
+      "why": "НПД не равнять автоматически трудовой деятельности"
+    },
+    {
+      "id": "A08",
+      "input": {
+        "target_date": "2027-01-01",
+        "status": "VNZH",
+        "activity_kind": "PASSIVE_ONLY",
+        "all_other_flags": "NO",
+        "status_basis": "OTHER"
+      },
+      "expected": "NEEDS_LEGAL_REVIEW",
+      "why": "Самостоятельный критерий деятельности"
+    },
+    {
+      "id": "A09",
+      "input": {
+        "target_date": "2027-01-01",
+        "status": "RVP",
+        "all_other_flags": "UNKNOWN"
+      },
+      "expected": "NEEDS_LEGAL_REVIEW",
+      "why": "Неполные данные"
+    },
+    {
+      "id": "A10",
+      "input": {
+        "target_date": "2027-01-01",
+        "status": "RVP",
+        "belarus_or_qualifying_family": "YES",
+        "all_other_flags": "NO"
+      },
+      "expected": "POTENTIAL_EXCEPTION",
+      "requires": "Подтверждение гражданства или квалифицированной семьи"
+    },
+    {
+      "id": "A11",
+      "input": {
+        "target_date": "2027-01-01",
+        "status": "VNZH",
+        "status_basis": "HONORS_GRADUATE_VNZH",
+        "all_other_flags": "NO",
+        "job_change_within_report_period": "YES"
+      },
+      "expected": "NEEDS_LEGAL_REVIEW",
+      "why": "Специальные условия и периоды трудоустройства/дохода"
+    },
+    {
+      "id": "A12",
+      "input": {
+        "target_date": "2027-01-01",
+        "status": "UNKNOWN"
+      },
+      "expected": "NEEDS_LEGAL_REVIEW"
+    }
+  ],
+  "income_threshold_tests": [
+    {
+      "id": "C01",
+      "data": "SYNTHETIC_ONLY",
+      "input": {
+        "pm": 20000,
+        "k": 1.2,
+        "cap": 50000,
+        "dependents": 2
+      },
+      "expected": {
+        "base": 24000,
+        "persons": 3,
+        "monthly": 72000
+      },
+      "why": "PM*K, минимум с cap"
+    },
+    {
+      "id": "C02",
+      "data": "SYNTHETIC_ONLY",
+      "input": {
+        "pm": 20000,
+        "k": 3,
+        "cap": 35000,
+        "dependents": 0
+      },
+      "expected": {
+        "base": 35000,
+        "persons": 1,
+        "monthly": 35000
+      },
+      "why": "Ограничение средней зарплатой"
+    },
+    {
+      "id": "C03",
+      "data": "SYNTHETIC_ONLY",
+      "input": {
+        "pm": 18000,
+        "k": 0.8,
+        "coefficient_status": "OFFICIAL_VALUE",
+        "cap": 50000,
+        "dependents": 1
+      },
+      "expected": {
+        "effective_k": 1,
+        "monthly": 36000
+      },
+      "why": "Коэффициент ниже единицы приравнять к 1"
+    },
+    {
+      "id": "C04",
+      "data": "SYNTHETIC_ONLY",
+      "input": {
+        "pm": 17000,
+        "k": null,
+        "coefficient_status": "OFFICIALLY_NOT_SET",
+        "cap": 40000,
+        "dependents": 0
+      },
+      "expected": {
+        "effective_k": 1,
+        "monthly": 17000
+      },
+      "why": "Официально не установлен"
+    },
+    {
+      "id": "C05",
+      "input": {
+        "pm": 17000,
+        "k": null,
+        "coefficient_status": "UNVERIFIED",
+        "cap": 40000,
+        "dependents": 0
+      },
+      "expected": {
+        "status": "DATA_MISSING",
+        "monthly": null
+      },
+      "why": "Нельзя трактовать неизвестное значение как отсутствие коэффициента"
+    },
+    {
+      "id": "C06",
+      "input": {
+        "pm": null,
+        "k": 1,
+        "cap": 40000,
+        "dependents": 0
+      },
+      "expected": {
+        "status": "DATA_MISSING",
+        "monthly": null
+      }
+    },
+    {
+      "id": "C07",
+      "input": {
+        "pm": 20000,
+        "k": 1,
+        "cap": null,
+        "dependents": 0
+      },
+      "expected": {
+        "status": "DATA_MISSING",
+        "monthly": null
+      },
+      "why": "Нет подтверждения статистического потолка"
+    },
+    {
+      "id": "C08",
+      "data": "SYNTHETIC_ONLY",
+      "input": {
+        "regions": [
+          {
+            "pm": 15000,
+            "k": 1,
+            "cap": 45000
+          },
+          {
+            "pm": 20000,
+            "k": 1.2,
+            "cap": 45000
+          }
+        ],
+        "dependents": 1
+      },
+      "expected": {
+        "base": 24000,
+        "monthly": 48000
+      },
+      "why": "Максимальный нормируемый порог среди регионов"
+    },
+    {
+      "id": "C09",
+      "input": {
+        "regions": [
+          {
+            "pm": 15000,
+            "k": 1,
+            "cap": 45000
+          },
+          {
+            "pm": 20000,
+            "k": 1.2,
+            "cap": null
+          }
+        ],
+        "dependents": 1
+      },
+      "expected": {
+        "status": "DATA_MISSING",
+        "monthly": null
+      },
+      "why": "Нет полных параметров хотя бы одного региона"
+    },
+    {
+      "id": "C10",
+      "input": {
+        "pm": 20000,
+        "k": 1,
+        "cap": 45000,
+        "dependents": -1
+      },
+      "expected": {
+        "status": "INVALID_INPUT"
+      }
+    },
+    {
+      "id": "C11",
+      "input": {
+        "pm": 20000,
+        "k": 1,
+        "cap": 45000,
+        "dependents": 1.5
+      },
+      "expected": {
+        "status": "INVALID_INPUT"
+      }
+    },
+    {
+      "id": "C12",
+      "data": "SYNTHETIC_ONLY",
+      "input": {
+        "pm": 19999.999,
+        "k": 1.1,
+        "cap": 60000,
+        "dependents": 0
+      },
+      "expected": {
+        "status": "INVALID_SOURCE_PRECISION"
+      },
+      "why": "Нормативные деньги должны храниться с допустимой источником точностью"
+    }
+  ],
+  "test_notes": [
+    "all_other_flags — тестовый shorthand; Codex должен развернуть в полный объект входных полей и сценариев.",
+    "Тесты допустимы только на изолированных синтетических fixture; конечные реальные цифры без официальных подтверждений запрещены.",
+    "A04 не даёт заключение о соблюдении требований и требует дальнейшего анализа при особых обстоятельствах.",
+    "Граничные даты и переходные случаи не делают автоматического заключения о ретроактивном применении."
+  ]
+}
