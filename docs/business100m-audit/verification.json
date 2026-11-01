@@ -1,0 +1,29 @@
+{
+  "model_calls": 5,
+  "distinct_sessions": 5,
+  "calls_by_role": {
+    "SandboxProbe": 1,
+    "Manager": 2,
+    "Reviewer": 1,
+    "Website QA": 1
+  },
+  "tokens": {
+    "input_tokens": 89012,
+    "cached_input_tokens": 7936,
+    "output_tokens": 2197
+  },
+  "all_calls_read_only": true,
+  "ru_http_pages_ok": 36,
+  "site_source_unchanged": true,
+  "night_status": "needs_owner_decision",
+  "single_vs_nested": {
+    "single": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "nested": {
+      "exit_code": 71,
+      "stderr": "sandbox-exec: sandbox_apply: Operation not permitted\n"
+    }
+  }
+}
