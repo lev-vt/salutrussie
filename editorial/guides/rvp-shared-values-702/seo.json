@@ -1,0 +1,114 @@
+{
+  "language": "ru",
+  "status": "draft_for_owner_review",
+  "slug": "rvp-shared-values-702",
+  "suggested_public_path": "/ru/knowledge/articles/rvp-shared-values-702/",
+  "canonical_intent": "Practical guide to eligibility, consular visa, documents, filing, legal stay and next steps for RVP under Decree 702",
+  "seo_title": "РВП по Указу № 702: условия, документы и подача в 2026 году",
+  "meta_description": "Пошаговый гайд по РВП по Указу № 702: проверка основания, виза, справка о несудимости, медосмотр, подача и действия после решения.",
+  "h1": "РВП по Указу № 702: кому подходит программа и как подготовиться к подаче",
+  "primary_query": "РВП по указу 702",
+  "secondary_queries": [
+    "указ 702 документы на РВП",
+    "shared values visa Россия",
+    "виза 702 Россия",
+    "справка о несудимости РВП 702",
+    "после подачи на РВП истекает виза"
+  ],
+  "audience": [
+    "иностранцы из стран перечня № 2560-р, рассматривающие переезд в РФ",
+    "въехавшие по 702 и готовящие РВП",
+    "находящиеся в РФ с иной визой и проверяющие основание"
+  ],
+  "search_intent": [
+    "eligibility",
+    "checklist",
+    "process",
+    "visa vs residence status",
+    "risk reduction"
+  ],
+  "answer_first": [
+    "Указ № 702 позволяет определённым иностранцам подать на РВП без квоты и без языкового документа, но не гарантирует результат.",
+    "Виза по Указу № 702 — отдельный механизм въезда, а не само разрешение на временное проживание.",
+    "Перед подачей особенно важны срок и удостоверение справки о несудимости и соблюдение миграционного режима."
+  ],
+  "h2": [
+    "Что даёт Указ № 702",
+    "Кому может подойти программа",
+    "Специальная виза и РВП",
+    "Какие документы готовить",
+    "Пошаговый план",
+    "Пять типичных проблем",
+    "Частые вопросы",
+    "Чек-лист",
+    "Источники",
+    "Индивидуальный разбор"
+  ],
+  "faq": [
+    {
+      "q": "Нужно ли сдавать экзамен по русскому языку для РВП по Указу № 702?",
+      "a": "Для специального обращения не требуется документ о знании языка, истории и права; остальные условия сохраняются."
+    },
+    {
+      "q": "Гарантирует ли паспорт страны из перечня получение РВП?",
+      "a": "Нет. Необходимо соблюсти мотивы, процедуру и отсутствие оснований отказа."
+    },
+    {
+      "q": "Можно ли выехать из России, когда РВП рассматривается?",
+      "a": "Необходимо проверить основание повторного въезда: однократная виза не становится многократной."
+    },
+    {
+      "q": "Что если заканчивается виза после принятия заявления?",
+      "a": "Статья 5(2) закона № 115-ФЗ предусматривает исключение из обязанности выехать при принятом заявлении и необходимых документах, но остальные процедуры проверяются отдельно."
+    }
+  ],
+  "internal_links": [
+    {
+      "path": "/ru/migration/decree-702/",
+      "anchor": "Юридическое сопровождение по Указу № 702",
+      "role": "commercial pillar"
+    },
+    {
+      "path": "/ru/migration/rvp/",
+      "anchor": "РВП в России",
+      "role": "program pillar"
+    },
+    {
+      "path": "/ru/migration/vnzh/",
+      "anchor": "Вид на жительство",
+      "role": "next legal step"
+    },
+    {
+      "path": "/ru/migration/visas/",
+      "anchor": "Визы в Россию",
+      "role": "supporting"
+    },
+    {
+      "path": "/ru/consultations/",
+      "anchor": "Консультации",
+      "role": "CTA"
+    },
+    {
+      "path": "/ru/knowledge/",
+      "anchor": "Полезная информация",
+      "role": "parent"
+    }
+  ],
+  "cta_primary": {
+    "text": "Проверить применимость Указа № 702 и пакет документов",
+    "target": "/ru/migration/decree-702/"
+  },
+  "cta_secondary": {
+    "text": "Обсудить свою ситуацию с юристом",
+    "target": "/ru/consultations/"
+  },
+  "structured_data_recommendation": [
+    "Article or BlogPosting only with truthful author/publisher and real dates",
+    "BreadcrumbList matching actual navigation",
+    "FAQ as reader-visible content; FAQPage only if permitted by search policy, never promise rich results"
+  ],
+  "canonical_guard": "Do not duplicate or overwrite commercial /ru/migration/decree-702/; integrate as supplementary knowledge article with cross-links",
+  "keyword_volumes": "not_measured",
+  "competitions": "Initial qualitative SERP review only; Google/Yandex query volumes and rankings not measured",
+  "updated_at": "2026-11-01"
+}
