@@ -1,0 +1,92 @@
+{
+  "status": "draft_for_owner_review",
+  "language": "ru",
+  "slug": "income-requirements-2027",
+  "suggested_public_path": "/ru/knowledge/articles/income-requirements-2027/",
+  "seo_title": "Доходы иностранцев с 2027 года: РВП, ВНЖ, исключения и калькулятор",
+  "meta_description": "Новые требования к доходам иностранцев с 2027 года: кого касаются, какая деятельность учитывается, исключения для РВП и ВНЖ, расчёт по региону.",
+  "h1": "Доходы иностранцев в России с 2027 года: кого затронут новые правила и как оценить риск для РВП и ВНЖ",
+  "primary_query": "доход иностранца с 2027 года РВП ВНЖ",
+  "secondary_queries": [
+    "241 фз иностранцы 2027 доход",
+    "сколько нужно зарабатывать иностранцу 2027",
+    "ежегодное уведомление ВНЖ 2027 доход",
+    "региональный коэффициент иностранцы 2027",
+    "указ 702 доходы 2027"
+  ],
+  "intents": [
+    "what changes 2027",
+    "am I exempt",
+    "income threshold by region",
+    "does passive income count",
+    "annual notification deadlines",
+    "legal risk and steps"
+  ],
+  "competing_content_gaps": [
+    "distinguish accepted law from draft ten-month narratives",
+    "separate RVP and VNZH exception lists",
+    "separate income and activity",
+    "region cap and coefficient provenance",
+    "two different time periods for income",
+    "missing values must not be guessed"
+  ],
+  "answer_first": [
+    "С 1 января 2027 года меняются основания проверки деятельности и доходов иностранцев с РВП/ВНЖ.",
+    "Универсальной обязанности работать десять месяцев в соответствующих новых нормах нет.",
+    "Порог рассчитывается с учётом региона, коэффициента, ограничений и иждивенцев; отдельные лица исключены из конкретного основания."
+  ],
+  "faq": [
+    "Все ли иностранцы обязаны работать с 2027 года?",
+    "Как проверить применение новых требований к обладателю РВП?",
+    "Сохраняется ли исключение по Указу 702 после получения ВНЖ?",
+    "Считаются ли проценты и дивиденды?",
+    "Можно ли жить на банковские накопления?",
+    "Как учитывается работа в двух регионах?",
+    "Сколько времени есть на ежегодное уведомление?"
+  ],
+  "internal_links": [
+    {
+      "path": "/ru/migration/rvp/",
+      "anchor": "РВП",
+      "role": "pillar"
+    },
+    {
+      "path": "/ru/migration/vnzh/",
+      "anchor": "ВНЖ",
+      "role": "pillar"
+    },
+    {
+      "path": "/ru/migration/decree-702/",
+      "anchor": "Указ № 702",
+      "role": "commercial"
+    },
+    {
+      "path": "/ru/consultations/",
+      "anchor": "Юридическая консультация",
+      "role": "conversion"
+    },
+    {
+      "path": "/ru/knowledge/",
+      "anchor": "Полезная информация",
+      "role": "parent"
+    }
+  ],
+  "feature_blocks": [
+    "ApplicabilityChecker",
+    "IncomeThresholdCalculator"
+  ],
+  "structured_data_recommendation": [
+    "BlogPosting/Article truthful author and date",
+    "BreadcrumbList",
+    "WebPage section with understandable FAQs; do not promise FAQ rich snippets"
+  ],
+  "measurement_status": "Search volume and Google/Yandex competition not quantitatively measured",
+  "update_triggers": [
+    "amendments to 115-FZ",
+    "adoption of rule 21 amendments",
+    "regional acts for 2027",
+    "official Rosstat cap",
+    "new MVD interpretations"
+  ],
+  "reviewed_on": "2026-11-01"
+}
