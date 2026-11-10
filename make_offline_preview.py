@@ -14,6 +14,7 @@ DST=ROOT/'preview_offline'
 if not (SRC/'index.html').is_file(): raise SystemExit('Build the site with python3 build.py first')
 if DST.exists():shutil.rmtree(DST)
 shutil.copytree(SRC,DST)
+shutil.copyfile(ROOT/'src'/'НАЧНИТЕ_ЗДЕСЬ.txt',DST/'НАЧНИТЕ_ЗДЕСЬ.txt')
 changed=0
 for f in DST.rglob('*.html'):
  text=f.read_text(encoding='utf-8')

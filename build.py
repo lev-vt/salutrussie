@@ -43,7 +43,7 @@ body { min-width: 300px; }
 .nav-links { align-items:center; }
 .nav-links > li { position:relative; }
 .nav-links .nav-drop { position:absolute; top:calc(100% + 14px); left:-20px; padding:14px; width:275px; background:#202D4C; border:1px solid #4C5470; box-shadow:0 18px 32px rgba(0,0,0,.24); display:none; z-index:90; }
-.nav-links .has-drop:focus-within .nav-drop, .nav-links .has-drop:hover .nav-drop, .nav-links .has-drop.is-open .nav-drop {display:grid;gap:2px}
+.nav-links .has-drop.is-open .nav-drop {display:grid;gap:2px}
 .nav-links .nav-drop a {padding:9px 10px;display:block;font-size:13px;white-space:normal; }
 .nav-links .nav-drop a:hover {background:rgba(255,255,255,.1);}
 .nav-links .has-drop > button {border:0;background:transparent;color:var(--cream-text-soft);font:inherit;padding:0;cursor:pointer;}
@@ -158,7 +158,6 @@ body { min-width: 300px; }
   .sr-feature {grid-template-columns:1fr;}
   .sr-feature .sr-star {display:none;}
   .nav-links .nav-drop {position:static;background:transparent;border:0;box-shadow:none;padding:8px 0 8px 12px;width:100%;}
-  .nav-links .has-drop:focus-within .nav-drop,.nav-links .has-drop:hover .nav-drop {display:none;}
   .nav-links .has-drop.is-open .nav-drop {display:grid;}
   .nav-links .has-drop>button {padding:10px 0;color:var(--cream-text);font-size:15px;}
   .sr-mobile-consult {display:block;}
@@ -182,7 +181,21 @@ JS=r'''(() => {
  const burger=document.getElementById('burger');
  if(burger && menu) burger.addEventListener('click',()=>{const open=menu.classList.toggle('open');burger.setAttribute('aria-expanded',String(open));});
  document.querySelectorAll('.sr-drop-button').forEach(b=>b.addEventListener('click',()=>{let li=b.closest('.has-drop');let next=li.classList.toggle('is-open');b.setAttribute('aria-expanded',String(next));}));
- document.addEventListener('keydown',e=>{if(e.key==='Escape'){menu?.classList.remove('open');burger?.setAttribute('aria-expanded','false');document.querySelectorAll('.has-drop').forEach(x=>{x.classList.remove('is-open');x.querySelector('.sr-drop-button')?.setAttribute('aria-expanded','false');});}});
+ document.addEventListener('keydown', event => {
+  if (event.key !== 'Escape') return;
+  const active = document.activeElement;
+  const closingMobileMenu = menu?.classList.contains('open');
+  const focusTarget = closingMobileMenu && menu.contains(active)
+   ? burger
+   : active?.closest('.nav-drop')?.closest('.has-drop')?.querySelector('.sr-drop-button');
+  menu?.classList.remove('open');
+  burger?.setAttribute('aria-expanded','false');
+  document.querySelectorAll('.has-drop').forEach(x => {
+   x.classList.remove('is-open');
+   x.querySelector('.sr-drop-button')?.setAttribute('aria-expanded','false');
+  });
+  focusTarget?.focus();
+ });
  document.querySelectorAll('.price-tab').forEach(tab=>tab.addEventListener('click',()=>{document.querySelectorAll('.price-tab').forEach(x=>x.classList.remove('active'));tab.classList.add('active');document.querySelectorAll('.price-panel').forEach(p=>p.classList.remove('active'));document.getElementById('panel-'+tab.dataset.tab)?.classList.add('active');}));
  // Search is a static index of actual site articles and published resources, no remote service.
  const q=document.getElementById('sr-search');

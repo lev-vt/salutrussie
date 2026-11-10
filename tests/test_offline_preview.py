@@ -19,6 +19,9 @@ class OfflinePreviewTests(unittest.TestCase):
      self.assertTrue(dest.is_file(),f'Missing file: {dest}')
     count+=1
   self.assertGreater(count,1500)
+ def test_opening_instructions_survive_rebuild(self):
+  name="НАЧНИТЕ_ЗДЕСЬ.txt"
+  self.assertEqual((ROOT/name).read_bytes(), (ROOT.parent/"src"/name).read_bytes())
  def test_primary_preview_links_are_to_html_files(self):
   soup=BeautifulSoup((ROOT/'ru/index.html').read_text(),'html.parser')
   for a in soup.select('a[href]'):

@@ -3,7 +3,21 @@
  const burger=document.getElementById('burger');
  if(burger && menu) burger.addEventListener('click',()=>{const open=menu.classList.toggle('open');burger.setAttribute('aria-expanded',String(open));});
  document.querySelectorAll('.sr-drop-button').forEach(b=>b.addEventListener('click',()=>{let li=b.closest('.has-drop');let next=li.classList.toggle('is-open');b.setAttribute('aria-expanded',String(next));}));
- document.addEventListener('keydown',e=>{if(e.key==='Escape'){menu?.classList.remove('open');burger?.setAttribute('aria-expanded','false');document.querySelectorAll('.has-drop').forEach(x=>{x.classList.remove('is-open');x.querySelector('.sr-drop-button')?.setAttribute('aria-expanded','false');});}});
+ document.addEventListener('keydown', event => {
+  if (event.key !== 'Escape') return;
+  const active = document.activeElement;
+  const closingMobileMenu = menu?.classList.contains('open');
+  const focusTarget = closingMobileMenu && menu.contains(active)
+   ? burger
+   : active?.closest('.nav-drop')?.closest('.has-drop')?.querySelector('.sr-drop-button');
+  menu?.classList.remove('open');
+  burger?.setAttribute('aria-expanded','false');
+  document.querySelectorAll('.has-drop').forEach(x => {
+   x.classList.remove('is-open');
+   x.querySelector('.sr-drop-button')?.setAttribute('aria-expanded','false');
+  });
+  focusTarget?.focus();
+ });
  document.querySelectorAll('.price-tab').forEach(tab=>tab.addEventListener('click',()=>{document.querySelectorAll('.price-tab').forEach(x=>x.classList.remove('active'));tab.classList.add('active');document.querySelectorAll('.price-panel').forEach(p=>p.classList.remove('active'));document.getElementById('panel-'+tab.dataset.tab)?.classList.add('active');}));
  // Search is a static index of actual site articles and published resources, no remote service.
  const q=document.getElementById('sr-search');
