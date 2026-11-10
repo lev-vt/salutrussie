@@ -18,7 +18,7 @@ SRC=ROOT/'src'/'original'
 OUT=ROOT/'dist'
 ORIGIN=os.getenv('SITE_ORIGIN','').rstrip('/')
 PUBLIC=os.getenv('PUBLIC_RELEASE')=='1' and ORIGIN.startswith('https://')
-if os.getenv('PUBLIC_RELEASE')=='1' and not PUBLIC: raise SystemExit('PUBLIC_RELEASE requires SITE_ORIGIN=https://your-real-domain')
+if os.getenv('PUBLIC_RELEASE')=='1': raise SystemExit('Commercial MVP requires owner approval. Preview only.')
 OUT.mkdir(exist_ok=True)
 for f in OUT.iterdir():
     if f.is_dir():shutil.rmtree(f)
@@ -379,6 +379,38 @@ def basic_page(lang,url,title,desc,items=None,rich=None):
  z+=cta(lang)
  return shell(lang,url,title,desc,z,noindex=True)
 
+def services_ru():
+ title='Все услуги для иностранцев'
+ desc='Профессиональная помощь в России: выберите подходящее направление.'
+ shortcuts={'migration': [('migration/decree-702','Указ 702')]+[
+  (f'migration/{slug}',PROGRAMS[slug]['ru'][1]) for slug in ('rvp','vnzh','visas','citizenship')
+ ]}
+ for section, slugs in SUBPAGES.items():
+  shortcuts[section]=[(f'{section}/{slug}',SUBLABEL[slug][0]) for slug in slugs]
+ body=heading('ru',title,desc,LANGS['ru']['services'])
+ body+='<section class="sr-sec"><div class="sr-width"><div class="sr-section-head"><h2>Выберите направление</h2></div><div class="sr-grid">'
+ for slug, data in SECTIONS.items():
+  _,name,description=data['ru']
+  body+=f'<section class="sr-card"><span class="sr-icon" aria-hidden="true">{esc(data["symbol"])}</span><h3>{esc(name)}</h3><p>{esc(description)}</p>'
+  if slug in shortcuts:
+   body+='<ul>'
+   for tail,label in shortcuts[slug]:
+    body+=f'<li><a href="{path("ru",tail)}">{esc(label)}</a></li>'
+   body+='</ul>'
+  body+=f'<a class="sr-link" href="{path("ru",slug)}">Подробнее о направлении →</a></section>'
+ body+=f'</div><p><a class="sr-link" href="{path("ru","pricing")}">Тарифы →</a></p></div></section>'
+ return shell('ru',path('ru','services'),title,desc,body+cta('ru'),noindex=True)
+
+def pricing_ru():
+ title='Тарифы'
+ desc='Стоимость, формат и объём согласуем до оплаты.'
+ body=heading('ru',title,desc,LANGS['ru']['services'])
+ body+='<div class="sr-content"><p class="sr-note">Предварительная версия. Перечень услуг и цены ожидают согласования.</p><h2>Направления</h2><ul>'
+ for tail,label in [('consultations','Консультации'),('migration/decree-702','Программа 702'),('relocation','Переезд и адаптация'),('services','Все услуги')]:
+  body+=f'<li><a href="{path("ru",tail)}">{esc(label)}</a></li>'
+ body+='</ul></div>'
+ return shell('ru',path('ru','pricing'),title,desc,body+cta('ru'),noindex=True)
+
 def service_pages(lang):
  ru=lang=='ru'
  for slug,data in SECTIONS.items():
@@ -450,6 +482,17 @@ def article_page(lang,a):
 def privacy(lang):
  ru=lang=='ru';title='Информация об обработке персональных данных' if ru else 'Informations relatives aux données personnelles';desc='Проект документа для утверждения до публикации.' if ru else 'Document à valider avant mise en ligne.'
  s=heading(lang,title,desc)
+ if ru:
+  s+=(
+   '<article class="sr-content"><p class="sr-note">Проект уведомления для предварительной версии. Политика для рабочего сайта ожидает утверждения.</p>'
+   '<h2>Что происходит на сайте</h2><p>На страницах этой сборки нет формы для отправки обращения. Подключённого счётчика аналитики в сборке нет.</p>'
+   '<h2>Если вы решите связаться с бюро</h2><p>Кнопки консультаций открывают WhatsApp, Telegram или почтовое приложение. '
+   'Для WhatsApp и почты подготовлен общий текст обращения. Вы отправляете сообщение в выбранном приложении самостоятельно. '
+   'Кнопка копирования для Telegram помещает подготовленный текст в буфер обмена.</p>'
+   '<h2>Внешние ресурсы</h2><p>Для оформления страницы браузер может загружать шрифты с серверов Google. '
+   'При переходе в мессенджер или почтовое приложение применяются настройки и условия выбранного сервиса.</p></article>'
+  )
+  return shell(lang,path(lang,'privacy'),title,desc,s,noindex=True)
  s+=f'<div class="sr-content"><p class="sr-note">{"Этот документ — техническая заглушка, не окончательная политика. До публикации сайта требуется утвердить политику с учётом используемых сервисов, форм, аналитики и подрядчиков." if ru else "Ce document est provisoire et doit être remplacé par une politique de confidentialité approuvée avant publication."}</p><p>{"В этой демонстрационной версии нет серверной отправки анкет и подключённого счётчика аналитики. При выборе консультации открывается внешний мессенджер." if ru else "Cette démonstration ne collecte pas de formulaire sur serveur et n’intègre pas d’outil analytique. Les demandes ouvrent une messagerie externe."}</p></div>'
  return shell(lang,path(lang,'privacy'),title,desc,s,noindex=True)
 
@@ -496,7 +539,7 @@ def write(url,content):
 
 for lang in ('ru','fr'):
  write(path(lang),home(lang));service_pages(lang)
- write(path(lang,'services'),basic_page(lang,path(lang,'services'),'Все услуги для иностранцев' if lang=='ru' else 'Tous nos services','Профессиональная помощь в России: выберите подходящее направление.' if lang=='ru' else 'Choisissez le domaine qui correspond à votre projet.',list(SECTIONS.items())))
+ write(path(lang,'services'),services_ru() if lang=='ru' else basic_page(lang,path(lang,'services'),'Tous nos services','Choisissez le domaine qui correspond à votre projet.',list(SECTIONS.items())))
  write(path(lang,'consultations'),consultations(lang))
  write(path(lang,'knowledge'),knowledge(lang))
  for a in ARTICLES:write(path(lang,'knowledge/articles/'+a['slug']),article_page(lang,a))
@@ -505,6 +548,9 @@ for lang in ('ru','fr'):
  for old,(slug,title,desc) in legacy_map[lang].items():
   if slug=='reviews' and not REVIEWS_ENABLED:
    continue  # Hide unverified testimonials in both languages until owner approval.
+  if lang=='ru' and slug=='pricing':
+   write(path(lang,slug),pricing_ru())
+   continue
   write(path(lang,slug),about_ru() if lang=='ru' and slug=='about' else legacy(lang,old,path(lang,slug),title,desc))
 
 # All links and assets are converted to relative URLs so the full dist can be previewed directly by opening index.html.
