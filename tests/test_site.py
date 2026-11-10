@@ -86,4 +86,18 @@ class SiteTests(unittest.TestCase):
  def test_no_claude_artifact_links(self):
   for f in ROOT.rglob('*.html'):
    self.assertNotIn('claude.ai/artifact/',f.read_text(),str(f))
+ def test_placeholder_reviews_not_published(self):
+  for lang in ('ru','fr'):
+   self.assertFalse((ROOT/lang/'reviews/index.html').exists())
+  for file in ROOT.rglob('*.html'):
+   with self.subTest(file=file):
+    text=file.read_text(encoding='utf-8')
+    self.assertNotIn('Текст отзыва — сюда',text)
+    soup=BeautifulSoup(text,'html.parser')
+    for a in soup.select('a[href]'):
+     self.assertNotRegex(a['href'],r'(^|/)reviews(/|$)')
+ def test_escape_restores_submenu_aria(self):
+  js=(ROOT/'assets/platform.js').read_text(encoding='utf-8')
+  self.assertIn("x.querySelector('.sr-drop-button')?.setAttribute('aria-expanded','false')",js)
+  self.assertIn('if(burger && menu)',js)
 if __name__=='__main__':unittest.main()
