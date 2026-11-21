@@ -63,6 +63,17 @@ class SiteTests(unittest.TestCase):
   self.assertIn('Вопросы к юристу',t)
   self.assertIn('Любые вопросы к российскому юристу',t)
   self.assertIn('Ваше обращение ни к чему вас не обязывает',t)
+ def test_french_consultation_channels(self):
+  cons=BeautifulSoup((ROOT/'fr/consultations/index.html').read_text(), 'html.parser')
+  self.assertEqual(len(cons.select('details.sr-contact-details')),4)
+  for det in cons.select('details.sr-contact-details'):
+   links=[a['href'] for a in det.select('.sr-channel-links a')]
+   self.assertEqual(len(links),3)
+   self.assertTrue(links[0].startswith('https://wa.me/'))
+   self.assertEqual(links[1],'https://t.me/lev_vt')
+   self.assertTrue(links[2].startswith('mailto:salutrussie@salutrussie.ru'))
+   self.assertEqual(det.select_one('.sr-copy-topic').get_text(strip=True),'Copier le texte')
+  self.assertIn("fr?'Copié':'Скопировано'",(ROOT/'assets/platform.js').read_text())
  def test_russian_footer(self):
   for f in (ROOT/'ru').rglob('index.html'):
    with self.subTest(page=str(f)):
@@ -134,4 +145,13 @@ class SiteTests(unittest.TestCase):
   pricing=BeautifulSoup((ROOT/'fr/pricing/index.html').read_text())
   self.assertNotIn('₽',pricing.main.get_text(' ',strip=True))
   self.assertNotIn('Khlebnikova', (ROOT/'fr/contacts/index.html').read_text())
+ def test_article_tables_have_keyboard_scroll_regions(self):
+  for lang in ('ru','fr'):
+   for slug in ('how-to-choose-residence','renting-a-home','starting-a-business','investor-checklist'):
+    with self.subTest(lang=lang,slug=slug):
+     article=BeautifulSoup((ROOT/lang/'knowledge/articles'/slug/'index.html').read_text())
+     tables=article.select('article table')
+     regions=article.select('article .sr-table-scroll[tabindex="0"]')
+     self.assertEqual(len(tables),len(regions))
+     self.assertTrue(all(region.get('role')=='region' and region.get('aria-label') for region in regions))
 if __name__=='__main__':unittest.main()

@@ -53,6 +53,8 @@ body { min-width: 300px; }
 .sr-content h3 {font-size:20px;margin:24px 0 10px;}
 .sr-content ol {margin:0 0 26px;padding-left:24px;line-height:1.8;}
 .sr-content table {border-collapse:collapse;width:100%;margin:25px 0;line-height:1.5;}
+.sr-table-scroll {max-width:100%;overflow-x:auto;margin:25px 0;}
+.sr-table-scroll table {min-width:520px;margin:0;}
 .sr-content caption {text-align:left;color:var(--ink-text-soft);font-size:13px;margin-bottom:10px;}
 .sr-content th,.sr-content td {border:1px solid var(--line);padding:12px;text-align:left;vertical-align:top;}
 .sr-content th {background:var(--parchment-2);}

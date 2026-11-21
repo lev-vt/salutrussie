@@ -43,8 +43,8 @@
    const t=document.createElement('textarea');t.value=text;t.style.position='fixed';t.style.opacity='0';document.body.append(t);t.select();
    try{ok=document.execCommand('copy')}catch(e){}t.remove();
   }
-  const previous=b.textContent;
-  b.textContent=ok?'Скопировано':'Выделите и скопируйте текст';
+  const fr=document.documentElement.lang==='fr';
+  b.textContent=ok?(fr?'Copié':'Скопировано'):(fr?'Sélectionnez et copiez le texte':'Выделите и скопируйте текст');
   if(!ok){const sel=window.getSelection();const range=document.createRange();range.selectNodeContents(el);sel.removeAllRanges();sel.addRange(range);}
   b.focus();
  }));
