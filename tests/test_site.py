@@ -17,7 +17,7 @@ class SiteTests(unittest.TestCase):
    for node in soup.select('[href],[src]'):
     v=node.get('href',node.get('src','')).split('#')[0].split('?')[0]
     if not v or re.match(r'^(https?\:|mailto\:|tel\:|data\:|javascript\:)',v):continue
-    dest=(file.parent/unquote(v)).resolve()
+    dest=((ROOT/unquote(v).lstrip('/')) if v.startswith('/') else (file.parent/unquote(v))).resolve()
     if dest.is_dir():dest=dest/'index.html'
     with self.subTest(file=file,link=v):self.assertTrue(dest.is_file(),str(dest))
  def test_russian_home_has_key_services(self):

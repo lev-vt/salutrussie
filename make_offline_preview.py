@@ -18,6 +18,8 @@ shutil.copyfile(ROOT/'src'/'НАЧНИТЕ_ЗДЕСЬ.txt',DST/'НАЧНИТЕ_�
 changed=0
 for f in DST.rglob('*.html'):
  text=f.read_text(encoding='utf-8')
+ if f==DST/'404.html':
+  text=text.replace('href="/ru/"','href="ru/index.html"')
  def fix(match):
   global changed
   attr,quote,value=match.groups()
