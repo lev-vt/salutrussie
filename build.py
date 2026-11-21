@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """SalutRussie static builder. Preserves Claude source while making a unified platform.
-Run: python3 build.py. Dependencies: beautifulsoup4.
-Production: SITE_ORIGIN=https://your-real-domain.example PUBLIC_RELEASE=1 python3 build.py
+Run: python3 build.py. Python standard library only.
+Local release check: BUILD_VARIANT=release-check SITE_ORIGIN=https://example.invalid PUBLIC_RELEASE=1 python3 build.py
 """
 from __future__ import annotations
 import base64, json, os, re, shutil, html
 from pathlib import Path
 from urllib.parse import quote
-from bs4 import BeautifulSoup
+from site_html import BeautifulSoup
+from b2b_content import get_page
+from articles_content import ARTICLES_HTML
 
 # Owner-approved temporary hold: do not generate placeholder testimonials.
 # Original Claude review templates remain preserved in src/original/.
@@ -15,11 +17,12 @@ REVIEWS_ENABLED = False
 
 ROOT=Path(__file__).resolve().parent
 SRC=ROOT/'src'/'original'
-OUT=ROOT/'dist'
+OUT=ROOT/'build'/'release-check' if os.getenv('BUILD_VARIANT')=='release-check' else ROOT/'dist'
 ORIGIN=os.getenv('SITE_ORIGIN','').rstrip('/')
 PUBLIC=os.getenv('PUBLIC_RELEASE')=='1' and ORIGIN.startswith('https://')
-if os.getenv('PUBLIC_RELEASE')=='1': raise SystemExit('Commercial MVP requires owner approval. Preview only.')
-OUT.mkdir(exist_ok=True)
+if os.getenv('BUILD_VARIANT') not in (None,'release-check'): raise SystemExit('Unsupported BUILD_VARIANT')
+if os.getenv('PUBLIC_RELEASE')=='1' and not PUBLIC: raise SystemExit('PUBLIC_RELEASE requires HTTPS SITE_ORIGIN')
+OUT.mkdir(parents=True,exist_ok=True)
 for f in OUT.iterdir():
     if f.is_dir():shutil.rmtree(f)
     else:f.unlink()
@@ -87,6 +90,25 @@ body { min-width: 300px; }
 .sr-content p {margin:0 0 20px;line-height:1.8;}
 .sr-content ul {margin:0 0 26px;padding-left:21px;line-height:1.8;}
 .sr-content h2 {font-size:27px;margin:30px 0 14px;}
+.sr-content h3 {font-size:20px;margin:24px 0 10px;}
+.sr-content ol {margin:0 0 26px;padding-left:24px;line-height:1.8;}
+.sr-content table {border-collapse:collapse;width:100%;margin:25px 0;line-height:1.5;}
+.sr-content caption {text-align:left;color:var(--ink-text-soft);font-size:13px;margin-bottom:10px;}
+.sr-content th,.sr-content td {border:1px solid var(--line);padding:12px;text-align:left;vertical-align:top;}
+.sr-content th {background:var(--parchment-2);}
+.sr-content details {border-top:1px solid var(--line);padding:13px 0;}
+.sr-content summary {cursor:pointer;font-weight:700;}
+.sr-b2b-copy {max-width:900px;margin:auto;}
+.sr-b2b-copy h2 {font-size:clamp(27px,3vw,36px);margin:32px 0 16px;}
+.sr-b2b-copy p,.sr-b2b-copy li {line-height:1.75;}
+.sr-b2b-copy ol {padding-left:24px;margin-bottom:26px;}
+.sr-b2b-copy table {border-collapse:collapse;width:100%;margin:28px 0;}
+.sr-b2b-copy caption {text-align:left;font-size:13px;color:var(--ink-text-soft);margin-bottom:10px;}
+.sr-b2b-copy th,.sr-b2b-copy td {border:1px solid var(--line);padding:13px;text-align:left;vertical-align:top;}
+.sr-b2b-copy th {background:var(--parchment-2);}
+.sr-b2b-copy details {border-top:1px solid var(--line);padding:14px 0;}
+.sr-b2b-copy summary {cursor:pointer;font-weight:700;}
+.sr-b2b-copy .sr-grid {margin:30px 0;}
 .sr-contact-list {display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
 .sr-contact-choice {display:block;border:1px solid var(--line);background:var(--parchment-2);padding:25px;text-decoration:none;}
 .sr-contact-choice strong {display:block;font-size:19px;margin-bottom:7px;}
@@ -234,6 +256,7 @@ def esc(x):return html.escape(str(x),quote=True)
 LANGS={
  'ru':{'home':'Главная','services':'Услуги','decree':'Указ 702','kb':'Полезная информация','about':'О нас','contacts':'Контакты','consult':'Консультация','reviews':'Отзывы','prices':'Тарифы','more':'Подробнее →','discuss':'Обсудить задачу →','start':'Начать с консультации','all':'Все','articles':'Статьи','instructions':'Инструкции','news':'Новости'},
  'fr':{'home':'Accueil','services':'Services','decree':'Décret n° 702','kb':'Informations utiles','about':'Notre équipe','contacts':'Contact','consult':'Consultation','reviews':'Avis','prices':'Tarifs','more':'En savoir plus →','discuss':'Discuter de votre projet →','start':'Demander une consultation','all':'Tout','articles':'Articles','instructions':'Guides','news':'Actualités'},
+ 'en':{'home':'Home','services':'Services','decree':'Decree 702','kb':'Insights','about':'About','contacts':'Contact','consult':'Contact us','reviews':'Reviews','prices':'Fees','more':'Learn more →','discuss':'Discuss a project →','start':'Contact us','all':'All','articles':'Articles','instructions':'Guides','news':'News'},
 }
 SECTIONS={
  'migration':{'ru':('Immigration et statuts','Миграция и переезд','РВП, ВНЖ, гражданство, визы, Указ 702 и правовая помощь при простых и сложных миграционных ситуациях.'),'fr':('Immigration','Immigration et séjour','Titres de séjour, visas, nationalité russe et accompagnement juridique.') ,'symbol':'✦'},
@@ -278,28 +301,38 @@ def service_url(lang,slug):return path(lang,slug)
 def meta(title,desc,lang,url,noindex=False,article=False,pub=None):
  tags=f'<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{esc(title)} · SalutRussie</title><meta name="description" content="{esc(desc)}"><meta name="theme-color" content="#131B2E"><meta name="robots" content="{"noindex,nofollow" if noindex or not PUBLIC else "index,follow"}">'
  tags+='<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap">'
- tags+=f'<link rel="stylesheet" href="/assets/claude-{lang}.css"><link rel="stylesheet" href="/assets/platform.css"><meta property="og:type" content="{"article" if article else "website"}"><meta property="og:title" content="{esc(title)}"><meta property="og:description" content="{esc(desc)}">'
+ tags+=f'<link rel="stylesheet" href="/assets/claude-{"ru" if lang=="ru" else "fr"}.css"><link rel="stylesheet" href="/assets/platform.css"><meta property="og:type" content="{"article" if article else "website"}"><meta property="og:title" content="{esc(title)}"><meta property="og:description" content="{esc(desc)}">'
  if PUBLIC:
   tags+=f'<link rel="canonical" href="{esc(ORIGIN+url)}"><meta property="og:url" content="{esc(ORIGIN+url)}">'
-  counterpart=url.replace('/ru/','/fr/',1) if lang=='ru' else url.replace('/fr/','/ru/',1)
-  # Only output language references to actual generated equivalents.
-  tags+=f'<link rel="alternate" hreflang="ru" href="{esc(ORIGIN+(url if lang=="ru" else counterpart))}"><link rel="alternate" hreflang="fr" href="{esc(ORIGIN+(url if lang=="fr" else counterpart))}">'
-  schema={'@context':'https://schema.org','@type':'Article' if article else 'WebPage','headline':title,'url':ORIGIN+url,'inLanguage':lang,'publisher':{'@type':'Organization','name':'SalutRussie'},'author':{'@type':'Person','name':'Лев Втюрин'}}
-  if article and pub: schema['datePublished']=pub
-  tags+=f'<script type="application/ld+json">{json.dumps(schema,ensure_ascii=False).replace("<", "\\u003c")}</script>'
+  if not noindex:
+   languages=('ru','fr','en') if '/for-business/' in url else ('ru','fr')
+   for alternate in languages:
+    alternate_url=re.sub(r'^/(ru|fr|en)/',f'/{alternate}/',url)
+    tags+=f'<link rel="alternate" hreflang="{alternate}" href="{esc(ORIGIN+alternate_url)}">'
+   schema={'@context':'https://schema.org','@type':'Article' if article else 'WebPage','headline':title,'url':ORIGIN+url,'inLanguage':lang,'publisher':{'@type':'Organization','name':'SalutRussie'}}
+   if article: schema['author']={'@type':'Person','name':'Лев Втюрин'}
+   if article and pub: schema['datePublished']=pub
+   tags+=f'<script type="application/ld+json">{json.dumps(schema,ensure_ascii=False).replace("<", "\\u003c")}</script>'
  return tags
 
-def nav(lang):
+def nav(lang,url=None):
+ if lang=='en':
+  base='/en/for-business/'
+  peer=(url or base).replace('/en/','/ru/',1)
+  fr_peer=(url or base).replace('/en/','/fr/',1)
+  return f'''<header class="sr-header"><nav class="nav" aria-label="Main navigation"><a class="brand" href="{base}" aria-label="SalutRussie"><svg class="seal-mark" fill="none" viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="27" stroke="#A9803E" stroke-width="1.2"/><text x="30" y="37" font-size="17" font-family="Fraunces,serif" text-anchor="middle" fill="#F1ECDE">SR</text></svg><span>SalutRussie</span></a><button class="burger" id="burger" aria-label="Menu" aria-controls="navLinks" aria-expanded="false">☰</button><ul class="nav-links" id="navLinks"><li><a href="{base}">For business</a></li><li><a href="{base}employers/">Employers</a></li><li><a href="{base}recruitment-partners/">Recruitment partners</a></li></ul><div class="lang-switch"><a href="{peer}">RU</a><a href="{fr_peer}">FR</a><a class="active" href="{url or base}" aria-current="page">EN</a></div><a class="nav-cta" href="mailto:salutrussie@salutrussie.ru?subject=Business%20enquiry">Contact us →</a></nav></header>'''
  x=LANGS[lang]; s=f'''<header class="sr-header"><nav class="nav" aria-label="{'Основное меню' if lang=='ru' else 'Navigation principale'}"><a class="brand" href="{path(lang)}" aria-label="SalutRussie">
  <svg class="seal-mark" fill="none" viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="27" stroke="#A9803E" stroke-width="1.2"/><circle cx="30" cy="30" r="21" stroke="#A9803E" stroke-width="0.7"/><text x="30" y="37" font-size="17" font-family="Fraunces,serif" text-anchor="middle" fill="#F1ECDE">SR</text></svg><span>SalutRussie</span></a>
 <button class="burger" id="burger" aria-label="Menu" aria-controls="navLinks" aria-expanded="false">☰</button><ul class="nav-links" id="navLinks">
 <li class="has-drop"><button type="button" class="sr-drop-button" aria-expanded="false" aria-controls="service-drop">{x['services']} ▾</button><div class="nav-drop" id="service-drop">'''
  for slug,data in SECTIONS.items(): s+=f'<a href="{path(lang,slug)}">{esc(data[lang][1])}</a>'
- s+=f'''</div></li><li><a href="{path(lang,'migration/decree-702')}">{x['decree']}</a></li><li><a href="{path(lang,'knowledge')}">{x['kb']}</a></li><li><a href="{path(lang,'about')}">{x['about']}</a></li><li><a href="{path(lang,'contacts')}">{x['contacts']}</a></li>
-</ul><div class="lang-switch"><a href="{path('fr')}"{' class="active"' if lang=='fr' else ''}>FR</a><a href="{path('ru')}"{' class="active"' if lang=='ru' else ''}>RU</a></div><a class="nav-cta" data-analytics-event="consultation_click" href="{path(lang,'consultations')}">{x['consult']} →</a></nav></header>'''
+ s+=f'''</div></li><li><a href="{path(lang,'migration/decree-702')}">{x['decree']}</a></li><li><a href="{path(lang,'knowledge')}">{x['kb']}</a></li><li><a href="{path(lang,'for-business')}">{'Для бизнеса' if lang=='ru' else 'Pour les entreprises'}</a></li><li><a href="{path(lang,'about')}">{x['about']}</a></li><li><a href="{path(lang,'contacts')}">{x['contacts']}</a></li>
+</ul><div class="lang-switch"><a href="{(url or path(lang)).replace('/ru/','/fr/',1) if lang=='ru' else url or path(lang)}"{' class="active" aria-current="page"' if lang=='fr' else ''}>FR</a><a href="{(url or path(lang)).replace('/fr/','/ru/',1) if lang=='fr' else url or path(lang)}"{' class="active" aria-current="page"' if lang=='ru' else ''}>RU</a>{f'<a href="{(url or path(lang)).replace("/"+lang+"/","/en/",1)}">EN</a>' if '/for-business/' in (url or '') else ''}</div><a class="nav-cta" data-analytics-event="consultation_click" href="{path(lang,'consultations')}">{x['consult']} →</a></nav></header>'''
  return s
 
 def footer(lang):
+ if lang=='en':
+  return '<footer class="sr-footer"><div class="sr-width"><div><div class="sr-footer-brand">SalutRussie</div><p class="sr-small">Russian legal support for cross-border employment projects.</p></div><div><a href="/en/for-business/">For business</a><a href="/en/for-business/employers/">Employers</a><a href="/en/for-business/recruitment-partners/">Recruitment partners</a><a href="mailto:salutrussie@salutrussie.ru">Contact</a><p class="sr-small">© 2018–2026 SalutRussie</p></div></div></footer>'
  x=LANGS[lang]
  return f'''<footer class="sr-footer"><div class="sr-width"><div><div class="sr-footer-brand">SalutRussie</div><p class="sr-small">{'Профессиональная помощь для иностранцев в России' if lang=='ru' else 'Services juridiques et pratiques pour les étrangers en Russie. Le périmètre et le prestataire sont précisés avant tout contrat.'}</p></div><div><a href="{path(lang,'services')}">{x['services']}</a><a href="{path(lang,'consultations')}">{x['consult']}</a><a href="{path(lang,'knowledge')}">{x['kb']}</a><a href="{path(lang,'pricing')}">{x['prices']}</a><a href="{path(lang,'contacts')}">{x['contacts']}</a><br><a href="{path(lang,'privacy')}">{'Персональные данные' if lang=='ru' else 'Données personnelles'}</a><p class="sr-small">{'© 2018–2026 SalutRussie' if lang=='ru' else '© 2026 SalutRussie'} · ООО «Инновационные правовые решения»</p></div></div></footer>'''
 
@@ -334,7 +367,7 @@ def cta(lang,title=None):
  return f'<section class="sr-sec"><div class="sr-width"><div class="sr-cta"><div><h2>{esc(text)}</h2><p>{sub}</p></div><a class="btn btn-primary" data-analytics-event="consultation_click" href="{path(lang,"consultations")}">{LANGS[lang]["start"]} →</a></div></div></section>'
 
 def shell(lang,url,title,description,body,noindex=False,article=False):
- return '<!doctype html>\n'+f'<html lang="{lang}"><head>{meta(title,description,lang,url,noindex,article)}</head><body>{nav(lang)}<main id="main">{body}</main>{footer(lang)}<script src="/assets/platform.js" defer></script></body></html>'
+ return '<!doctype html>\n'+f'<html lang="{lang}"><head>{meta(title,description,lang,url,noindex,article)}</head><body>{nav(lang,url)}<main id="main">{body}</main>{footer(lang)}<script src="/assets/platform.js" defer></script></body></html>'
 
 def home(lang):
  ru=lang=='ru';title='Помощь иностранцам в России: миграция, недвижимость, бизнес' if ru else 'Services aux étrangers en Russie : immigration, immobilier, affaires'
@@ -411,6 +444,58 @@ def pricing_ru():
  body+='</ul></div>'
  return shell('ru',path('ru','pricing'),title,desc,body+cta('ru'),noindex=True)
 
+def pricing_fr():
+ title='Honoraires et prestations'
+ desc='Le périmètre, le format et les honoraires sont convenus avant toute intervention.'
+ body=heading('fr',title,desc,'SERVICES')
+ body+='<article class="sr-content"><p>Chaque demande commence par une analyse du besoin. Nous précisons ensuite les étapes, les documents à examiner, le périmètre de notre intervention et les honoraires avant votre décision.</p><h2>Par où commencer ?</h2><ul><li><a href="/fr/consultations/">Poser une question juridique</a> : expliquez votre situation sans envoyer de documents sensibles dans le premier message.</li><li><a href="/fr/services/">Explorer les domaines d’intervention</a> : séjour, immobilier, entreprise et autres questions juridiques.</li><li><a href="/fr/migration/decree-702/">Étudier le décret n° 702</a> : les conditions et la procédure dépendent de votre situation.</li></ul><p class="sr-note">Les anciens forfaits du prototype ne constituent pas une offre en vigueur. Les tarifs et conditions contractuelles doivent être confirmés individuellement.</p></article>'
+ return shell('fr',path('fr','pricing'),title,desc,body+cta('fr'),noindex=True)
+
+def about_fr():
+ title='Notre cabinet juridique en Russie'
+ desc='Découvrez le fondateur de SalutRussie et notre méthode de travail.'
+ body='''<div class="page-head"><div class="wrap"><span class="eyebrow">NOTRE CABINET</span><h1>Une pratique juridique à taille humaine, présente pour vos projets en Russie</h1><p>SalutRussie a commencé comme un cabinet familial. Nous travaillons aujourd’hui sur des dossiers dans différentes régions de Russie, en définissant d’abord la stratégie et les étapes adaptées au cas concret.</p></div></div>
+ <section class="sr-sec"><div class="wrap"><div class="lev-about sr-about-founder"><img class="lev-photo" src="/assets/ru-o-kompanii-ru-0.jpg" alt="Lev Vtiurin, fondateur de SalutRussie" width="600" height="750"><div class="founder-card"><h2>Lev Vtiurin</h2><span class="role">Juriste en droit migratoire, fondateur</span><p class="bio">Plus de vingt ans de pratique juridique en Russie, notamment en droit migratoire, dans les dossiers complexes et la défense devant les tribunaux.</p><p class="bio">Il étudie la situation, explique les risques et détermine avec le client les démarches à entreprendre.</p></div></div></div></section>
+ <section class="sr-sec alt"><div class="sr-width"><div class="sr-section-head"><span class="eyebrow">NOTRE MÉTHODE</span><h2>Une stratégie avant les démarches</h2><p>Nous commençons par les faits et les documents. Nous définissons les questions juridiques, les options à vérifier et les étapes utiles. Le périmètre de l’accompagnement est convenu avant toute intervention.</p></div><div class="sr-steps"><div class="sr-step"><b>01</b><h3>Votre situation</h3><p>Vous décrivez votre objectif et les difficultés rencontrées.</p></div><div class="sr-step"><b>02</b><h3>Analyse</h3><p>Nous vérifions les faits, les documents et le cadre juridique applicable.</p></div><div class="sr-step"><b>03</b><h3>Plan</h3><p>Nous proposons une séquence de démarches et signalons les risques.</p></div><div class="sr-step"><b>04</b><h3>Accompagnement</h3><p>Nous intervenons dans les limites convenues ensemble.</p></div></div></div></section>
+ <section class="sr-sec"><div class="sr-width sr-about-mission"><div class="sr-section-head"><span class="eyebrow">NOTRE OBJECTIF</span><h2>Agir légalement et avec méthode à chaque étape</h2></div><p>Nous accompagnons les questions de séjour, de logement, d’activité économique et d’adaptation en Russie. Nous ne promettons pas de décision administrative : chaque dossier dépend des faits et des règles applicables.</p></div></section>'''
+ return shell('fr',path('fr','about'),title,desc,body+cta('fr'))
+
+def contacts_page(lang):
+ ru=lang=='ru'
+ title='Контакты SalutRussie' if ru else 'Contacter SalutRussie'
+ desc='Напишите нам по юридическому вопросу. Выберите удобный канал связи.' if ru else 'Décrivez votre question juridique et choisissez votre moyen de contact.'
+ body=heading(lang,'Расскажите о своей задаче' if ru else 'Parlez-nous de votre projet',desc,'КОНТАКТЫ' if ru else 'CONTACT')
+ body+='<section class="sr-sec"><div class="sr-width"><div class="sr-contact-list">'
+ for label,href,description in [
+  ('WhatsApp','https://wa.me/79685341915','Откроется чат' if ru else 'Ouvrir la conversation'),
+  ('Telegram','https://t.me/lev_vt','@lev_vt'),
+  ('E-mail','mailto:salutrussie@salutrussie.ru','salutrussie@salutrussie.ru')]:
+  body+=f'<a class="sr-contact-choice" href="{href}"><strong>{label} →</strong><span>{description}</span></a>'
+ body+='</div><p class="sr-note">'+('Опишите вопрос кратко. Стоимость и объём работы согласуем до начала. Не направляйте чувствительные документы в первом сообщении.' if ru else 'Décrivez brièvement votre situation. Nous convenons du périmètre et des honoraires avant de commencer. Évitez les documents sensibles dans votre premier message.')+'</p></div></section>'
+ return shell(lang,path(lang,'contacts'),title,desc,body)
+
+def decree_page(lang):
+ ru=lang=='ru'
+ url=path(lang,'migration/decree-702')
+ title='Переезд в Россию по Указу № 702' if ru else 'S’installer en Russie selon le décret n° 702'
+ desc='Условия специальной программы, вопросы для проверки и последовательность подготовки.' if ru else 'Conditions du dispositif, points à vérifier et préparation du dossier.'
+ source='https://publication.pravo.gov.ru/document/0001202408190001'
+ countries='https://publication.pravo.gov.ru/document/0001202409200036'
+ if ru:
+  body='''<article class="sr-content"><p class="sr-meta">Проверено 21.11.2026 по официальным публикациям · Перед подачей сверяйте действующую редакцию</p><p>Указ Президента РФ от 19.08.2024 № 702 предусматривает специальный порядок для определённой группы иностранцев, желающих переехать в Россию. Это право <strong>обратиться</strong> за разрешением на временное проживание (РВП), а не обещание выдачи РВП или визы.</p><h2>Что предусматривает Указ</h2><ul><li>Обращение за РВП без учёта квоты и без подачи документа, подтверждающего знание русского языка, истории России и основ законодательства РФ — при выполнении условий Указа.</li><li>Однократную обыкновенную частную визу на три месяца по решению руководителя дипломатического представительства или консульского учреждения в предусмотренных Указом случаях.</li><li>Решение по РВП принимается в установленном порядке; применяются основания отказа, предусмотренные статьёй 7 закона № 115-ФЗ.</li></ul><p>Основа: <a href="SOURCE">текст Указа № 702</a>. Перечень соответствующих государств установлен <a href="COUNTRIES">распоряжением Правительства РФ № 2560-р</a>. Гражданство, место постоянного проживания и действующую редакцию перечня нужно проверить для конкретного заявителя.</p><h2>Как подготовиться к правовому разбору</h2><ol><li>Запишите гражданство и государство постоянного проживания; укажите, где планируете подавать заявление на визу.</li><li>Опишите мотивы переезда и состав семьи без шаблонных формулировок.</li><li>Составьте перечень имеющихся паспортов, миграционных документов и прошлых въездов в Россию.</li><li>Проверьте применимость Указа, основания возможного отказа и текущий перечень стран.</li><li>После выбора маршрута уточните комплект, орган подачи и сроки по действующим нормативным актам и правилам консульства.</li></ol><h2>Частые вопросы</h2><h3>Виза гарантирована?</h3><p>Нет. Указ описывает основание и порядок принятия решения, но не гарантирует положительное решение консульства.</p><h3>РВП выдают автоматически?</h3><p>Нет. Указ сохраняет проверку заявления и оснований для отказа.</p><h3>Достаточно ли гражданства страны из перечня?</h3><p>Самого названия страны недостаточно для вывода. Важны остальные условия Указа, документы и индивидуальные обстоятельства.</p><p class="sr-note">Материал объясняет рамку программы. Конкретный комплект и сроки определяются после проверки действующих правил и вашего дела.</p></article>'''
+ else:
+  body='''<article class="sr-content"><p class="sr-meta">Sources officielles consultées le 21 novembre 2026 · Vérifiez la version en vigueur avant toute demande</p><p>Le décret présidentiel russe n° 702 du 19 août 2024 prévoit une voie spécifique pour certaines personnes qui souhaitent s’installer en Russie. Il ouvre un droit de <strong>déposer une demande</strong> de permis de séjour temporaire (RVP), sans garantir l’obtention du permis ou du visa.</p><h2>Ce que prévoit le décret</h2><ul><li>Une demande de RVP hors quota, sans document attestant la connaissance de la langue russe, de l’histoire et du droit russes, sous réserve des conditions du décret.</li><li>Un visa privé ordinaire à entrée unique de trois mois, délivré sur décision du responsable du poste diplomatique ou consulaire dans les cas prévus.</li><li>L’examen du dossier selon la procédure applicable, avec les motifs de refus prévus à l’article 7 de la loi fédérale n° 115-FZ.</li></ul><p>Lisez le <a href="SOURCE">texte officiel du décret n° 702</a> et la <a href="COUNTRIES">liste gouvernementale des États concernés</a> (ordonnance n° 2560-r). La nationalité, le lieu de résidence permanente et la version actuelle de cette liste doivent être vérifiés pour chaque personne.</p><h2>Préparer votre dossier</h2><ol><li>Notez votre nationalité, votre résidence permanente et le lieu prévu pour la demande de visa.</li><li>Décrivez les motifs de votre projet et les membres de votre famille concernés.</li><li>Rassemblez les informations sur vos passeports, vos séjours et vos entrées précédentes en Russie.</li><li>Vérifiez les conditions du décret et les éventuels motifs de refus.</li><li>Confirmez les pièces, l’autorité compétente et les délais selon les règles en vigueur avant le dépôt.</li></ol><h2>Questions fréquentes</h2><h3>Le visa est-il garanti ?</h3><p>Non. Le décret prévoit une décision consulaire ; il ne garantit pas une réponse favorable.</p><h3>Le RVP est-il automatique ?</h3><p>Non. Le dossier reste soumis à l’examen et aux motifs de refus applicables.</p><h3>La nationalité suffit-elle ?</h3><p>Non. Il faut examiner toutes les conditions et les faits du dossier.</p><p class="sr-note">Ce guide présente le cadre général. La liste des pièces et les délais doivent être confirmés pour votre situation.</p></article>'''
+ body=body.replace('SOURCE',source).replace('COUNTRIES',countries)
+ return shell(lang,url,title,desc,heading(lang,title,desc,'УКАЗ 702' if ru else 'DÉCRET 702')+body+cta(lang),noindex=True)
+
+def b2b_page(lang,part):
+ label,title,desc,body=get_page(lang,part)
+ url=path(lang,'for-business'+('/'+part if part!='index' else ''))
+ email='mailto:salutrussie@salutrussie.ru?subject=Business%20enquiry'
+ action={'ru':'Написать о проекте','en':'Discuss a project','fr':'Présenter votre projet'}[lang]
+ close=f'<section class="sr-sec"><div class="sr-width"><div class="sr-cta"><div><h2>{action}</h2><p>{"Опишите задачу без персональных данных работников. Мы предложим следующий шаг и согласуем объём работы." if lang=="ru" else "Send a short project brief without workers’ personal data. We will agree the next step and scope." if lang=="en" else "Envoyez un bref descriptif sans données personnelles des travailleurs. Nous conviendrons de la suite."}</p></div><a class="btn btn-primary" href="{email}">{action} →</a></div></div></section>'
+ return shell(lang,url,title,desc,heading(lang,title,desc,label)+body+close,noindex=True)
+
 def service_pages(lang):
  ru=lang=='ru'
  for slug,data in SECTIONS.items():
@@ -475,8 +560,8 @@ def knowledge(lang):
  return shell(lang,path(lang,'knowledge'),'Полезная информация' if ru else 'Informations utiles','Экспертные статьи и гайды для иностранцев в России' if ru else 'Ressources et guides pour les étrangers en Russie',s)
 
 def article_page(lang,a):
- ru=lang=='ru';title,summary,content=a[lang];url=path(lang,'knowledge/articles/'+a['slug']);s=heading(lang,title,summary,'ПОЛЕЗНАЯ ИНФОРМАЦИЯ' if ru else 'INFORMATIONS UTILES')
- s+=f'<article class="sr-content"><p class="sr-meta">{"Авторское редактирование: ожидает проверки · Черновик" if ru else "Brouillon en attente de validation éditoriale"}</p><h2>{"Основные вопросы" if ru else "Points essentiels"}</h2><p>{esc(content)}</p><h2>{"Когда нужна консультация" if ru else "Quand demander une consultation ?"}</h2><p>{"Если вопрос касается конкретных документов, сроков, денег или правовых рисков, полезно проверить вашу ситуацию индивидуально. Материал не является юридическим заключением." if ru else "Une analyse individuelle reste utile pour toute situation particulière touchant aux documents, délais ou risques juridiques."}</p><p class="sr-note">{"Черновик. Не публиковать как актуальную юридическую консультацию без проверки правовых норм и источников." if ru else "Brouillon. Validation juridique et sources requises avant publication."}</p></article>'
+ ru=lang=='ru';title,summary,_=a[lang];url=path(lang,'knowledge/articles/'+a['slug']);s=heading(lang,title,summary,'ПОЛЕЗНАЯ ИНФОРМАЦИЯ' if ru else 'INFORMATIONS UTILES')
+ s+='<article class="sr-content">'+ARTICLES_HTML[a['slug']][lang]+'</article>'
  return shell(lang,url,title,summary,s+cta(lang),noindex=True,article=True)
 
 def privacy(lang):
@@ -548,17 +633,23 @@ for lang in ('ru','fr'):
  for old,(slug,title,desc) in legacy_map[lang].items():
   if slug=='reviews' and not REVIEWS_ENABLED:
    continue  # Hide unverified testimonials in both languages until owner approval.
-  if lang=='ru' and slug=='pricing':
-   write(path(lang,slug),pricing_ru())
-   continue
-  write(path(lang,slug),about_ru() if lang=='ru' and slug=='about' else legacy(lang,old,path(lang,slug),title,desc))
+  if slug=='pricing': page=pricing_ru() if lang=='ru' else pricing_fr()
+  elif slug=='about': page=about_ru() if lang=='ru' else about_fr()
+  elif slug=='contacts': page=contacts_page(lang)
+  elif slug=='migration/decree-702': page=decree_page(lang)
+  else: page=legacy(lang,old,path(lang,slug),title,desc)
+  write(path(lang,slug),page)
+
+for lang in ('ru','en','fr'):
+ for part in ('index','employers','recruitment-partners'):
+  write(path(lang,'for-business'+('/'+part if part!='index' else '')),b2b_page(lang,part))
 
 # All links and assets are converted to relative URLs so the full dist can be previewed directly by opening index.html.
 all_pages=list(OUT.rglob('*.html'))
 for file in all_pages:
  root_html=file.read_text(encoding='utf-8');prefix=os.path.relpath(OUT,file.parent).replace('\\','/')
  if prefix=='.':prefix='.'
- root_html=re.sub(r'(?<=["\'])/(assets|ru|fr)/',lambda m: prefix+'/'+m.group(0).lstrip('/'),root_html)
+ root_html=re.sub(r'(?<=["\'])/(assets|ru|fr|en)/',lambda m: prefix+'/'+m.group(0).lstrip('/'),root_html)
  file.write_text(root_html,encoding='utf-8')
 landing='''<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0;url=ru/index.html"><title>SalutRussie — открыть сайт</title></head><body><a href="ru/index.html">Открыть русскую версию SalutRussie</a> · <a href="fr/index.html">Version française</a></body></html>'''
 (OUT/'index.html').write_text(landing,encoding='utf-8')

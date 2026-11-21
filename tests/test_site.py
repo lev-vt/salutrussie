@@ -1,7 +1,7 @@
 import unittest, re
 from pathlib import Path
 from urllib.parse import unquote
-from bs4 import BeautifulSoup
+from site_html import BeautifulSoup
 ROOT=Path(__file__).resolve().parents[1]/'dist'
 class SiteTests(unittest.TestCase):
  def test_all_pages_well_formed(self):
@@ -100,4 +100,38 @@ class SiteTests(unittest.TestCase):
   js=(ROOT/'assets/platform.js').read_text(encoding='utf-8')
   self.assertIn("x.querySelector('.sr-drop-button')?.setAttribute('aria-expanded','false')",js)
   self.assertIn('if(burger && menu)',js)
+ def test_business_routes_and_language_switch(self):
+  for lang in ('ru','en','fr'):
+   for tail in ('','employers/','recruitment-partners/'):
+    with self.subTest(lang=lang,tail=tail):
+     route=f'{lang}/for-business/{tail}'
+     soup=BeautifulSoup((ROOT/route/'index.html').read_text(encoding='utf-8'))
+     self.assertEqual(soup.html.get('lang'),lang)
+     self.assertEqual(len(soup.select('h1')),1)
+     links={x.get_text(strip=True):x.get('href') for x in soup.select('.lang-switch a')}
+     for peer in ('ru','en','fr'):
+      self.assertIn(peer.upper(),links)
+      self.assertIn(f'{peer}/for-business/{tail}',links[peer.upper()])
+     self.assertNotIn('536',soup.main.get_text(' ',strip=True))
+     if tail:
+      self.assertGreater(len(soup.main.get_text(' ',strip=True)),700)
+ def test_edited_legal_content_and_french_consistency(self):
+  for lang in ('ru','fr'):
+   decree=BeautifulSoup((ROOT/lang/'migration/decree-702/index.html').read_text())
+   self.assertIn('publication.pravo.gov.ru/document/0001202408190001',str(decree.main))
+   self.assertIn('publication.pravo.gov.ru/document/0001202409200036',str(decree.main))
+   self.assertNotIn('гарантированная виза',decree.main.get_text(' ',strip=True).lower())
+   for slug in ('how-to-choose-residence','renting-a-home','starting-a-business','investor-checklist'):
+    with self.subTest(lang=lang,slug=slug):
+     article=BeautifulSoup((ROOT/lang/'knowledge/articles'/slug/'index.html').read_text())
+     self.assertIn('2026',article.main.get_text(' ',strip=True))
+     self.assertIsNotNone(article.select_one('article table'))
+     self.assertIsNotNone(article.select_one('article details'))
+     self.assertTrue(any(a.get('href','').startswith('http') for a in article.select('article a[href]')))
+  about=(ROOT/'fr/about/index.html').read_text()
+  self.assertNotIn('Yuliana',about)
+  self.assertNotIn('Avocat en immigration',about)
+  pricing=BeautifulSoup((ROOT/'fr/pricing/index.html').read_text())
+  self.assertNotIn('₽',pricing.main.get_text(' ',strip=True))
+  self.assertNotIn('Khlebnikova', (ROOT/'fr/contacts/index.html').read_text())
 if __name__=='__main__':unittest.main()

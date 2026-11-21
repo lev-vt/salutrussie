@@ -1,7 +1,7 @@
 import re,unittest
 from pathlib import Path
 from urllib.parse import urlsplit,unquote
-from bs4 import BeautifulSoup
+from site_html import BeautifulSoup
 ROOT=Path(__file__).resolve().parents[1]/'preview_offline'
 class OfflinePreviewTests(unittest.TestCase):
  def test_every_local_link_opens_exact_file_without_webserver(self):
