@@ -1,6 +1,7 @@
 """Check the generated public build without publishing it."""
 
 import json
+import re
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -26,7 +27,10 @@ indexed = set()
 pages = [p for p in root.rglob('index.html') if p != root / 'index.html']
 for file in pages:
     route = '/' + str(file.relative_to(root).parent) + '/'
-    soup = BeautifulSoup(file.read_text(encoding='utf-8'), 'html.parser')
+    html = file.read_text(encoding='utf-8')
+    if 'fonts.googleapis.com' in html or 'fonts.gstatic.com' in html:
+        issues.append(f'{route}: external font request')
+    soup = BeautifulSoup(html, 'html.parser')
     title = soup.title.get_text(strip=True) if soup.title else ''
     description = soup.select_one('meta[name=description]')
     description = description.get('content', '') if description else ''
@@ -70,6 +74,16 @@ for file in pages:
             local /= 'index.html'
         if not local.is_file() or not local.is_relative_to(root):
             issues.append(f'{route}: broken local link {href}')
+
+for css in (root / 'assets').glob('*.css'):
+    for value in re.findall(r'url\(([^)]+)\)', css.read_text(encoding='utf-8')):
+        value = value.strip().strip('"\'')
+        if urlparse(value).scheme or value.startswith('//'):
+            issues.append(f'{css.name}: external CSS asset {value}')
+            continue
+        target = (css.parent / value).resolve()
+        if not target.is_file() or not target.is_relative_to(root):
+            issues.append(f'{css.name}: broken CSS asset {value}')
 
 for label, values in (('title', titles), ('description', descriptions)):
     for text, paths in values.items():

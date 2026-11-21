@@ -29,6 +29,11 @@ for f in OUT.iterdir():
     if f.is_dir():shutil.rmtree(f)
     else:f.unlink()
 (OUT/'assets').mkdir()
+(OUT/'assets'/'fonts').mkdir()
+for font_file in (ROOT/'src'/'fonts').iterdir():
+    if font_file.suffix in ('.woff2','.txt'):
+        shutil.copy2(font_file,OUT/'assets'/'fonts'/font_file.name)
+shutil.copy2(ROOT/'src'/'fonts'/'fonts.css',OUT/'assets'/'fonts.css')
 (OUT/'assets'/'favicon.svg').write_text('''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="SalutRussie">
 <rect width="64" height="64" rx="12" fill="#131B2E"/>
 <circle cx="32" cy="32" r="25" fill="none" stroke="#A9803E" stroke-width="1.5"/>
@@ -310,7 +315,7 @@ def path(lang,tail=''):
 def service_url(lang,slug):return path(lang,slug)
 def meta(title,desc,lang,url,noindex=False,article=False):
  tags=f'<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{esc(title)} · SalutRussie</title><meta name="description" content="{esc(desc)}"><meta name="theme-color" content="#131B2E"><meta name="robots" content="{"noindex,nofollow" if noindex or not PUBLIC else "index,follow"}">'
- tags+='<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap">'
+ tags+='<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="stylesheet" href="/assets/fonts.css">'
  tags+=f'<link rel="stylesheet" href="/assets/claude-{"ru" if lang=="ru" else "fr"}.css"><link rel="stylesheet" href="/assets/platform.css"><meta property="og:type" content="{"article" if article else "website"}"><meta property="og:title" content="{esc(title)}"><meta property="og:description" content="{esc(desc)}">'
  if PUBLIC:
   tags+=f'<link rel="canonical" href="{esc(ORIGIN+url)}"><meta property="og:url" content="{esc(ORIGIN+url)}">'
@@ -583,7 +588,7 @@ def privacy(lang):
    '<h2>Если вы решите связаться с бюро</h2><p>Кнопки консультаций открывают WhatsApp, Telegram или почтовое приложение. '
    'Для WhatsApp и почты подготовлен общий текст обращения. Вы отправляете сообщение в выбранном приложении самостоятельно. '
    'Кнопка копирования для Telegram помещает подготовленный текст в буфер обмена.</p>'
-   '<h2>Внешние ресурсы</h2><p>Для оформления страницы браузер может загружать шрифты с серверов Google. '
+   '<h2>Внешние ресурсы</h2><p>Шрифты загружаются из файлов этого сайта. '
    'При переходе в мессенджер или почтовое приложение применяются настройки и условия выбранного сервиса.</p></article>'
   )
   return shell(lang,path(lang,'privacy'),title,desc,s,noindex=True)
