@@ -55,6 +55,9 @@ CSS_ADD=r'''
 /* SalutRussie v2 additions. Original Claude CSS is preserved in claude-{lang}.css. */
 :root { color-scheme: light; }
 body { min-width: 300px; }
+.sr-skip {position:absolute;left:16px;top:-100px;z-index:200;padding:10px 14px;background:#131B2E;color:#F1ECDE;border:2px solid #A9803E;text-decoration:none;}
+.sr-skip:focus {top:12px;}
+:where(a,button,summary,input,select,textarea,[tabindex="0"]):focus-visible {outline:3px solid #8F651E;outline-offset:3px;}
 .nav { max-width: 1360px; }
 .nav-links { align-items:center; }
 .nav-links > li { position:relative; }
@@ -381,7 +384,8 @@ def cta(lang,title=None):
  return f'<section class="sr-sec"><div class="sr-width"><div class="sr-cta"><div><h2>{esc(text)}</h2><p>{sub}</p></div><a class="btn btn-primary" data-analytics-event="consultation_click" href="{path(lang,"consultations")}">{LANGS[lang]["start"]} →</a></div></div></section>'
 
 def shell(lang,url,title,description,body,noindex=False,article=False):
- return '<!doctype html>\n'+f'<html lang="{lang}"><head>{meta(title,description,lang,url,noindex,article)}</head><body>{nav(lang,url)}<main id="main">{body}</main>{footer(lang)}<script src="/assets/platform.js" defer></script></body></html>'
+ skip={'ru':'Перейти к содержанию','fr':'Aller au contenu','en':'Skip to content'}[lang]
+ return '<!doctype html>\n'+f'<html lang="{lang}"><head>{meta(title,description,lang,url,noindex,article)}</head><body><a class="sr-skip" href="#main">{skip}</a>{nav(lang,url)}<main id="main">{body}</main>{footer(lang)}<script src="/assets/platform.js" defer></script></body></html>'
 
 def home(lang):
  ru=lang=='ru';title='Помощь иностранцам в России: миграция, недвижимость, бизнес' if ru else 'Services aux étrangers en Russie : immigration, immobilier, affaires'

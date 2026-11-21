@@ -2,6 +2,9 @@
 /* SalutRussie v2 additions. Original Claude CSS is preserved in claude-{lang}.css. */
 :root { color-scheme: light; }
 body { min-width: 300px; }
+.sr-skip {position:absolute;left:16px;top:-100px;z-index:200;padding:10px 14px;background:#131B2E;color:#F1ECDE;border:2px solid #A9803E;text-decoration:none;}
+.sr-skip:focus {top:12px;}
+:where(a,button,summary,input,select,textarea,[tabindex="0"]):focus-visible {outline:3px solid #8F651E;outline-offset:3px;}
 .nav { max-width: 1360px; }
 .nav-links { align-items:center; }
 .nav-links > li { position:relative; }
