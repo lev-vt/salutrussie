@@ -10,6 +10,7 @@ from urllib.parse import quote
 from site_html import BeautifulSoup
 from b2b_content import get_page
 from articles_content import ARTICLES_HTML
+from article_addenda import ADDENDA
 from service_content import rich_section
 from subpage_content import DETAILS, detail_rich
 
@@ -577,6 +578,9 @@ def knowledge(lang):
 def article_page(lang,a):
  ru=lang=='ru';title,summary,_=a[lang];url=path(lang,'knowledge/articles/'+a['slug']);s=heading(lang,title,summary,'ПОЛЕЗНАЯ ИНФОРМАЦИЯ' if ru else 'INFORMATIONS UTILES')
  article_html=ARTICLES_HTML[a['slug']][lang]
+ faq_heading='<h2>Частые вопросы</h2>' if ru else '<h2>Questions fréquentes</h2>'
+ if article_html.count(faq_heading)!=1: raise ValueError(f'Missing FAQ insertion point: {lang} {a["slug"]}')
+ article_html=article_html.replace(faq_heading,ADDENDA[a['slug']][lang]+faq_heading,1)
  table_label='Таблица: прокрутите по горизонтали' if ru else 'Tableau : défilement horizontal'
  article_html=article_html.replace('<table>',f'<div class="sr-table-scroll" tabindex="0" role="region" aria-label="{table_label}"><table>').replace('</table>','</table></div>')
  s+='<article class="sr-content">'+article_html+'</article>'

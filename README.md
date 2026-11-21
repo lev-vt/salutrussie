@@ -30,6 +30,7 @@ python3 -B verify_release.py
 - `build.py` — маршруты, общий каркас, стили и генерация HTML/SEO.
 - `site_html.py` — небольшой разбор HTML на стандартной библиотеке для исходных страниц и тестов.
 - `articles_content.py` — четыре переработанные статьи RU/FR.
+- `article_addenda.py` — дополнительные практические разделы статей RU/FR перед FAQ.
 - `service_content.py`, `subpage_content.py` — содержание основных направлений и детальных страниц RU/FR.
 - `b2b_content.py` — раздел `/ru/for-business/`, `/en/for-business/`, `/fr/for-business/` с направлениями для работодателей и агентств.
 - `verify_release.py` — проверка публичного варианта без размещения в сети.
