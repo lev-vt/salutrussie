@@ -29,6 +29,12 @@ for f in OUT.iterdir():
     if f.is_dir():shutil.rmtree(f)
     else:f.unlink()
 (OUT/'assets').mkdir()
+(OUT/'assets'/'favicon.svg').write_text('''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="SalutRussie">
+<rect width="64" height="64" rx="12" fill="#131B2E"/>
+<circle cx="32" cy="32" r="25" fill="none" stroke="#A9803E" stroke-width="1.5"/>
+<circle cx="32" cy="32" r="20" fill="none" stroke="#A9803E" stroke-width=".7"/>
+<text x="32" y="39" text-anchor="middle" font-family="Georgia,serif" font-size="20" fill="#F1ECDE">SR</text>
+</svg>''',encoding='utf-8')
 CSS={}
 for lang,fn in [('ru','index-ru.html'),('fr','index.html')]:
     bs=BeautifulSoup((SRC/fn).read_text(encoding='utf-8'),'html.parser')
@@ -304,7 +310,7 @@ def path(lang,tail=''):
 def service_url(lang,slug):return path(lang,slug)
 def meta(title,desc,lang,url,noindex=False,article=False):
  tags=f'<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{esc(title)} · SalutRussie</title><meta name="description" content="{esc(desc)}"><meta name="theme-color" content="#131B2E"><meta name="robots" content="{"noindex,nofollow" if noindex or not PUBLIC else "index,follow"}">'
- tags+='<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap">'
+ tags+='<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap">'
  tags+=f'<link rel="stylesheet" href="/assets/claude-{"ru" if lang=="ru" else "fr"}.css"><link rel="stylesheet" href="/assets/platform.css"><meta property="og:type" content="{"article" if article else "website"}"><meta property="og:title" content="{esc(title)}"><meta property="og:description" content="{esc(desc)}">'
  if PUBLIC:
   tags+=f'<link rel="canonical" href="{esc(ORIGIN+url)}"><meta property="og:url" content="{esc(ORIGIN+url)}">'
