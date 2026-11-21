@@ -3,7 +3,7 @@
 import json
 import re
 import sys
-from collections import defaultdict
+from collections import Counter, defaultdict
 from pathlib import Path
 from urllib.parse import unquote, urlparse
 from xml.etree import ElementTree
@@ -38,6 +38,23 @@ for file in pages:
     descriptions[description].append(route)
     if len(soup.select('h1')) != 1:
         issues.append(f'{route}: expected exactly one H1')
+    if len(soup.select('main')) != 1:
+        issues.append(f'{route}: expected exactly one main landmark')
+    identifiers = [node.get('id') for node in soup.select('[id]')]
+    if any(count > 1 for count in Counter(identifiers).values()):
+        issues.append(f'{route}: duplicate element ID')
+    for image in soup.select('img'):
+        if image.get('alt') is None or not image.get('width') or not image.get('height'):
+            issues.append(f'{route}: image missing alt or dimensions')
+    for control in soup.select('a[href],button'):
+        if not control.get_text(' ', strip=True) and not control.get('aria-label') and not control.select('img[alt]'):
+            issues.append(f'{route}: control without accessible name')
+    previous_level = 1
+    for heading in soup.select('h1,h2,h3,h4,h5,h6'):
+        level = int(heading.name[1])
+        if level > previous_level + 1:
+            issues.append(f'{route}: heading level jumps from {previous_level} to {level}')
+        previous_level = level
     if len(description) < 45 or len(description) > 240:
         issues.append(f'{route}: description length {len(description)}')
     lang = soup.html.get('lang') if soup.html else None
@@ -93,4 +110,4 @@ if urls != indexed:
     issues.append(f'sitemap mismatch: {len(urls)} listed, {len(indexed)} indexed')
 if issues:
     raise SystemExit('\n'.join(issues))
-print(f'RELEASE VERIFIED: {len(pages)} pages, {len(indexed)} indexed URLs, local links and SEO metadata valid')
+print(f'RELEASE VERIFIED: {len(pages)} pages, {len(indexed)} indexed URLs, links, SEO and basic accessibility valid')
