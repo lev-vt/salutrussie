@@ -69,7 +69,7 @@ class SiteTests(unittest.TestCase):
   self.assertIn('html[lang="ru"] .sr-founder-spot .sr-founder-portrait-frame',styles)
   self.assertIn('width:240px;height:260px;overflow:hidden;border:0;',styles)
   self.assertIn('min-height:260px;overflow:hidden;padding:0 28px;border:0;box-shadow:none;background:transparent;',styles)
-  self.assertNotIn('.sr-founder-spot .sr-founder-portrait-frame{position:relative;',styles.split('/* Editorial founder photo: transparent original')[1].replace('html[lang="ru"] .sr-founder-spot','',1))
+  self.assertIn('html[lang="ru"] .sr-founder-spot .sr-founder-portrait-frame{position:relative;',styles)
 
   self.assertIn('html[lang="ru"] .nav-links{font-size:15px;',styles)
   self.assertIn('html[lang="ru"] .nav-cta{font-size:14px;}',styles)
