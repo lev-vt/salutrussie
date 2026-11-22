@@ -232,8 +232,8 @@ body { min-width: 300px; }
 .sr-founder-copy .sr-founder-role{font-weight:600;color:var(--ink-text);}
 .sr-founder-more{display:inline-flex;align-items:center;text-decoration:none;white-space:nowrap;color:var(--seal);font-size:13px;font-weight:700;border-bottom:1px solid var(--gold);padding:8px 0;}
 .sr-founder-more:hover{color:var(--seal-bright);}
-html[lang="ru"] .nav-links>li:first-child>.sr-drop-button{font-weight:750;color:var(--cream-text);border-bottom:2px solid var(--gold-soft);padding-bottom:4px;}
-html[lang="ru"] .nav-links>li:nth-child(2)>a{font-weight:750;color:var(--gold-soft);border-bottom:2px solid var(--gold-soft);padding-bottom:4px;}
+html[lang="ru"] .nav-links>li:first-child>.sr-drop-button{font-weight:750;color:var(--cream-text);border-bottom:0;padding-bottom:0;}
+html[lang="ru"] .nav-links>li:nth-child(2)>a{font-weight:750;color:var(--gold-soft);border-bottom:0;padding-bottom:0;}
 @media(max-width:980px){
  html[lang="ru"] .nav-links>li:first-child>.sr-drop-button{display:block;width:100%;text-align:left;padding:14px 28px;border-bottom:0;line-height:1.35;}
  html[lang="ru"] .nav-links>li:nth-child(2)>a{padding:14px 28px;border-bottom:0;}
@@ -259,8 +259,8 @@ html[lang="ru"]:has(.hero.v2-home){--font-display:'Inter',sans-serif;}
 html[lang="ru"] .hero.v2-home{padding:52px 0 58px;}
 html[lang="ru"] .hero.v2-home .wrap{grid-template-columns:minmax(0,1fr) 230px;gap:34px;align-items:center;}
 html[lang="ru"] .hero.v2-home h1{font-family:'Inter',sans-serif;font-weight:700;font-size:clamp(34px,3.4vw,48px);line-height:1.13;letter-spacing:-.025em;max-width:100%;margin:14px 0 17px;text-wrap:balance;}
-html[lang="ru"] .hero.v2-home .hero-lede{font-size:16px;line-height:1.6;max-width:760px;margin-top:0;}
-html[lang="ru"] .hero.v2-home .sr-hero-method{font-size:15.5px;line-height:1.55;max-width:760px;margin-top:12px;}
+html[lang="ru"] .hero.v2-home .hero-lede{font-family:var(--font-body);font-size:16px;line-height:1.6;font-weight:400;color:var(--cream-text-soft);letter-spacing:normal;max-width:760px;margin-top:0;}
+html[lang="ru"] .hero.v2-home .sr-hero-method{font-family:var(--font-body);font-size:16px;line-height:1.6;font-weight:400;color:var(--cream-text-soft);letter-spacing:normal;max-width:760px;margin-top:12px;}
 html[lang="ru"] .hero.v2-home .sr-hero-values{display:inline-block;color:var(--cream-text);font-size:16px;line-height:1.35;font-weight:700;letter-spacing:0;padding:10px 16px;border-left:3px solid var(--gold-soft);background:rgba(255,255,255,.07);margin-top:16px;max-width:100%;}
 html[lang="ru"] .hero.v2-home .hero-actions{margin-top:20px;}
 html[lang="ru"] .hero.v2-home .hero-seal{display:flex;align-items:center;justify-content:center;transform:translateY(-27px);}
@@ -294,7 +294,7 @@ html[lang="ru"] .sr-founder-more{grid-column:2;justify-self:start;white-space:no
  html[lang="ru"] .hero.v2-home{padding:31px 0 40px;}
  html[lang="ru"] .hero.v2-home h1{font-size:clamp(29px,7.5vw,36px);line-height:1.16;letter-spacing:-.025em;margin:13px 0 16px;}
  html[lang="ru"] .hero.v2-home .hero-lede{font-size:15px;line-height:1.55;}
- html[lang="ru"] .hero.v2-home .sr-hero-method{font-size:14.5px;line-height:1.55;}
+ html[lang="ru"] .hero.v2-home .sr-hero-method{font-size:15px;line-height:1.55;}
  html[lang="ru"] .hero.v2-home .sr-hero-values{font-size:14.5px;line-height:1.4;padding:10px 12px;}
  html[lang="ru"] .hero.v2-home .hero-actions{flex-direction:column;align-items:stretch;}
  html[lang="ru"] .hero.v2-home .hero-actions .btn{justify-content:center;text-align:center;min-height:45px;}
@@ -489,7 +489,7 @@ def home(lang):
  detail=('Мы помогаем иностранцам переехать в Россию, оформить РВП, ВНЖ и гражданство. Решаем сложные юридические вопросы, сопровождаем покупку недвижимости, инвестиции и открытие бизнеса.' if ru else 'Immigration, immobilier, création d’entreprise, investissement et conseil juridique. Nous analysons votre situation et construisons avec vous une stratégie adaptée.')
  emblem=BeautifulSoup((SRC/('index-ru.html' if ru else 'index.html')).read_text(),'html.parser').select_one('.hero-seal')
  emblem=str(emblem) if emblem else '<div class="hero-seal" aria-hidden="true">SR</div>'
- hero_followup=("<p class=\"sr-hero-method\">Сначала разрабатываем для вас индивидуальную стратегию <span class=\"sr-hero-arrow\" aria-hidden=\"true\">→</span> затем сопровождаем вас на каждом этапе её реализации.</p><p class=\"sr-hero-values\">Профессионально. Безопасно. Надёжно.</p>" if ru else '')
+ hero_followup=("<p class=\"sr-hero-method\">Разрабатываем для вас индивидуальную стратегию <span class=\"sr-hero-arrow\" aria-hidden=\"true\">→</span> сопровождаем вас на каждом этапе её реализации.</p><p class=\"sr-hero-values\">Профессионально. Безопасно. Надёжно.</p>" if ru else '')
  hero=f'''<section class="hero v2-home"><div class="wrap"><div><div class="sr-hero-kicker">{'УСЛУГИ ДЛЯ ИНОСТРАНЦЕВ В РОССИИ' if ru else 'SERVICES AUX ÉTRANGERS EN RUSSIE'}</div><h1>{esc(intro)}</h1><p class="hero-lede">{esc(detail)}</p>{hero_followup}<div class="hero-actions"><a class="btn btn-primary" data-analytics-event="consultation_click" href="{path(lang,'consultations')}">{'Получить консультацию →' if ru else 'Demander une consultation →'}</a><a class="btn btn-ghost" href="{path(lang,'services')}">{'Все услуги' if ru else 'Tous nos services'}</a></div></div>{emblem}</div></section>'''
  founder=("<section class=\"sr-founder-spot\" aria-label=\"Основатель и личная ответственность\"><div class=\"sr-width\"><div class=\"sr-founder-panel\"><div class=\"sr-founder-portrait-frame\"><img class=\"sr-founder-portrait\" src=\"/assets/ru-o-kompanii-ru-0.jpg\" alt=\"Лев Втюрин — основатель SalutRussie\" loading=\"lazy\" width=\"112\" height=\"140\"></div><div class=\"sr-founder-copy\"><span class=\"sr-founder-kicker\">ЛИЧНАЯ ОТВЕТСТВЕННОСТЬ</span><h2>Лев Втюрин</h2><p class=\"sr-founder-role\">Основатель SalutRussie · Более 20 лет юридической практики</p><p>Лично отвечаю за правовую стратегию и качество сопровождения каждого проекта.</p></div><a class=\"sr-founder-more\" href=\"{path(lang,'about')}\">О бюро и опыте →</a></div></div></section>".replace("{path(lang,'about')}",path(lang,'about')) if ru else '')
  services=f'''<section class="sr-sec" id="services"><div class="sr-width"><div class="sr-section-head"><span class="eyebrow">{'НАПРАВЛЕНИЯ' if ru else 'NOS SERVICES'}</span><h2>{'Чем мы можем помочь' if ru else 'Comment pouvons-nous vous aider ?'}</h2><p>{'Выберите интересующее вас направление — мы подскажем, с чего начать' if ru else 'Choisissez votre besoin : nous définirons l’accompagnement approprié.'}</p></div>{cards(lang,list(SECTIONS.items()))}</div></section>'''

@@ -176,8 +176,8 @@ body { min-width: 300px; }
 .sr-founder-copy .sr-founder-role{font-weight:600;color:var(--ink-text);}
 .sr-founder-more{display:inline-flex;align-items:center;text-decoration:none;white-space:nowrap;color:var(--seal);font-size:13px;font-weight:700;border-bottom:1px solid var(--gold);padding:8px 0;}
 .sr-founder-more:hover{color:var(--seal-bright);}
-html[lang="ru"] .nav-links>li:first-child>.sr-drop-button{font-weight:750;color:var(--cream-text);border-bottom:2px solid var(--gold-soft);padding-bottom:4px;}
-html[lang="ru"] .nav-links>li:nth-child(2)>a{font-weight:750;color:var(--gold-soft);border-bottom:2px solid var(--gold-soft);padding-bottom:4px;}
+html[lang="ru"] .nav-links>li:first-child>.sr-drop-button{font-weight:750;color:var(--cream-text);border-bottom:0;padding-bottom:0;}
+html[lang="ru"] .nav-links>li:nth-child(2)>a{font-weight:750;color:var(--gold-soft);border-bottom:0;padding-bottom:0;}
 @media(max-width:980px){
  html[lang="ru"] .nav-links>li:first-child>.sr-drop-button{display:block;width:100%;text-align:left;padding:14px 28px;border-bottom:0;line-height:1.35;}
  html[lang="ru"] .nav-links>li:nth-child(2)>a{padding:14px 28px;border-bottom:0;}
@@ -212,8 +212,8 @@ html[lang="ru"]:has(.hero.v2-home){--font-display:'Inter',sans-serif;}
 html[lang="ru"] .hero.v2-home{padding:52px 0 58px;}
 html[lang="ru"] .hero.v2-home .wrap{grid-template-columns:minmax(0,1fr) 230px;gap:34px;align-items:center;}
 html[lang="ru"] .hero.v2-home h1{font-family:'Inter',sans-serif;font-weight:700;font-size:clamp(34px,3.4vw,48px);line-height:1.13;letter-spacing:-.025em;max-width:100%;margin:14px 0 17px;text-wrap:balance;}
-html[lang="ru"] .hero.v2-home .hero-lede{font-size:16px;line-height:1.6;max-width:760px;margin-top:0;}
-html[lang="ru"] .hero.v2-home .sr-hero-method{font-size:15.5px;line-height:1.55;max-width:760px;margin-top:12px;}
+html[lang="ru"] .hero.v2-home .hero-lede{font-family:var(--font-body);font-size:16px;line-height:1.6;font-weight:400;color:var(--cream-text-soft);letter-spacing:normal;max-width:760px;margin-top:0;}
+html[lang="ru"] .hero.v2-home .sr-hero-method{font-family:var(--font-body);font-size:16px;line-height:1.6;font-weight:400;color:var(--cream-text-soft);letter-spacing:normal;max-width:760px;margin-top:12px;}
 html[lang="ru"] .hero.v2-home .sr-hero-values{display:inline-block;color:var(--cream-text);font-size:16px;line-height:1.35;font-weight:700;letter-spacing:0;padding:10px 16px;border-left:3px solid var(--gold-soft);background:rgba(255,255,255,.07);margin-top:16px;max-width:100%;}
 html[lang="ru"] .hero.v2-home .hero-actions{margin-top:20px;}
 html[lang="ru"] .hero.v2-home .hero-seal{display:flex;align-items:center;justify-content:center;transform:translateY(-27px);}
@@ -247,7 +247,7 @@ html[lang="ru"] .sr-founder-more{grid-column:2;justify-self:start;white-space:no
  html[lang="ru"] .hero.v2-home{padding:31px 0 40px;}
  html[lang="ru"] .hero.v2-home h1{font-size:clamp(29px,7.5vw,36px);line-height:1.16;letter-spacing:-.025em;margin:13px 0 16px;}
  html[lang="ru"] .hero.v2-home .hero-lede{font-size:15px;line-height:1.55;}
- html[lang="ru"] .hero.v2-home .sr-hero-method{font-size:14.5px;line-height:1.55;}
+ html[lang="ru"] .hero.v2-home .sr-hero-method{font-size:15px;line-height:1.55;}
  html[lang="ru"] .hero.v2-home .sr-hero-values{font-size:14.5px;line-height:1.4;padding:10px 12px;}
  html[lang="ru"] .hero.v2-home .hero-actions{flex-direction:column;align-items:stretch;}
  html[lang="ru"] .hero.v2-home .hero-actions .btn{justify-content:center;text-align:center;min-height:45px;}
