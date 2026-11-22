@@ -365,6 +365,38 @@ html[lang="ru"] .sr-founder-spot .sr-founder-more{grid-column:2;align-self:start
  .sr-about-founder .sr-about-portrait{height:265px;}
  .sr-about-founder .lev-photo{width:238px;}
 }
+
+/* Unified RU typography and focused services catalog: approved 2026-11-22 */
+html[lang="ru"]{--font-display:'Inter',sans-serif;--font-body:'Inter',sans-serif;}
+html[lang="ru"] .sr-top h1{font-family:var(--font-body);font-weight:700;font-size:clamp(32px,4vw,46px);line-height:1.15;letter-spacing:-.025em;}
+html[lang="ru"] .sr-services-section{padding-top:42px;padding-bottom:64px;}
+html[lang="ru"] .sr-services-lead{margin:0 0 20px;}
+html[lang="ru"] .sr-services-grid{gap:18px;}
+html[lang="ru"] .sr-services-grid .sr-service-card{position:relative;min-width:0;min-height:335px;padding:26px 25px 25px;gap:13px;background:var(--parchment);border:1px solid var(--line);transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease;}
+html[lang="ru"] .sr-services-grid .sr-service-card:hover,html[lang="ru"] .sr-services-grid .sr-service-card:focus-within{border-color:var(--gold);box-shadow:0 8px 20px rgba(19,27,46,.08);}
+html[lang="ru"] .sr-services-grid .sr-card--priority{border:1px solid var(--gold);border-top:4px solid var(--gold);background:linear-gradient(150deg,var(--parchment-2),var(--parchment) 64%);}
+html[lang="ru"] .sr-services-grid .sr-card--priority .sr-icon{background:var(--gold);color:var(--ink);border-color:var(--gold);}
+html[lang="ru"] .sr-services-grid .sr-service-card h3{font-family:var(--font-body);font-size:22px;line-height:1.25;font-weight:700;letter-spacing:-.02em;}
+html[lang="ru"] .sr-services-grid .sr-service-card>p{font-size:14px;line-height:1.58;margin:0;min-height:0;}
+html[lang="ru"] .sr-services-grid .sr-service-card ul{display:flex;flex-direction:column;gap:9px;list-style:none;padding:14px 0 0;margin:1px 0 0;border-top:1px solid var(--line);}
+html[lang="ru"] .sr-services-grid .sr-service-card li{margin:0;padding:0;font-size:14px;line-height:1.45;overflow-wrap:anywhere;}
+html[lang="ru"] .sr-services-grid .sr-service-card li a{color:var(--ink-text);text-decoration-color:var(--line);text-underline-offset:3px;}
+html[lang="ru"] .sr-services-grid .sr-service-card li a:hover{color:var(--seal);text-decoration-color:var(--gold);}
+html[lang="ru"] .sr-services-grid .sr-service-card li .sr-services-program{display:inline-block;padding:7px 10px;background:rgba(169,128,62,.14);border-left:3px solid var(--gold);color:var(--seal);font-weight:700;text-decoration:none;}
+html[lang="ru"] .sr-services-grid .sr-service-card li .sr-services-program:hover{text-decoration:underline;}
+html[lang="ru"] .sr-services-grid .sr-service-card>.sr-link{display:inline-flex;align-self:flex-start;align-items:center;margin-top:auto;padding-top:18px;font-size:14px;font-weight:700;line-height:1.5;text-decoration:none;}
+html[lang="ru"] .sr-services-grid .sr-service-card>.sr-link:hover{text-decoration:underline;text-underline-offset:3px;}
+html[lang="ru"] .sr-services-pricing{margin:24px 0 0;text-align:right;}
+html[lang="ru"] .sr-services-pricing .sr-link{font-size:14px;font-weight:700;color:var(--seal);text-underline-offset:3px;}
+html[lang="ru"] .sr-services-section+.sr-sec{padding-top:34px;}
+@media(max-width:980px){html[lang="ru"] .sr-services-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(max-width:680px){
+ html[lang="ru"] .sr-services-section{padding:30px 0 48px;}
+ html[lang="ru"] .sr-services-grid{grid-template-columns:minmax(0,1fr);gap:14px;}
+ html[lang="ru"] .sr-services-grid .sr-service-card{min-height:0;padding:23px 21px;}
+ html[lang="ru"] .sr-services-grid .sr-service-card h3{font-size:21px;}
+ html[lang="ru"] .sr-services-pricing{text-align:left;}
+}
 '''
 (OUT/'assets'/'platform.css').write_text(CSS_ADD+LEGAL_CSS,encoding='utf-8')
 shutil.copy2(ROOT/'assets'/'expert-articles.css',OUT/'assets'/'expert-articles.css')
@@ -593,25 +625,28 @@ def basic_page(lang,url,title,desc,items=None,rich=None):
 
 def services_ru():
  title='Все услуги для иностранцев'
- desc='Профессиональная помощь в России: выберите подходящее направление.'
- shortcuts={'migration': [('migration/decree-702','Указ 702')]+[
+ desc='От миграционной стратегии до недвижимости, бизнеса и юридической защиты — помогаем решать вопросы, возникающие при переезде и жизни в России.'
+ shortcuts={'migration': [('migration/decree-702','Переезд по Указу 702')]+[
   (f'migration/{slug}',PROGRAMS[slug]['ru'][1]) for slug in ('rvp','vnzh','visas','citizenship')
  ]}
- for section, slugs in SUBPAGES.items():
+ for section,slugs in SUBPAGES.items():
   shortcuts[section]=[(f'{section}/{slug}',SUBLABEL[slug][0]) for slug in slugs]
  body=heading('ru',title,desc,LANGS['ru']['services'])
- body+='<section class="sr-sec"><div class="sr-width"><div class="sr-section-head"><h2>Выберите направление</h2></div><div class="sr-grid">'
- for slug, data in SECTIONS.items():
+ body+='<section class="sr-sec sr-services-section"><div class="sr-width"><div class="sr-services-lead"><span class="eyebrow">НАПРАВЛЕНИЯ ПОМОЩИ</span></div><div class="sr-grid sr-services-grid">'
+ for slug,data in SECTIONS.items():
   _,name,description=data['ru']
-  body+=f'<section class="sr-card"><span class="sr-icon" aria-hidden="true">{esc(data["symbol"])}</span><h3>{esc(name)}</h3><p>{esc(description)}</p>'
+  priority=' sr-card--priority' if slug=='migration' else ''
+  body+=f'<section class="sr-card sr-service-card{priority}"><span class="sr-icon" aria-hidden="true">{esc(data["symbol"])}</span><h3>{esc(name)}</h3><p>{esc(description)}</p>'
   if slug in shortcuts:
    body+='<ul>'
    for tail,label in shortcuts[slug]:
-    body+=f'<li><a href="{path("ru",tail)}">{esc(label)}</a></li>'
+    accent=' class="sr-services-program"' if slug=='migration' and tail=='migration/decree-702' else ''
+    body+=f'<li><a{accent} href="{path("ru",tail)}">{esc(label)}</a></li>'
    body+='</ul>'
   body+=f'<a class="sr-link" href="{path("ru",slug)}">Подробнее о направлении →</a></section>'
- body+=f'</div><p><a class="sr-link" href="{path("ru","pricing")}">Тарифы →</a></p></div></section>'
- return shell('ru',path('ru','services'),title,desc,body+cta('ru'))
+ body+=f'</div><p class="sr-services-pricing"><a class="sr-link" href="{path("ru","pricing")}">Тарифы →</a></p></div></section>'
+ consult=cta('ru').replace('Выберите направление консультации. Объём работы и стоимость согласуем.','Не уверены, какая услуга вам нужна? Опишите свою ситуацию — мы поможем определить подходящий правовой маршрут. Формат и стоимость работы согласуем заранее.')
+ return shell('ru',path('ru','services'),title,desc,body+consult)
 
 def pricing_ru():
  title='Стоимость юридических услуг'
