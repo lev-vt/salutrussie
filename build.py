@@ -626,11 +626,36 @@ def basic_page(lang,url,title,desc,items=None,rich=None):
 def services_ru():
  title='Все услуги для иностранцев'
  desc='От миграционной стратегии до недвижимости, бизнеса и юридической защиты — помогаем решать вопросы, возникающие при переезде и жизни в России.'
- shortcuts={'migration': [('migration/decree-702','Переезд по Указу 702')]+[
-  (f'migration/{slug}',PROGRAMS[slug]['ru'][1]) for slug in ('rvp','vnzh','visas','citizenship')
- ]}
- for section,slugs in SUBPAGES.items():
-  shortcuts[section]=[(f'{section}/{slug}',SUBLABEL[slug][0]) for slug in slugs]
+ shortcuts={
+  'migration':[
+   ('migration/decree-702','Переезд по Указу 702'),
+   ('migration/visas','Визы в Россию'),
+   ('migration/rvp','РВП в России'),
+   ('migration/vnzh','ВНЖ в России'),
+   ('migration/citizenship','Гражданство России'),
+   ('migration/disputes','Защита в суде и МВД')
+  ],
+  'business':[
+   ('business/company-registration','Открытие компании'),
+   ('business/legal-support','Юридическое сопровождение бизнеса'),
+   ('business/tax-consulting','Налоговое консультирование')
+  ],
+  'investments':[
+   ('investments/legal-due-diligence','Юридическая проверка и сопровождение инвестиционного проекта'),
+   ('investments/project-selection','Подбор инвестиционных проектов')
+  ],
+  'legal':[
+   ('consultations','Консультации'),
+   ('legal/document-preparation','Подготовка документов'),
+   ('legal/disputes','Судебные споры')
+  ],
+  'relocation':[
+   ('relocation/administrative-procedures','Административные процедуры'),
+   ('relocation/everyday-life','Бытовые вопросы'),
+   ('relocation/russian-language','Изучение русского языка')
+  ]
+ }
+ shortcuts['real-estate']=[(f'real-estate/{slug}',SUBLABEL[slug][0]) for slug in SUBPAGES['real-estate']]
  body=heading('ru',title,desc,LANGS['ru']['services'])
  body+='<section class="sr-sec sr-services-section"><div class="sr-width"><div class="sr-services-lead"><span class="eyebrow">НАПРАВЛЕНИЯ ПОМОЩИ</span></div><div class="sr-grid sr-services-grid">'
  for slug,data in SECTIONS.items():
@@ -722,15 +747,41 @@ def service_pages(lang):
   elif slug in SUBPAGES:
    for part in SUBPAGES[slug]:
     lab=SUBLABEL[part][0 if ru else 1];sub.append((f'{slug}/{part}',{'symbol':'↗',lang:(lab,lab,'Условия и состав услуги обсуждаются индивидуально.' if ru else 'Prestations adaptées aux besoins individuels.')}))
+  if ru and slug=='business':
+   sub.append(('business/tax-consulting',{'symbol':'↗','ru':('Налоговое консультирование','Налоговое консультирование','Правовая и налоговая оценка вопросов бизнеса с иностранным участием.')}))
+  if ru and slug=='investments':
+   sub=[
+    ('investments/legal-due-diligence',{'symbol':'↗','ru':('Юридическая проверка и сопровождение инвестиционного проекта','Юридическая проверка и сопровождение инвестиционного проекта','Проверка актива, сделки и юридическое сопровождение проекта.')})),
+    ('investments/project-selection',{'symbol':'↗','ru':('Подбор инвестиционных проектов','Подбор инвестиционных проектов','Поиск и первичный отбор вариантов по согласованным критериям.')}))
+   ]
+  if ru and slug=='relocation':
+   sub=[
+    ('relocation/administrative-procedures',{'symbol':'↗','ru':('Административные процедуры','Административные процедуры','Документы, контроль сроков и организация обращений.')})),
+    ('relocation/everyday-life',{'symbol':'↗','ru':('Бытовые вопросы','Бытовые вопросы','Практические вопросы жилья и адаптации после переезда.')})),
+    ('relocation/russian-language',{'symbol':'↗','ru':('Изучение русского языка','Изучение русского языка','Подбор подходящего формата обучения для взрослых и детей.')}))
+   ]
   rich=rich_section(lang,slug)
+  if ru and slug=='investments':
+   info=(info[0],info[1],'Подбор инвестиционных проектов, юридическая проверка и сопровождение сделок в России.')
   write(url,basic_page(lang,url,info[1],info[2],sub if sub else None,rich))
   for part in SUBPAGES.get(slug,[]):
    lab=SUBLABEL[part][0 if ru else 1];desc=DETAILS[part][lang][0]
-   write(path(lang,f'{slug}/{part}'),basic_page(lang,path(lang,f'{slug}/{part}'),lab,desc,rich=detail_rich(lang,part)))
+   rich_detail=detail_rich(lang,part)
+   if ru and slug=='investments' and part=='legal-due-diligence':
+    lab="Юридическая проверка и сопровождение инвестиционного проекта";desc="Проверяем актив, контрагента и условия сделки, затем сопровождаем согласованные этапы инвестиционного проекта."
+    rich_detail="<section class=\"sr-sec\"><div class=\"sr-width sr-b2b-copy\"><h2>Проверка и сопровождение в одном процессе</h2><p>Юридическая проверка не гарантирует прибыль и не заменяет самостоятельную финансовую оценку инвестиции. Состав сопровождения зависит от сделки.</p><ul><li>Проверяем стороны сделки, полномочия, права на активы, ограничения, существенные договоры и споры.</li><li>Согласуем условия приобретения или участия, этапы оплаты, передачу прав и необходимые гарантии.</li><li>Готовим или проверяем договоры и сопровождаем согласованные юридические этапы реализации проекта.</li><li>Фиксируем контрольные точки, отчётность, ответственность сторон и условия выхода из проекта.</li></ul><p class=\"sr-note\">Состав услуги, привлечение профильных специалистов и стоимость согласуются индивидуально до начала работы.</p></div></section>"
+   write(path(lang,f'{slug}/{part}'),basic_page(lang,path(lang,f'{slug}/{part}'),lab,desc,rich=rich_detail))
  for slug,d in PROGRAMS.items():
   title=d[lang][1];desc=d[lang][2];url=path(lang,'migration/'+slug)
   rich=detail_rich(lang,'migration-disputes' if slug=='disputes' else slug)
   write(url,basic_page(lang,url,title,desc,rich=rich))
+
+RU_ADDITIONAL_SERVICE_PAGES=[["business/tax-consulting","Налоговое консультирование","Налоговые вопросы открытия и ведения бизнеса иностранцами в России.","<section class=\"sr-sec\"><div class=\"sr-width sr-b2b-copy\"><h2>С чем поможем</h2><p>Налоги влияют на выбор формы бизнеса, структуру платежей и содержание договоров. Мы помогаем определить вопросы и риски до принятия решений; специализированный бухгалтерский учёт или подготовка отчётности согласуются отдельно.</p><ul><li>Выбор и предварительная оценка системы налогообложения с учётом деятельности и статуса предпринимателя.</li><li>Налоговые последствия договоров, расчётов с партнёрами и участия иностранного собственника.</li><li>Подготовка правовых вопросов к бухгалтеру или налоговому специалисту, согласование необходимых документов.</li></ul><p class=\"sr-note\">Состав услуги, привлечение профильных специалистов и стоимость согласуются индивидуально до начала работы.</p></div></section>"],["investments/project-selection","Подбор инвестиционных проектов","Поиск и предварительный отбор инвестиционных проектов в России под цели и критерии клиента.","<section class=\"sr-sec\"><div class=\"sr-width sr-b2b-copy\"><h2>Как организуем подбор</h2><p>Подбор — это поиск подходящих для рассмотрения вариантов, а не обещание наличия конкретного объекта, доходности или одобрения сделки. Предложения и условия участия проверяются отдельно.</p><ul><li>Уточним инвестиционные цели, бюджет, регион, отрасль, желаемый формат участия и допустимые риски.</li><li>Определим критерии отбора и доступные для рассмотрения проекты или активы; проверим полноту исходной информации.</li><li>Подготовим перечень вопросов продавцу или партнёру, а перед сделкой согласуем юридическую проверку и сопровождение.</li></ul><p class=\"sr-note\">Состав услуги, привлечение профильных специалистов и стоимость согласуются индивидуально до начала работы.</p></div></section>"],["relocation/administrative-procedures","Административные процедуры","Помощь с организацией административных процедур после переезда в Россию.","<section class=\"sr-sec\"><div class=\"sr-width sr-b2b-copy\"><h2>Что можно организовать</h2><p>После въезда в Россию возникают разные административные задачи: адрес, документы, уведомления и обращения. Перечень действий зависит от статуса человека и региона; решения принимаются уполномоченными органами.</p><ul><li>План обращений в государственные органы и контроль важных сроков.</li><li>Подготовку перечня документов, заявлений и необходимых подтверждений.</li><li>Сопровождение предусмотренных законом административных действий по согласованному поручению.</li></ul><p class=\"sr-note\">Состав услуги, привлечение профильных специалистов и стоимость согласуются индивидуально до начала работы.</p></div></section>"],["relocation/everyday-life","Бытовые вопросы","Практическая организация повседневных вопросов при переезде и адаптации в России.","<section class=\"sr-sec\"><div class=\"sr-width sr-b2b-copy\"><h2>С чем можно обратиться</h2><p>Мы поможем составить понятный план бытовых задач и определить, какие вопросы решаются непосредственно, а для каких нужны отдельные исполнители. Условия их участия согласуем заранее.</p><ul><li>Ориентирование в вопросах жилья, аренды и взаимодействия с собственником.</li><li>Организация первых практических шагов: связь, документы и необходимые бытовые сервисы.</li><li>Составление индивидуального плана прибытия семьи, учёта потребностей детей и сроков переезда.</li></ul><p class=\"sr-note\">Состав услуги, привлечение профильных специалистов и стоимость согласуются индивидуально до начала работы.</p></div></section>"],["relocation/russian-language","Изучение русского языка","Помощь с выбором формата изучения русского языка при переезде в Россию.","<section class=\"sr-sec\"><div class=\"sr-width sr-b2b-copy\"><h2>Как поможем начать</h2><p>Помогаем с ориентирами и подбором формата обучения; проведение занятий преподавателем и стоимость обучения оговариваются отдельно. Требования к языковым экзаменам проверяются для конкретного миграционного основания.</p><ul><li>Определить цель обучения: бытовое общение, работа, учёба или подготовка к предусмотренным законом проверкам.</li><li>Подобрать подходящий формат: занятия индивидуально, в группе или дистанционно.</li><li>Составить план обучения под сроки переезда и особенности членов семьи.</li></ul><p class=\"sr-note\">Состав услуги, привлечение профильных специалистов и стоимость согласуются индивидуально до начала работы.</p></div></section>"]]
+def extra_service_pages_ru():
+ for tail,title,desc,rich in RU_ADDITIONAL_SERVICE_PAGES:
+  url=path('ru',tail)
+  body=heading('ru',title,desc,'Услуги')+rich+cta('ru')
+  write(url,shell('ru',url,title,desc,body))
 
 def consultations(lang):
  ru=lang=='ru'
@@ -841,6 +892,7 @@ def write(url,content):
 
 for lang in ('ru','fr'):
  write(path(lang),home(lang));service_pages(lang)
+ if lang=='ru':extra_service_pages_ru()
  write(path(lang,'services'),services_ru() if lang=='ru' else basic_page(lang,path(lang,'services'),'Tous nos services','Choisissez le domaine qui correspond à votre projet.',list(SECTIONS.items())))
  write(path(lang,'consultations'),consultations(lang))
  write(path(lang,'knowledge'),knowledge(lang))
