@@ -72,6 +72,42 @@ class SiteTests(unittest.TestCase):
   for slug,text in [('business','Налоговое консультирование'),('investments','Подбор инвестиционных проектов'),('relocation','Изучение русского языка')]:
    section=BeautifulSoup((ROOT/'ru'/slug/'index.html').read_text(encoding='utf-8'),'html.parser')
    self.assertIn(text,section.get_text(' ',strip=True))
+ def test_migration_hub_wayfinding(self):
+  page=BeautifulSoup((ROOT/'ru/migration/index.html').read_text(encoding='utf-8'),'html.parser')
+  self.assertEqual(page.select_one('.sr-migration-top h1').get_text(' ',strip=True),'Миграция и переезд')
+  self.assertIn('законный путь переезда',page.select_one('.sr-migration-top p').get_text(' ',strip=True))
+  self.assertEqual(len(page.select('.sr-migration-feature')),1)
+  self.assertIn('/migration/decree-702/',page.select_one('.sr-migration-feature')['href'])
+  self.assertEqual(len(page.select('.sr-migration-service')),5)
+  self.assertEqual([el.select_one('strong').get_text(' ',strip=True) for el in page.select('.sr-migration-service')],
+   ['Визы в Россию','РВП в России','ВНЖ в России','Гражданство России','Защита в суде и МВД'])
+  self.assertEqual(len(page.select('.sr-migration-special-links a')),2)
+  self.assertEqual(len(page.select('details.sr-migration-prep summary')),1)
+  self.assertEqual(len(page.select('.sr-migration-actions .btn')),1)
+  self.assertEqual(len(page.select('.sr-migration-steps li')),3)
+  self.assertEqual(len(page.select('.sr-migration-hub a[href]')),8)
+  self.assertIsNone(page.select_one('.sr-migration-hub .sr-card'))
+  self.assertEqual(len(page.select('.sr-migration-close a.btn[href]')),1)
+  self.assertEqual(len(page.select('.sr-breadcrumbs')),1)
+  self.assertEqual([el.get_text(' ',strip=True) for el in page.select('.sr-breadcrumbs a')],
+   ['Главная','Все услуги'])
+  self.assertIn('Лев Втюрин',page.select_one('.sr-migration-close').get_text(' ',strip=True))
+ def test_all_ru_services_have_breadcrumbs(self):
+  groups=['services','migration','real-estate','business','investments','legal','relocation']
+  count=0
+  for group in groups:
+   root=ROOT/'ru'/group
+   for file in root.rglob('index.html'):
+    with self.subTest(page=file):
+     page=BeautifulSoup(file.read_text(encoding='utf-8'),'html.parser')
+     crumbs=page.select('.sr-breadcrumbs')
+     self.assertEqual(len(crumbs),1)
+     self.assertEqual(len(crumbs[0].select('[aria-current="page"]')),1)
+     self.assertEqual(crumbs[0].select_one('a').get_text(' ',strip=True),'Главная')
+     self.assertEqual(crumbs[0].select_one('[aria-current="page"]').get_text(' ',strip=True),page.h1.get_text(' ',strip=True) if group!='services' else 'Все услуги')
+     self.assertLessEqual(len(crumbs[0].select('a')),3)
+     count+=1
+  self.assertGreaterEqual(count,29)
  def test_russian_home_has_key_services(self):
   t=(ROOT/'ru/index.html').read_text()
   for needle in ['Недвижимость','Миграция','Инвестиции','Бизнес в России','Указ 702','Полезная информация','Консультация']:
