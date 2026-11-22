@@ -26,7 +26,7 @@ class SiteTests(unittest.TestCase):
   self.assertEqual(page.h1.get_text(' ',strip=True),'Все услуги для иностранцев')
   self.assertEqual(len(page.select('.sr-services-grid>.sr-service-card')),6)
   self.assertEqual(len(page.select('.sr-services-grid>.sr-card--priority')),1)
-  self.assertIn('Миграция и переезд',page.select_one('.sr-card--priority h3').get_text(' ',strip=True))
+  self.assertIn('Переезд в Россию',page.select_one('.sr-card--priority h3').get_text(' ',strip=True))
   decree=page.select_one('.sr-card--priority .sr-services-program')
   self.assertIsNotNone(decree)
   self.assertEqual(decree.get_text(' ',strip=True),'Переезд по Указу 702')
@@ -44,7 +44,7 @@ class SiteTests(unittest.TestCase):
   page=BeautifulSoup((ROOT/'ru/services/index.html').read_text(encoding='utf-8'),'html.parser')
   cards={card.select_one('h3').get_text(' ',strip=True):card for card in page.select('.sr-services-grid>.sr-service-card')}
   expected={
-   'Миграция и переезд':['Переезд по Указу 702','Визы в Россию','РВП в России','ВНЖ в России','Гражданство России','Защита в суде и МВД'],
+   'Переезд в Россию':['Переезд по Указу 702','Визы в Россию','РВП в России','ВНЖ в России','Гражданство России','Защита в суде и государственных органах (МВД, ФСБ)'],
    'Бизнес в России':['Открытие компании','Юридическое сопровождение бизнеса','Налоговое консультирование'],
    'Инвестиции':['Юридическая проверка и сопровождение инвестиционного проекта','Подбор инвестиционных проектов'],
    'Юридическая помощь':['Консультации','Подготовка документов','Судебные споры'],
@@ -74,15 +74,20 @@ class SiteTests(unittest.TestCase):
    self.assertIn(text,section.get_text(' ',strip=True))
  def test_migration_hub_wayfinding(self):
   page=BeautifulSoup((ROOT/'ru/migration/index.html').read_text(encoding='utf-8'),'html.parser')
-  self.assertEqual(page.select_one('.sr-migration-top h1').get_text(' ',strip=True),'Миграция и переезд')
+  self.assertEqual(page.select_one('.sr-migration-top h1').get_text(' ',strip=True),'Переезд в Россию')
   self.assertIn('законный путь переезда',page.select_one('.sr-migration-top p').get_text(' ',strip=True))
   self.assertEqual(len(page.select('.sr-migration-feature')),1)
+  self.assertIn('«Разделение ценностей»',page.select_one('.sr-migration-feature-aliases').get_text(' ',strip=True))
   self.assertIn('/migration/decree-702/',page.select_one('.sr-migration-feature')['href'])
   self.assertEqual(len(page.select('.sr-migration-service')),5)
   self.assertEqual([el.select_one('strong').get_text(' ',strip=True) for el in page.select('.sr-migration-service')],
-   ['Визы в Россию','РВП в России','ВНЖ в России','Гражданство России','Защита в суде и МВД'])
+   ['Визы в Россию','РВП в России','ВНЖ в России','Гражданство России','Защита в суде и государственных органах (МВД, ФСБ)'])
   self.assertEqual(len(page.select('.sr-migration-special-links a')),2)
   self.assertEqual(len(page.select('details.sr-migration-prep summary')),1)
+  self.assertIn('планы своими словами',page.select_one('.sr-migration-prep').get_text(' ',strip=True))
+  self.assertNotIn('Если семья переезжает из разных стран',page.get_text(' ',strip=True))
+  self.assertEqual([el.select_one('strong').get_text(' ',strip=True) for el in page.select('.sr-migration-steps li')],['Разбираем ваши планы','Готовим миграционную стратегию','Сопровождаем до результата'])
+  self.assertIn('Согласуем тариф',page.select_one('.sr-migration-route').get_text(' ',strip=True))
   self.assertEqual(len(page.select('.sr-migration-actions .btn')),1)
   self.assertEqual(len(page.select('.sr-migration-steps li')),3)
   self.assertEqual(len(page.select('.sr-migration-hub a[href]')),8)
