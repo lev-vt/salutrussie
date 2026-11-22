@@ -49,6 +49,7 @@ class SiteTests(unittest.TestCase):
   self.assertIn('Лев Втюрин',founder.get_text(' ',strip=True))
   self.assertIn('Лично отвечаю за правовую стратегию и качество сопровождения каждого проекта.',founder.get_text(' ',strip=True))
   self.assertEqual(founder.select_one('img')['src'],'../assets/ru-o-kompanii-ru-0.jpg')
+  self.assertEqual(len(founder.select('.sr-founder-portrait-frame img')),1)
   self.assertTrue((ROOT/'assets/ru-o-kompanii-ru-0.jpg').is_file())
   self.assertIn('Сначала разрабатываем для вас индивидуальную стратегию',home.select_one('.sr-hero-method').get_text(' ',strip=True))
   self.assertEqual(home.select_one('.sr-hero-arrow').get_text(strip=True),'→')
@@ -58,6 +59,10 @@ class SiteTests(unittest.TestCase):
   self.assertIn('html[lang="ru"] .nav-links>li:first-child>.sr-drop-button',styles)
   self.assertIn('html[lang="ru"] .nav-links>li:nth-child(2)>a',styles)
   self.assertIn('@media(max-width:520px)',styles)
+  self.assertIn('Homepage design iteration: readable Cyrillic',styles)
+  self.assertIn('grid-template-columns:minmax(0,1fr) 230px',styles)
+  self.assertIn('transform:scale(1.28)',styles)
+  self.assertIn('@media(max-width:600px)',styles)
   fr=BeautifulSoup((ROOT/'fr/index.html').read_text(encoding='utf-8'),'html.parser')
   self.assertFalse(fr.select('.sr-founder-spot'))
  def test_russian_about_founder_only(self):
