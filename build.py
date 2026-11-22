@@ -475,7 +475,7 @@ PROGRAMS={
  'visas':{'ru':('Визы','Визы в Россию','Помогаем определить подходящий визовый режим, проверить документы и последовательность оформления.'),'fr':('Visas','Visas pour la Russie','Choix du régime de visa et préparation du dossier.')},
  'students':{'ru':('Образование и РВПО','РВПО и учёба в России','Помощь иностранным студентам по вопросам статуса и документов.'),'fr':('Études','Études et séjour','Assistance aux étudiants étrangers concernant le statut et les documents.')},
  'family':{'ru':('Переезд семьи','Семейный переезд','Подбираем последовательность оформления статусов и документов для членов семьи.'),'fr':('Famille','S’installer en famille','Planifier le statut et les démarches des membres de la famille.')},
- 'disputes':{'ru':('Судебная защита','Миграционные споры','Обжалование отказов и решений органов власти, защита в суде и оценка процессуальных рисков.'),'fr':('Contentieux','Contentieux migratoire','Recours contre les décisions administratives et défense devant les tribunaux.')}
+ 'disputes':{'ru':('Защита','Защита в суде и МВД','Помощь при отказах и решениях МВД: правовая оценка, обращения, жалобы и судебное представительство в согласованном объёме.'),'fr':('Contentieux','Contentieux migratoire','Recours contre les décisions administratives et défense devant les tribunaux.')}
 }
 SUBPAGES={
  'real-estate':['rent','buy','legal-check'],
