@@ -28,7 +28,7 @@ class SiteTests(unittest.TestCase):
  def test_approved_russian_copy(self):
   root=ROOT/'ru/index.html'
   home=BeautifulSoup(root.read_text(), 'html.parser')
-  self.assertEqual(home.h1.get_text(strip=True),'Живите, работайте и развивайте бизнес в России — опираясь на наш опыт и знания')
+  self.assertEqual(home.h1.get_text(strip=True),'Живите, работайте и развивайте бизнес в России')
   self.assertIn('Мы помогаем иностранцам переехать в Россию, оформить РВП, ВНЖ и гражданство. Решаем сложные юридические вопросы, сопровождаем покупку недвижимости, инвестиции и открытие бизнеса.',home.select_one('.hero-lede').get_text(' ',strip=True))
   self.assertNotIn('Мы помогаем разобраться в вопросе и организовать профессиональное сопровождение.',home.get_text(' ',strip=True))
   for phrase in ['Выберите интересующее вас направление — мы подскажем, с чего начать','Переезд в Россию по Указу 702','Ваша заявка','План действий','Небольшая команда профессионалов: бутик, а не масс-маркет']:
@@ -65,6 +65,11 @@ class SiteTests(unittest.TestCase):
   self.assertIn('grid-template-columns:minmax(0,1fr) 230px',styles)
   self.assertIn('transform:scale(1.28)',styles)
   self.assertIn('@media(max-width:600px)',styles)
+  self.assertIn('html[lang="ru"] .nav-links{font-size:15px;',styles)
+  self.assertIn('html[lang="ru"] .nav-cta{font-size:14px;}',styles)
+  self.assertIn('@media(max-width:1180px)',styles)
+  self.assertIn('html[lang="ru"] .nav-links.open{max-height:80vh;overflow-y:auto;}',styles)
+  self.assertEqual(home.h1.get_text(strip=True),'Живите, работайте и развивайте бизнес в России')
   self.assertIn('border-bottom:0;padding-bottom:0;',styles)
   self.assertIn('color:var(--cream-text-soft);letter-spacing:normal;',styles)
   self.assertIn('html[lang="ru"] .hero.v2-home .sr-hero-method{font-size:15px;line-height:1.55;}',styles)

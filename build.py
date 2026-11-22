@@ -306,6 +306,27 @@ html[lang="ru"] .sr-founder-more{grid-column:2;justify-self:start;white-space:no
  html[lang="ru"] .sr-founder-copy h2{font-size:26px;}
  html[lang="ru"] .sr-founder-copy p{font-size:14px;}
 }
+
+/* RU header legibility: all top-level destinations are visible; prominent links remain bold */
+html[lang="ru"] .nav-links{font-size:15px;gap:13px;flex-wrap:nowrap;}
+html[lang="ru"] .nav-links>li>a{border-bottom:0;}
+html[lang="ru"] .nav-links>li>a:hover{border-bottom:0;}
+html[lang="ru"] .nav-links .has-drop>button{font-size:inherit;}
+html[lang="ru"] .nav-links .nav-drop a{font-size:14.5px;}
+html[lang="ru"] .nav-cta{font-size:14px;}
+html[lang="ru"] .lang-switch a{font-size:12px;}
+@media(max-width:1180px){
+ html[lang="ru"] .nav-links{position:absolute;top:100%;left:0;right:0;display:flex;flex-direction:column;gap:0;background:var(--ink);border-bottom:1px solid var(--line-dark);max-height:0;overflow:hidden;transition:max-height .25s ease;flex-wrap:nowrap;}
+ html[lang="ru"] .nav-links.open{max-height:80vh;overflow-y:auto;}
+ html[lang="ru"] .nav-links li{border-top:1px solid var(--line-dark);}
+ html[lang="ru"] .nav-links>li>a{display:block;padding:14px 28px;white-space:normal;}
+ html[lang="ru"] .nav-links .has-drop>button{display:block;width:100%;text-align:left;padding:14px 28px;color:var(--cream-text);font-size:15px;line-height:1.35;}
+ html[lang="ru"] .nav-links .nav-drop{position:static;background:transparent;border:0;box-shadow:none;padding:6px 8px 14px 16px;width:100%;}
+ html[lang="ru"] .nav-links .has-drop.is-open .nav-drop{display:grid;gap:2px;}
+ html[lang="ru"] .nav-links .nav-drop a{display:block;padding:11px 20px;white-space:normal;}
+ html[lang="ru"] .burger{display:block;font-size:24px;padding:4px 8px;}
+ html[lang="ru"] .nav-cta{display:none;}
+}
 '''
 (OUT/'assets'/'platform.css').write_text(CSS_ADD+LEGAL_CSS,encoding='utf-8')
 shutil.copy2(ROOT/'assets'/'expert-articles.css',OUT/'assets'/'expert-articles.css')
@@ -485,7 +506,7 @@ def shell(lang,url,title,description,body,noindex=False,article=False,ru_only=Fa
 
 def home(lang):
  ru=lang=='ru';title='Помощь иностранцам в России: миграция, недвижимость, бизнес' if ru else 'Services aux étrangers en Russie : immigration, immobilier, affaires'
- intro='Живите, работайте и развивайте бизнес в России — опираясь на наш опыт и знания' if ru else 'Vivre, s’installer et entreprendre en Russie — avec le bon accompagnement.'
+ intro='Живите, работайте и развивайте бизнес в России' if ru else 'Vivre, s’installer et entreprendre en Russie — avec le bon accompagnement.'
  detail=('Мы помогаем иностранцам переехать в Россию, оформить РВП, ВНЖ и гражданство. Решаем сложные юридические вопросы, сопровождаем покупку недвижимости, инвестиции и открытие бизнеса.' if ru else 'Immigration, immobilier, création d’entreprise, investissement et conseil juridique. Nous analysons votre situation et construisons avec vous une stratégie adaptée.')
  emblem=BeautifulSoup((SRC/('index-ru.html' if ru else 'index.html')).read_text(),'html.parser').select_one('.hero-seal')
  emblem=str(emblem) if emblem else '<div class="hero-seal" aria-hidden="true">SR</div>'
