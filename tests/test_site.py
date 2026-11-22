@@ -113,9 +113,25 @@ class SiteTests(unittest.TestCase):
      self.assertLessEqual(len(crumbs[0].select('a')),3)
      count+=1
   self.assertGreaterEqual(count,29)
+ def test_move_to_russia_multilingual_naming(self):
+  ru=BeautifulSoup((ROOT/'ru/migration/index.html').read_text(encoding='utf-8'),'html.parser')
+  fr=BeautifulSoup((ROOT/'fr/migration/index.html').read_text(encoding='utf-8'),'html.parser')
+  self.assertEqual(ru.h1.get_text(' ',strip=True),'Переезд в Россию')
+  self.assertEqual(fr.h1.get_text(' ',strip=True),'S’installer en Russie')
+  self.assertIn('Мы поможем вам выбрать',ru.select_one('.sr-migration-top p').get_text(' ',strip=True))
+  self.assertIn('«Разделение ценностей»',ru.select_one('.sr-migration-feature-aliases').get_text(' ',strip=True))
+  self.assertIn('идеологическая программа',ru.select_one('.sr-migration-feature-aliases').get_text(' ',strip=True))
+  cards=[a.select_one('strong').get_text(' ',strip=True) for a in ru.select('.sr-migration-service')]
+  self.assertIn('Защита в суде и государственных органах (МВД, ФСБ)',cards)
+  self.assertIn('Учёба в России и РВПО',ru.select_one('.sr-migration-special').get_text(' ',strip=True))
+  self.assertIn('Расскажите о ваших планах.',ru.select_one('.sr-migration-close').get_text(' ',strip=True))
+  self.assertNotIn('Если семья переезжает из разных стран',ru.get_text(' ',strip=True))
+  with open(ROOT.parent/'docs/site-roadmap.md',encoding='utf-8') as roadmap:
+   data=roadmap.read()
+  self.assertIn('Фермерство в России',data)
  def test_russian_home_has_key_services(self):
   t=(ROOT/'ru/index.html').read_text()
-  for needle in ['Недвижимость','Миграция','Инвестиции','Бизнес в России','Указ 702','Полезная информация','Консультация']:
+  for needle in ['Недвижимость','Переезд в Россию','Инвестиции','Бизнес в России','Указ 702','Полезная информация','Консультация']:
    with self.subTest(needle=needle):self.assertIn(needle,t)
  def test_approved_russian_copy(self):
   root=ROOT/'ru/index.html'
