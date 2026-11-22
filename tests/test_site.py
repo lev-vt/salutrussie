@@ -21,6 +21,25 @@ class SiteTests(unittest.TestCase):
     dest=((ROOT/unquote(v).lstrip('/')) if v.startswith('/') else (file.parent/unquote(v))).resolve()
     if dest.is_dir():dest=dest/'index.html'
     with self.subTest(file=file,link=v):self.assertTrue(dest.is_file(),str(dest))
+ def test_approved_services_page_and_typography(self):
+  page=BeautifulSoup((ROOT/'ru/services/index.html').read_text(encoding='utf-8'),'html.parser')
+  self.assertEqual(page.h1.get_text(' ',strip=True),'Все услуги для иностранцев')
+  self.assertEqual(len(page.select('.sr-services-grid>.sr-service-card')),6)
+  self.assertEqual(len(page.select('.sr-services-grid>.sr-card--priority')),1)
+  self.assertIn('Миграция и переезд',page.select_one('.sr-card--priority h3').get_text(' ',strip=True))
+  decree=page.select_one('.sr-card--priority .sr-services-program')
+  self.assertIsNotNone(decree)
+  self.assertEqual(decree.get_text(' ',strip=True),'Переезд по Указу 702')
+  self.assertTrue(decree.get('href','').endswith('/ru/migration/decree-702/'))
+  self.assertIsNone(page.select_one('.sr-services-section .sr-section-head'))
+  self.assertIn('От миграционной стратегии до недвижимости, бизнеса и юридической защиты',page.select_one('.sr-top p').get_text(' ',strip=True))
+  self.assertIn('Не уверены, какая услуга вам нужна?',page.select_one('.sr-cta').get_text(' ',strip=True))
+  self.assertEqual(len(page.select('.sr-services-pricing a[href]')),1)
+  self.assertEqual(len(page.select('.sr-service-card>.sr-link[href]')),6)
+  css=(ROOT/'assets/platform.css').read_text(encoding='utf-8')
+  self.assertIn('html[lang="ru"]{--font-display:\'Inter\',sans-serif;--font-body:\'Inter\',sans-serif;}',css)
+  self.assertIn('html[lang="ru"] .sr-services-grid{grid-template-columns:repeat(2,minmax(0,1fr));}',css)
+  self.assertIn('html[lang="ru"] .sr-services-grid{grid-template-columns:minmax(0,1fr);gap:14px;}',css)
  def test_russian_home_has_key_services(self):
   t=(ROOT/'ru/index.html').read_text()
   for needle in ['Недвижимость','Миграция','Инвестиции','Бизнес в России','Указ 702','Полезная информация','Консультация']:
