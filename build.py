@@ -476,6 +476,16 @@ html[lang="ru"] .sr-migration-close .sr-cta p+p{margin-top:12px;}
  html[lang="ru"] .sr-migration-close{padding:43px 0 52px;}
 }
 
+
+
+/* Migration hub personalized messaging and search vocabulary, 2026-11-22 */
+html[lang="ru"] .sr-migration-feature-aliases{font-size:13px;line-height:1.5;color:var(--seal);font-weight:650;letter-spacing:.01em;}
+html[lang="ru"] .sr-migration-service--protection strong{font-size:17px;line-height:1.35;overflow-wrap:break-word;}
+html[lang="ru"] .sr-migration-close .sr-migration-close-lead{font-size:18px;font-weight:700;color:var(--ink-text);line-height:1.35;margin-bottom:10px;}
+html[lang="ru"] .sr-migration-close .sr-migration-route{display:flex;flex-wrap:wrap;align-items:center;gap:7px 10px;margin-top:18px;color:var(--ink-text);font-weight:650;font-size:13px;line-height:1.6;}
+html[lang="ru"] .sr-migration-close .sr-migration-route span[aria-hidden="true"]{color:var(--gold);font-size:18px;}
+@media(max-width:540px){html[lang="ru"] .sr-migration-feature-aliases{font-size:12px;}html[lang="ru"] .sr-migration-service--protection strong{font-size:16px;}html[lang="ru"] .sr-migration-close .sr-migration-route{font-size:12px;}}
+
 '''
 (OUT/'assets'/'platform.css').write_text(CSS_ADD+LEGAL_CSS,encoding='utf-8')
 shutil.copy2(ROOT/'assets'/'expert-articles.css',OUT/'assets'/'expert-articles.css')
@@ -540,7 +550,7 @@ LANGS={
  'en':{'home':'Home','services':'Services','decree':'Decree 702','kb':'Insights','about':'About','contacts':'Contact','consult':'Contact us','reviews':'Reviews','prices':'Fees','more':'Learn more →','discuss':'Discuss a project →','start':'Contact us','all':'All','articles':'Articles','instructions':'Guides','news':'News'},
 }
 SECTIONS={
- 'migration':{'ru':('Immigration et statuts','Миграция и переезд','РВП, ВНЖ, гражданство, визы, Указ 702 и правовая помощь при простых и сложных миграционных ситуациях.'),'fr':('Immigration','Immigration et séjour','Titres de séjour, visas, nationalité russe et accompagnement juridique.') ,'symbol':'✦'},
+ 'migration':{'ru':('Immigration et statuts','Переезд в Россию','РВП, ВНЖ, гражданство, визы, Указ 702 и правовая помощь при простых и сложных миграционных ситуациях.'),'fr':('Immigration','S’installer en Russie','Titres de séjour, visas, nationalité russe et accompagnement juridique.') ,'symbol':'✦'},
  'real-estate':{'ru':('Недвижимость','Недвижимость','Аренда, покупка, договоры и юридическая проверка объекта до принятия обязательств.'),'fr':('Immobilier','Immobilier en Russie','Location, acquisition, contrats et vérification juridique avant tout engagement.'),'symbol':'⌂'},
  'business':{'ru':('Бизнес','Бизнес в России','Создание компании, корпоративные документы, юридические риски и международный найм.'),'fr':('Entreprises','Créer une entreprise','Création de sociétés, documents, risques juridiques et recrutement international.'),'symbol':'§'},
  'investments':{'ru':('Инвестиции','Инвестиции','Юридическая проверка сделки, активов и условий участия в инвестиционном проекте.'),'fr':('Investissements','Investissements en Russie','Vérification juridique des actifs, des parties et des conditions de participation.'),'symbol':'↗'},
@@ -552,9 +562,9 @@ PROGRAMS={
  'vnzh':{'ru':('Вид на жительство','ВНЖ в России','Анализируем возможные основания для получения вида на жительство и последовательность действий.'),'fr':('Résidence permanente','Titre de séjour (VNZh)','Analyse des voies d’accès au titre de séjour et des documents requis.')},
  'citizenship':{'ru':('Гражданство Российской Федерации','Гражданство России','Выбираем применимое основание, проверяем документы и сопровождаем согласованную процедуру.'),'fr':('Nationalité russe','Nationalité russe','Vérification du fondement juridique et accompagnement du dossier.')},
  'visas':{'ru':('Визы','Визы в Россию','Помогаем определить подходящий визовый режим, проверить документы и последовательность оформления.'),'fr':('Visas','Visas pour la Russie','Choix du régime de visa et préparation du dossier.')},
- 'students':{'ru':('Образование и РВПО','РВПО и учёба в России','Помощь иностранным студентам по вопросам статуса и документов.'),'fr':('Études','Études et séjour','Assistance aux étudiants étrangers concernant le statut et les documents.')},
+ 'students':{'ru':('Образование и РВПО','Учёба в России и РВПО','Помощь иностранным студентам по вопросам статуса и документов.'),'fr':('Études','Études et séjour','Assistance aux étudiants étrangers concernant le statut et les documents.')},
  'family':{'ru':('Переезд семьи','Семейный переезд','Подбираем последовательность оформления статусов и документов для членов семьи.'),'fr':('Famille','S’installer en famille','Planifier le statut et les démarches des membres de la famille.')},
- 'disputes':{'ru':('Защита','Защита в суде и МВД','Помощь при отказах и решениях МВД: правовая оценка, обращения, жалобы и судебное представительство в согласованном объёме.'),'fr':('Contentieux','Contentieux migratoire','Recours contre les décisions administratives et défense devant les tribunaux.')}
+ 'disputes':{'ru':('Защита','Защита в суде и государственных органах (МВД, ФСБ)','Помогаем обжаловать решения, защититься при выдворении или депортации и отстоять права в суде и компетентных государственных органах.'),'fr':('Contentieux','Contentieux migratoire','Recours contre les décisions administratives et défense devant les tribunaux.')}
 }
 SUBPAGES={
  'real-estate':['rent','buy','legal-check'],
@@ -651,7 +661,7 @@ def cta(lang,title=None):
 
 def service_breadcrumbs_ru(url,title):
  parts=url.strip('/').split('/')
- names={'migration':'Миграция и переезд','real-estate':'Недвижимость','business':'Бизнес в России','investments':'Инвестиции','legal':'Юридическая помощь','relocation':'Переезд и адаптация'}
+ names={'migration':'Переезд в Россию','real-estate':'Недвижимость','business':'Бизнес в России','investments':'Инвестиции','legal':'Юридическая помощь','relocation':'Переезд и адаптация'}
  if len(parts)<2 or parts[0]!='ru' or parts[1] not in ('services',*names):return ''
  crumbs=[('Главная',path('ru'))]
  if parts[1]=='services':
@@ -732,7 +742,7 @@ def services_ru():
    ('migration/rvp','РВП в России'),
    ('migration/vnzh','ВНЖ в России'),
    ('migration/citizenship','Гражданство России'),
-   ('migration/disputes','Защита в суде и МВД')
+   ('migration/disputes','Защита в суде и государственных органах (МВД, ФСБ)')
   ],
   'business':[
    ('business/company-registration','Открытие компании'),
@@ -838,12 +848,12 @@ def b2b_page(lang,part):
 
 
 def migration_hub_ru():
- title='Миграция и переезд'
- desc='Помогаем иностранцам выбрать законный путь переезда и проживания в России, оформить документы и защитить свои права в сложных миграционных ситуациях.'
+ title='Переезд в Россию'
+ desc='Мы поможем вам выбрать законный путь переезда и проживания в России, оформить необходимые документы и защитим ваши права в сложных миграционных ситуациях.'
  body='''<div class="sr-top sr-migration-top"><div class="sr-width">
  <div class="sr-eyebrow">МИГРАЦИОННАЯ ПОМОЩЬ</div>
- <h1>Миграция и переезд</h1>
- <p>Помогаем иностранцам выбрать законный путь переезда и проживания в России, оформить документы и защитить свои права в сложных миграционных ситуациях.</p>
+ <h1>Переезд в Россию</h1>
+ <p>Мы поможем вам выбрать законный путь переезда и проживания в России, оформить необходимые документы и защитим ваши права в сложных миграционных ситуациях.</p>
  <div class="sr-migration-actions">
   <a class="btn btn-primary" data-analytics-event="consultation_click" href="/ru/consultations/">Обсудить мою ситуацию →</a>
   <a class="sr-migration-jump" href="#migration-services">Посмотреть услуги ↓</a>
@@ -854,36 +864,36 @@ def migration_hub_ru():
  <h2 class="sr-migration-section-heading">Выберите миграционную услугу</h2>
  <a class="sr-migration-feature" href="/ru/migration/decree-702/" aria-label="Подробнее о переезде по Указу 702">
   <span class="sr-migration-feature-icon" aria-hidden="true">✳</span>
-  <span class="sr-migration-feature-copy"><span class="sr-migration-feature-label">СПЕЦИАЛЬНАЯ ПРОГРАММА</span><strong>Переезд в Россию по Указу 702</strong><span>Проверим применимость программы, определим правовой маршрут и согласуем сопровождение.</span></span>
+  <span class="sr-migration-feature-copy"><span class="sr-migration-feature-label">СПЕЦИАЛЬНАЯ ПРОГРАММА</span><strong>Переезд в Россию по Указу 702</strong><span class="sr-migration-feature-aliases">«Разделение ценностей» · «идеологическая программа»</span><span>Проверим применимость программы, определим правовой маршрут и согласуем сопровождение.</span></span>
   <span class="sr-migration-feature-arrow" aria-hidden="true">↗</span>
  </a>
  <h2 class="sr-migration-subheading">Другие миграционные услуги</h2>
  <div class="sr-migration-links">
-  <a class="sr-migration-service" href="/ru/migration/visas/"><span><strong>Визы в Россию</strong><small>Выбор визового режима, документы и порядок оформления</small></span><span aria-hidden="true">↗</span></a>
-  <a class="sr-migration-service" href="/ru/migration/rvp/"><span><strong>РВП в России</strong><small>Основания для временного проживания и подготовка к подаче</small></span><span aria-hidden="true">↗</span></a>
-  <a class="sr-migration-service" href="/ru/migration/vnzh/"><span><strong>ВНЖ в России</strong><small>Возможные основания и сопровождение оформления</small></span><span aria-hidden="true">↗</span></a>
-  <a class="sr-migration-service" href="/ru/migration/citizenship/"><span><strong>Гражданство России</strong><small>Правовые основания, документы и процедура получения</small></span><span aria-hidden="true">↗</span></a>
-  <a class="sr-migration-service" href="/ru/migration/disputes/"><span><strong>Защита в суде и МВД</strong><small>Отказы, жалобы, административные и судебные споры</small></span><span aria-hidden="true">↗</span></a>
+  <a class="sr-migration-service" href="/ru/migration/visas/"><span><strong>Визы в Россию</strong><small>Подберём подходящую визу и сопроводим её оформление</small></span><span aria-hidden="true">↗</span></a>
+  <a class="sr-migration-service" href="/ru/migration/rvp/"><span><strong>РВП в России</strong><small>Поможем оформить разрешение на временное проживание (РВП)</small></span><span aria-hidden="true">↗</span></a>
+  <a class="sr-migration-service" href="/ru/migration/vnzh/"><span><strong>ВНЖ в России</strong><small>Поможем получить вид на жительство (ВНЖ) для постоянного проживания в России</small></span><span aria-hidden="true">↗</span></a>
+  <a class="sr-migration-service" href="/ru/migration/citizenship/"><span><strong>Гражданство России</strong><small>Определим подходящее основание, подготовим документы и проведём вас по этапам получения гражданства</small></span><span aria-hidden="true">↗</span></a>
+  <a class="sr-migration-service sr-migration-service--protection" href="/ru/migration/disputes/"><span><strong>Защита в суде и государственных органах (МВД, ФСБ)</strong><small>Отказы, жалобы, выдворение и депортация, административные и судебные споры</small></span><span aria-hidden="true">↗</span></a>
  </div>
  <div class="sr-migration-special"><h2>Специальные ситуации</h2><p>Для студентов и семей порядок оформления может отличаться.</p>
-  <div class="sr-migration-special-links"><a href="/ru/migration/students/">РВПО и учёба в России <span aria-hidden="true">↗</span></a><a href="/ru/migration/family/">Семейный переезд <span aria-hidden="true">↗</span></a></div>
+  <div class="sr-migration-special-links"><a href="/ru/migration/students/">Учёба в России и РВПО <span aria-hidden="true">↗</span></a><a href="/ru/migration/family/">Семейный переезд <span aria-hidden="true">↗</span></a></div>
  </div>
 </div></section>
 <section class="sr-sec alt sr-migration-explain"><div class="sr-width">
  <h2>Как мы работаем</h2>
- <ol class="sr-migration-steps"><li><span>01</span><strong>Разбираем ситуацию</strong><p>Уточняем гражданство, текущий статус, сроки, документы и цель проживания.</p></li><li><span>02</span><strong>Определяем правовую стратегию</strong><p>Сравниваем доступные основания и выстраиваем последовательность действий.</p></li><li><span>03</span><strong>Сопровождаем</strong><p>Помогаем с документами, обращениями и согласованными этапами работы.</p></li></ol>
+ <ol class="sr-migration-steps"><li><span>01</span><strong>Разбираем ваши планы</strong><p>Уточняем ваше гражданство, текущий статус, сроки документов и цели поездки или переезда в Россию.</p></li><li><span>02</span><strong>Готовим миграционную стратегию</strong><p>Разрабатываем стратегию под вашу ситуацию и составляем пошаговый план действий.</p></li><li><span>03</span><strong>Сопровождаем до результата</strong><p>Помогаем с документами и обращениями, сопровождаем вас на каждом согласованном этапе.</p></li></ol>
  <details class="sr-migration-prep"><summary>Что подготовить к первой консультации? <span aria-hidden="true">+</span></summary>
-  <div class="sr-migration-prep-content"><p>Для начала достаточно коротко описать ситуацию. Если документы уже есть, полезно подготовить:</p>
-   <ul><li>Гражданство и место постоянного проживания каждого заявителя.</li><li>Цель и предполагаемые даты въезда либо продолжения проживания.</li><li>Копии имеющихся виз, РВП, ВНЖ, отказов и ранее поданных заявлений.</li><li>Сведения о семье, работе, учёбе или бизнесе, влияющие на выбранный маршрут.</li></ul>
-   <p>Если семья переезжает из разных стран, сначала определяем статус каждого человека и затем составляем общий календарь действий.</p>
+  <div class="sr-migration-prep-content"><p>Для начала достаточно описать вашу ситуацию и планы своими словами. Если есть возможность, подготовьте:</p>
+   <ul><li>Гражданство и место постоянного проживания каждого заявителя.</li><li>Ваши цели, пожелания и предполагаемые даты въезда в Россию.</li><li>Копии имеющихся документов (можете прислать их заранее или мы отдельно запросим необходимое).</li><li>Сведения о семье, работе, учёбе или бизнесе, которые могут влиять на ваши планы.</li></ul>
    <p class="sr-migration-prep-note">Дополнительно: <a href="/ru/knowledge/articles/how-to-choose-residence/">как выбрать основание для проживания в России →</a></p>
   </div>
  </details>
 </div></section>
 <section class="sr-sec sr-migration-close"><div class="sr-width"><div class="sr-cta"><div>
  <h2>Не знаете, с чего начать?</h2>
- <p>Лев Втюрин — основатель SalutRussie, более 20 лет юридической практики. Лично отвечаю за правовую стратегию и качество сопровождения каждого проекта.</p>
- <p>Опишите свою ситуацию: поможем определить следующий шаг и согласуем объём работы до её начала.</p>
+ <p class="sr-migration-close-lead">Расскажите о ваших планах.</p>
+ <p>Я — Лев Втюрин, основатель SalutRussie. Более 20 лет юридической практики. Лично отвечаю за миграционную стратегию и качество сопровождения каждого проекта.</p>
+ <div class="sr-migration-route" aria-label="Этапы работы"><span>Опишите ситуацию</span><span aria-hidden="true">→</span><span>Подготовим миграционную стратегию</span><span aria-hidden="true">→</span><span>Согласуем тариф</span><span aria-hidden="true">→</span><span>Приступим к реализации плана</span></div>
  </div><a class="btn btn-primary" data-analytics-event="consultation_click" href="/ru/consultations/">Обсудить мою ситуацию →</a></div></div></section>'''
  return shell('ru',path('ru','migration'),title,desc,body)
 
@@ -936,7 +946,7 @@ def extra_service_pages_ru():
 
 def consultations(lang):
  ru=lang=='ru'
- entries=[('migration','Миграция и переезд','Immigration et séjour','РВП, ВНЖ, Указ 702, визы и гражданство','RVP, VNZh, décret 702, visas, nationalité'),('real-estate','Недвижимость','Immobilier','Аренда, договоры, покупка и юридическая проверка','Location, achat et contrats'),('business','Бизнес и инвестиции','Entreprises et investissements','Создание компании, инвестиционные сделки и сопровождение','Création de société, projets et investissements'),('legal','Вопросы к юристу','Questions juridiques','Любые вопросы к российскому юристу','Documents, contentieux et questions spécifiques')]
+ entries=[('migration','Переезд в Россию','S’installer en Russie','РВП, ВНЖ, Указ 702, визы и гражданство','RVP, VNZh, décret 702, visas, nationalité'),('real-estate','Недвижимость','Immobilier','Аренда, договоры, покупка и юридическая проверка','Location, achat et contrats'),('business','Бизнес и инвестиции','Entreprises et investissements','Создание компании, инвестиционные сделки и сопровождение','Création de société, projets et investissements'),('legal','Вопросы к юристу','Questions juridiques','Любые вопросы к российскому юристу','Documents, contentieux et questions spécifiques')]
  s=heading(lang,'Выберите вид консультации' if ru else 'Choisissez votre consultation','Выберите направление, затем напишите нам. Стоимость, формат и объём согласуем до оплаты.' if ru else 'Choisissez un domaine. Nous confirmerons le format, le périmètre et le prix avant paiement.',LANGS[lang]['consult'])
  s+='<section class="sr-sec"><div class="sr-width"><div class="sr-contact-list">'
  for slug,r,f,rd,fd in entries:
