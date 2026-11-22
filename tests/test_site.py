@@ -67,8 +67,10 @@ class SiteTests(unittest.TestCase):
   self.assertIn('@media(max-width:600px)',styles)
   self.assertIn('Editorial founder photo: transparent original',styles)
   self.assertIn('html[lang="ru"] .sr-founder-spot .sr-founder-portrait-frame',styles)
-  self.assertIn('width:240px;height:260px;overflow:hidden;border:0;',styles)
-  self.assertIn('min-height:260px;overflow:hidden;padding:0 28px;border:0;box-shadow:none;background:transparent;',styles)
+  self.assertIn('width:264px;height:282px;overflow:hidden;border:0;',styles)
+  self.assertIn('html[lang="ru"] .sr-founder-spot{padding-bottom:0;}',styles)
+  self.assertIn('grid-template-columns:264px minmax(0,1fr)',styles)
+  self.assertIn('min-height:282px;overflow:hidden;padding:0 28px;border:0;box-shadow:none;background:transparent;',styles)
   self.assertIn('html[lang="ru"] .sr-founder-spot .sr-founder-portrait-frame{position:relative;',styles)
 
   self.assertIn('html[lang="ru"] .nav-links{font-size:15px;',styles)

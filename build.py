@@ -330,9 +330,11 @@ html[lang="ru"] .lang-switch a{font-size:12px;}
  html[lang="ru"] .nav-cta{display:none;}
 }
 /* Editorial founder photo: transparent original, no document-photo rectangle. */
-html[lang="ru"] .sr-founder-spot .sr-founder-panel{grid-template-columns:240px minmax(0,1fr);grid-template-rows:auto auto;gap:2px 30px;min-height:260px;overflow:hidden;padding:0 28px;border:0;box-shadow:none;background:transparent;}
-html[lang="ru"] .sr-founder-spot .sr-founder-portrait-frame{position:relative;grid-row:1/span 2;grid-column:1;align-self:end;width:240px;height:260px;overflow:hidden;border:0;background:radial-gradient(ellipse at 50% 50%,rgba(169,128,62,.18),transparent 70%);}
-html[lang="ru"] .sr-founder-spot .sr-founder-portrait{position:absolute;top:0;left:50%;display:block;width:240px;max-width:none;height:auto;object-fit:contain;transform:translateX(-50%);border:0;}
+/* Founder touches the lower color boundary without a frame. */
+html[lang="ru"] .sr-founder-spot{padding-bottom:0;}
+html[lang="ru"] .sr-founder-spot .sr-founder-panel{grid-template-columns:264px minmax(0,1fr);grid-template-rows:auto auto;gap:2px 16px;min-height:282px;overflow:hidden;padding:0 28px;border:0;box-shadow:none;background:transparent;}
+html[lang="ru"] .sr-founder-spot .sr-founder-portrait-frame{position:relative;grid-row:1/span 2;grid-column:1;align-self:end;width:264px;height:282px;overflow:hidden;border:0;background:radial-gradient(ellipse at 50% 50%,rgba(169,128,62,.18),transparent 70%);}
+html[lang="ru"] .sr-founder-spot .sr-founder-portrait{position:absolute;top:0;left:50%;display:block;width:264px;max-width:none;height:auto;object-fit:contain;transform:translateX(-50%);border:0;}
 html[lang="ru"] .sr-founder-spot .sr-founder-copy{grid-column:2;align-self:end;padding-top:20px;}
 html[lang="ru"] .sr-founder-spot .sr-founder-more{grid-column:2;align-self:start;justify-self:start;margin-bottom:23px;}
 .sr-about-founder{grid-template-columns:minmax(255px,.86fr) minmax(0,1.14fr);gap:0;max-width:960px;margin:0 auto;align-items:stretch;background:var(--parchment-2);border:1px solid var(--line);border-left:3px solid var(--gold);}
@@ -343,9 +345,9 @@ html[lang="ru"] .sr-founder-spot .sr-founder-more{grid-column:2;align-self:start
 .sr-about-founder .founder-card .role{font-size:14px;}
 .sr-about-founder .founder-card p.bio{font-size:15px;line-height:1.67;max-width:52ch;}
 @media(max-width:980px){
- html[lang="ru"] .sr-founder-spot .sr-founder-panel{grid-template-columns:210px minmax(0,1fr);padding:0 22px;gap:2px 23px;}
- html[lang="ru"] .sr-founder-spot .sr-founder-portrait-frame{width:210px;height:230px;}
- html[lang="ru"] .sr-founder-spot .sr-founder-portrait{width:210px;}
+ html[lang="ru"] .sr-founder-spot .sr-founder-panel{grid-template-columns:220px minmax(0,1fr);padding:0 22px;gap:2px 16px;}
+ html[lang="ru"] .sr-founder-spot .sr-founder-portrait-frame{width:220px;height:240px;}
+ html[lang="ru"] .sr-founder-spot .sr-founder-portrait{width:220px;}
 }
 @media(max-width:760px){
  .sr-about-founder{grid-template-columns:minmax(0,1fr);}
