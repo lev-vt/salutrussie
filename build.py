@@ -253,6 +253,59 @@ html[lang="ru"] .nav-links>li:nth-child(2)>a{font-weight:750;color:var(--gold-so
  .sr-founder-more{font-size:12px;}
 }
 @media(max-width:350px){.sr-founder-panel{grid-template-columns:1fr;}.sr-founder-more{grid-column:1;}.sr-founder-portrait{width:90px;height:113px;}}
+
+/* Homepage design iteration: readable Cyrillic, consistent type, responsive hero */
+html[lang="ru"]:has(.hero.v2-home){--font-display:'Inter',sans-serif;}
+html[lang="ru"] .hero.v2-home{padding:52px 0 58px;}
+html[lang="ru"] .hero.v2-home .wrap{grid-template-columns:minmax(0,1fr) 230px;gap:34px;align-items:center;}
+html[lang="ru"] .hero.v2-home h1{font-family:'Inter',sans-serif;font-weight:700;font-size:clamp(34px,3.4vw,48px);line-height:1.13;letter-spacing:-.025em;max-width:100%;margin:14px 0 17px;text-wrap:balance;}
+html[lang="ru"] .hero.v2-home .hero-lede{font-size:16px;line-height:1.6;max-width:760px;margin-top:0;}
+html[lang="ru"] .hero.v2-home .sr-hero-method{font-size:15.5px;line-height:1.55;max-width:760px;margin-top:12px;}
+html[lang="ru"] .hero.v2-home .sr-hero-values{display:inline-block;color:var(--cream-text);font-size:16px;line-height:1.35;font-weight:700;letter-spacing:0;padding:10px 16px;border-left:3px solid var(--gold-soft);background:rgba(255,255,255,.07);margin-top:16px;max-width:100%;}
+html[lang="ru"] .hero.v2-home .hero-actions{margin-top:20px;}
+html[lang="ru"] .hero.v2-home .hero-seal{display:flex;align-items:center;justify-content:center;transform:translateY(-27px);}
+html[lang="ru"] .hero.v2-home .hero-seal svg{max-width:230px;}
+html[lang="ru"] .sr-founder-spot{padding:26px 0;}
+html[lang="ru"] .sr-founder-panel{grid-template-columns:172px minmax(0,1fr);align-items:center;gap:12px 28px;padding:22px 24px;}
+html[lang="ru"] .sr-founder-portrait-frame{display:block;width:172px;height:212px;grid-row:1/span 2;overflow:hidden;border:1px solid var(--line);}
+html[lang="ru"] .sr-founder-portrait{display:block;width:100%;height:100%;object-fit:cover;object-position:center;transform:scale(1.28);transform-origin:50% 25%;border:0;}
+html[lang="ru"] .sr-founder-kicker{font-size:12px;letter-spacing:.075em;}
+html[lang="ru"] .sr-founder-copy h2{font-family:'Inter',sans-serif;font-weight:700;font-size:clamp(25px,2.6vw,34px);letter-spacing:-.022em;line-height:1.15;margin:8px 0;}
+html[lang="ru"] .sr-founder-copy p{font-size:15px;line-height:1.55;margin:5px 0;}
+html[lang="ru"] .sr-founder-more{grid-column:2;justify-self:start;white-space:normal;font-size:13.5px;line-height:1.5;padding-bottom:3px;}
+@media(max-width:980px){
+ html[lang="ru"] .sr-founder-panel{grid-template-columns:154px minmax(0,1fr);gap:12px 20px;}
+ html[lang="ru"] .sr-founder-portrait-frame{width:154px;height:190px;}
+}
+@media(max-width:900px){
+ html[lang="ru"] .hero.v2-home .wrap{grid-template-columns:minmax(0,1fr);gap:0;}
+ html[lang="ru"] .hero.v2-home .hero-seal{display:none;}
+ html[lang="ru"] .hero.v2-home{padding:44px 0 50px;}
+ html[lang="ru"] .hero.v2-home h1{font-size:clamp(31px,5.2vw,43px);}
+}
+@media(max-width:680px){
+ html[lang="ru"] .sr-founder-panel{grid-template-columns:132px minmax(0,1fr);gap:12px 15px;padding:18px;}
+ html[lang="ru"] .sr-founder-portrait-frame{width:132px;height:164px;}
+ html[lang="ru"] .sr-founder-copy h2{font-size:26px;}
+ html[lang="ru"] .sr-founder-copy p{font-size:13px;}
+ html[lang="ru"] .sr-founder-kicker{font-size:10px;}
+}
+@media(max-width:600px){
+ html[lang="ru"] .hero.v2-home{padding:31px 0 40px;}
+ html[lang="ru"] .hero.v2-home h1{font-size:clamp(29px,7.5vw,36px);line-height:1.16;letter-spacing:-.025em;margin:13px 0 16px;}
+ html[lang="ru"] .hero.v2-home .hero-lede{font-size:15px;line-height:1.55;}
+ html[lang="ru"] .hero.v2-home .sr-hero-method{font-size:14.5px;line-height:1.55;}
+ html[lang="ru"] .hero.v2-home .sr-hero-values{font-size:14.5px;line-height:1.4;padding:10px 12px;}
+ html[lang="ru"] .hero.v2-home .hero-actions{flex-direction:column;align-items:stretch;}
+ html[lang="ru"] .hero.v2-home .hero-actions .btn{justify-content:center;text-align:center;min-height:45px;}
+}
+@media(max-width:400px){
+ html[lang="ru"] .sr-founder-panel{grid-template-columns:minmax(0,1fr);}
+ html[lang="ru"] .sr-founder-portrait-frame{grid-row:auto;width:156px;height:182px;}
+ html[lang="ru"] .sr-founder-more{grid-column:1;}
+ html[lang="ru"] .sr-founder-copy h2{font-size:26px;}
+ html[lang="ru"] .sr-founder-copy p{font-size:14px;}
+}
 '''
 (OUT/'assets'/'platform.css').write_text(CSS_ADD+LEGAL_CSS,encoding='utf-8')
 shutil.copy2(ROOT/'assets'/'expert-articles.css',OUT/'assets'/'expert-articles.css')
@@ -438,7 +491,7 @@ def home(lang):
  emblem=str(emblem) if emblem else '<div class="hero-seal" aria-hidden="true">SR</div>'
  hero_followup=("<p class=\"sr-hero-method\">Сначала разрабатываем для вас индивидуальную стратегию <span class=\"sr-hero-arrow\" aria-hidden=\"true\">→</span> затем сопровождаем вас на каждом этапе её реализации.</p><p class=\"sr-hero-values\">Профессионально. Безопасно. Надёжно.</p>" if ru else '')
  hero=f'''<section class="hero v2-home"><div class="wrap"><div><div class="sr-hero-kicker">{'УСЛУГИ ДЛЯ ИНОСТРАНЦЕВ В РОССИИ' if ru else 'SERVICES AUX ÉTRANGERS EN RUSSIE'}</div><h1>{esc(intro)}</h1><p class="hero-lede">{esc(detail)}</p>{hero_followup}<div class="hero-actions"><a class="btn btn-primary" data-analytics-event="consultation_click" href="{path(lang,'consultations')}">{'Получить консультацию →' if ru else 'Demander une consultation →'}</a><a class="btn btn-ghost" href="{path(lang,'services')}">{'Все услуги' if ru else 'Tous nos services'}</a></div></div>{emblem}</div></section>'''
- founder=("<section class=\"sr-founder-spot\" aria-label=\"Основатель и личная ответственность\"><div class=\"sr-width\"><div class=\"sr-founder-panel\"><img class=\"sr-founder-portrait\" src=\"/assets/ru-o-kompanii-ru-0.jpg\" alt=\"Лев Втюрин — основатель SalutRussie\" loading=\"lazy\" width=\"112\" height=\"140\"><div class=\"sr-founder-copy\"><span class=\"sr-founder-kicker\">ЛИЧНАЯ ОТВЕТСТВЕННОСТЬ</span><h2>Лев Втюрин</h2><p class=\"sr-founder-role\">Основатель SalutRussie · Более 20 лет юридической практики</p><p>Лично отвечаю за правовую стратегию и качество сопровождения каждого проекта.</p></div><a class=\"sr-founder-more\" href=\"{path(lang,'about')}\">О бюро и опыте →</a></div></div></section>".replace("{path(lang,'about')}",path(lang,'about')) if ru else '')
+ founder=("<section class=\"sr-founder-spot\" aria-label=\"Основатель и личная ответственность\"><div class=\"sr-width\"><div class=\"sr-founder-panel\"><div class=\"sr-founder-portrait-frame\"><img class=\"sr-founder-portrait\" src=\"/assets/ru-o-kompanii-ru-0.jpg\" alt=\"Лев Втюрин — основатель SalutRussie\" loading=\"lazy\" width=\"112\" height=\"140\"></div><div class=\"sr-founder-copy\"><span class=\"sr-founder-kicker\">ЛИЧНАЯ ОТВЕТСТВЕННОСТЬ</span><h2>Лев Втюрин</h2><p class=\"sr-founder-role\">Основатель SalutRussie · Более 20 лет юридической практики</p><p>Лично отвечаю за правовую стратегию и качество сопровождения каждого проекта.</p></div><a class=\"sr-founder-more\" href=\"{path(lang,'about')}\">О бюро и опыте →</a></div></div></section>".replace("{path(lang,'about')}",path(lang,'about')) if ru else '')
  services=f'''<section class="sr-sec" id="services"><div class="sr-width"><div class="sr-section-head"><span class="eyebrow">{'НАПРАВЛЕНИЯ' if ru else 'NOS SERVICES'}</span><h2>{'Чем мы можем помочь' if ru else 'Comment pouvons-nous vous aider ?'}</h2><p>{'Выберите интересующее вас направление — мы подскажем, с чего начать' if ru else 'Choisissez votre besoin : nous définirons l’accompagnement approprié.'}</p></div>{cards(lang,list(SECTIONS.items()))}</div></section>'''
  steps=[('01','Ваша заявка','Опишите свой вопрос своими словами в том формате, как вам удобно'),('02','Консультация','Проводим подробную консультацию, разбираем вашу ситуацию и отвечаем на все вопросы'),('03','План действий','Готовим пошаговый план действий для достижения вашей цели'),('04','Сопровождение','Сопровождаем на согласованных этапах работы')] if ru else [('01','Expliquez votre projet','Présentez votre besoin sans documents sensibles au premier contact.'),('02','Choisissez une consultation','Nous analysons votre situation et répondons à vos questions.'),('03','Obtenez un plan','Analyse des pièces et étapes suivantes.'),('04','Accompagnement','Nous intervenons selon le périmètre convenu.')]
  process=f'''<section class="sr-sec alt"><div class="sr-width"><div class="sr-section-head"><span class="eyebrow">{'ПРОЦЕСС' if ru else 'NOTRE MÉTHODE'}</span><h2>{'Как мы работаем' if ru else 'Comment nous travaillons'}</h2></div><div class="sr-steps">'''
