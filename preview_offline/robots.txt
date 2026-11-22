@@ -1,3 +1,0 @@
-User-agent: *
-Disallow: /
-# Preview only. Do not deploy as a public indexed release.
