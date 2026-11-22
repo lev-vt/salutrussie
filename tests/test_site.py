@@ -40,6 +40,38 @@ class SiteTests(unittest.TestCase):
   self.assertIn('html[lang="ru"]{--font-display:\'Inter\',sans-serif;--font-body:\'Inter\',sans-serif;}',css)
   self.assertIn('html[lang="ru"] .sr-services-grid{grid-template-columns:repeat(2,minmax(0,1fr));}',css)
   self.assertIn('html[lang="ru"] .sr-services-grid{grid-template-columns:minmax(0,1fr);gap:14px;}',css)
+ def test_expanded_services_links_and_pages(self):
+  page=BeautifulSoup((ROOT/'ru/services/index.html').read_text(encoding='utf-8'),'html.parser')
+  cards={card.select_one('h3').get_text(' ',strip=True):card for card in page.select('.sr-services-grid>.sr-service-card')}
+  expected={
+   'Миграция и переезд':['Переезд по Указу 702','Визы в Россию','РВП в России','ВНЖ в России','Гражданство России','Защита в суде и МВД'],
+   'Бизнес в России':['Открытие компании','Юридическое сопровождение бизнеса','Налоговое консультирование'],
+   'Инвестиции':['Юридическая проверка и сопровождение инвестиционного проекта','Подбор инвестиционных проектов'],
+   'Юридическая помощь':['Консультации','Подготовка документов','Судебные споры'],
+   'Переезд и адаптация':['Административные процедуры','Бытовые вопросы','Изучение русского языка']
+  }
+  for heading,labels in expected.items():
+   with self.subTest(heading=heading):
+    card=cards[heading]
+    self.assertEqual([a.get_text(' ',strip=True) for a in card.select('ul li a')],labels)
+    for a in card.select('ul li a'):
+     self.assertTrue(a.has_attr('href'))
+  for slug,title in [
+   ('business/tax-consulting','Налоговое консультирование'),
+   ('investments/project-selection','Подбор инвестиционных проектов'),
+   ('relocation/administrative-procedures','Административные процедуры'),
+   ('relocation/everyday-life','Бытовые вопросы'),
+   ('relocation/russian-language','Изучение русского языка'),
+   ('investments/legal-due-diligence','Юридическая проверка и сопровождение инвестиционного проекта')]:
+   with self.subTest(slug=slug):
+    p=ROOT/'ru'/slug/'index.html'
+    self.assertTrue(p.is_file(),str(p))
+    doc=BeautifulSoup(p.read_text(encoding='utf-8'),'html.parser')
+    self.assertEqual(doc.h1.get_text(' ',strip=True),title)
+    self.assertIsNotNone(doc.select_one('.sr-cta a[href]'))
+  for slug,text in [('business','Налоговое консультирование'),('investments','Подбор инвестиционных проектов'),('relocation','Изучение русского языка')]:
+   section=BeautifulSoup((ROOT/'ru'/slug/'index.html').read_text(encoding='utf-8'),'html.parser')
+   self.assertIn(text,section.get_text(' ',strip=True))
  def test_russian_home_has_key_services(self):
   t=(ROOT/'ru/index.html').read_text()
   for needle in ['Недвижимость','Миграция','Инвестиции','Бизнес в России','Указ 702','Полезная информация','Консультация']:

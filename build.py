@@ -660,6 +660,7 @@ def services_ru():
  body+='<section class="sr-sec sr-services-section"><div class="sr-width"><div class="sr-services-lead"><span class="eyebrow">НАПРАВЛЕНИЯ ПОМОЩИ</span></div><div class="sr-grid sr-services-grid">'
  for slug,data in SECTIONS.items():
   _,name,description=data['ru']
+  if slug=='investments':description='Подбор инвестиционных проектов, юридическая проверка и сопровождение сделок.'
   priority=' sr-card--priority' if slug=='migration' else ''
   body+=f'<section class="sr-card sr-service-card{priority}"><span class="sr-icon" aria-hidden="true">{esc(data["symbol"])}</span><h3>{esc(name)}</h3><p>{esc(description)}</p>'
   if slug in shortcuts:
