@@ -428,3 +428,13 @@ html[lang="ru"] .sr-migration-close .sr-cta p+p{margin-top:12px;}
  html[lang="ru"] .sr-migration-close{padding:43px 0 52px;}
 }
 
+
+
+/* Migration hub personalized messaging and search vocabulary, 2026-11-22 */
+html[lang="ru"] .sr-migration-feature-aliases{font-size:13px;line-height:1.5;color:var(--seal);font-weight:650;letter-spacing:.01em;}
+html[lang="ru"] .sr-migration-service--protection strong{font-size:17px;line-height:1.35;overflow-wrap:break-word;}
+html[lang="ru"] .sr-migration-close .sr-migration-close-lead{font-size:18px;font-weight:700;color:var(--ink-text);line-height:1.35;margin-bottom:10px;}
+html[lang="ru"] .sr-migration-close .sr-migration-route{display:flex;flex-wrap:wrap;align-items:center;gap:7px 10px;margin-top:18px;color:var(--ink-text);font-weight:650;font-size:13px;line-height:1.6;}
+html[lang="ru"] .sr-migration-close .sr-migration-route span[aria-hidden="true"]{color:var(--gold);font-size:18px;}
+@media(max-width:540px){html[lang="ru"] .sr-migration-feature-aliases{font-size:12px;}html[lang="ru"] .sr-migration-service--protection strong{font-size:16px;}html[lang="ru"] .sr-migration-close .sr-migration-route{font-size:12px;}}
+
