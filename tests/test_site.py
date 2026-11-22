@@ -2,6 +2,7 @@ import unittest, re
 from pathlib import Path
 from urllib.parse import unquote
 from site_html import BeautifulSoup
+from zip_articles import EXPERT_ARTICLES
 ROOT=Path(__file__).resolve().parents[1]/'dist'
 class SiteTests(unittest.TestCase):
  def test_all_pages_well_formed(self):
@@ -154,4 +155,21 @@ class SiteTests(unittest.TestCase):
      regions=article.select('article .sr-table-scroll[tabindex="0"]')
      self.assertEqual(len(tables),len(regions))
      self.assertTrue(all(region.get('role')=='region' and region.get('aria-label') for region in regions))
+ def test_ten_complete_expert_articles(self):
+  self.assertEqual(len(EXPERT_ARTICLES),10)
+  listing=BeautifulSoup((ROOT/'ru/knowledge/index.html').read_text(encoding='utf-8'))
+  for item in EXPERT_ARTICLES:
+   slug=item['slug']
+   with self.subTest(slug=slug):
+    page=BeautifulSoup((ROOT/'ru/knowledge/articles'/slug/'index.html').read_text(encoding='utf-8'))
+    self.assertEqual(len(page.select('h1')),1)
+    self.assertGreater(len(page.select_one('.expert-article').get_text(' ',strip=True).split()),1400)
+    self.assertGreaterEqual(len(page.select('.expert-toc a[href^="#"]')),10)
+    self.assertGreaterEqual(len(page.select('.expert-process li')),5)
+    ids={node.get('id') for node in page.select('[id]')}
+    self.assertTrue(all(a['href'][1:] in ids for a in page.select('.expert-toc a[href^="#"]')))
+    self.assertTrue(any(a.get('href','').startswith('https://') for a in page.select('.expert-article a[href]')))
+    self.assertTrue(any(f'/{slug}/' in a.get('href','') for a in listing.select('a[href]')))
+    self.assertIn('/fr/knowledge/',str(page.select_one('.lang-switch')))
+    self.assertFalse((ROOT/'fr/knowledge/articles'/slug/'index.html').exists())
 if __name__=='__main__':unittest.main()

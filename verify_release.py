@@ -67,7 +67,8 @@ for file in pages:
     is_indexed = robots is not None and robots.get('content') == 'index,follow'
     if is_indexed:
         indexed.add(origin + route)
-        peers = ('ru', 'fr', 'en') if '/for-business/' in route else ('ru', 'fr')
+        ru_only = route.startswith('/ru/knowledge/articles/') and not (root / 'fr' / route.removeprefix('/ru/') / 'index.html').is_file()
+        peers = ('ru',) if ru_only else ('ru', 'fr', 'en') if '/for-business/' in route else ('ru', 'fr')
         alternates = {a.get('hreflang'): a.get('href') for a in soup.select('link[rel=alternate]')}
         for peer in peers:
             expected = origin + '/' + peer + route[3:]

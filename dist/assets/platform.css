@@ -161,3 +161,11 @@ body { min-width: 300px; }
   .sr-width {padding:0 20px;}
 }
 @media(max-width:420px) {.sr-steps {grid-template-columns:1fr;} .sr-card h3 {font-size:21px;}}
+
+.sr-legal-identity{max-width:880px;border:1px solid var(--line);background:var(--parchment-2);padding:clamp(24px,4vw,42px)}
+.sr-legal-identity h2{margin:8px 0 18px}
+.sr-legal-identity p{margin:14px 0 0;overflow-wrap:anywhere}
+.sr-legal-identity dl{display:flex;flex-wrap:wrap;gap:12px 30px;margin:22px 0 0}
+.sr-legal-identity dl div{min-width:145px}
+.sr-legal-identity dt{font-size:12px;color:var(--ink-text-soft)}
+.sr-legal-identity dd{margin:2px 0 0;font-weight:600;overflow-wrap:anywhere}
