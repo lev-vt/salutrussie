@@ -337,9 +337,10 @@ class SiteTests(unittest.TestCase):
    with self.subTest(anchor=anchor):
     self.assertIsNotNone(page.select_one(f'#{anchor}'))
   self.assertEqual(len(page.select('article .sr702-with-image img')),4)
-  self.assertEqual(len(page.select('.sr702-visa-preview[data-sr702-visa-open]')),1)
-  self.assertEqual(len(page.select('dialog#sr702-visa-dialog')),1)
-  self.assertIsNotNone(page.select_one('button[data-sr702-visa-close]'))
+  self.assertEqual(len(page.select('.sr702-visa-figure .sr702-visa-crop img')),1)
+  self.assertEqual(len(page.select('dialog#sr702-visa-dialog')),0)
+  self.assertEqual(len(page.select('[data-sr702-visa-open]')),0)
+  self.assertIn('Получите при въезде и сохраните миграционную карту. Не теряйте её.',page.main.get_text(' ',strip=True))
   self.assertIn('Нотариальный перевод на русский язык вы сделаете уже в России.',page.main.get_text(' ',strip=True))
   self.assertNotIn('и нотариальным переводом на русский язык',page.main.get_text(' ',strip=True))
   self.assertEqual(len(page.select('.sr702-visual-crop')),2)
