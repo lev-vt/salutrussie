@@ -526,14 +526,11 @@ html[lang="ru"] .sr702-expand>p,html[lang="ru"] .sr702-expand>ul,html[lang="ru"]
 html[lang="ru"] .sr702-countries{line-height:1.85;font-size:14px;}
 html[lang="ru"] .sr702-note{border-left:3px solid var(--gold);background:var(--parchment);padding:15px 18px;margin:20px 0 4px !important;line-height:1.7;}
 
-html[lang="ru"] .sr702-consular-route{border:1px solid var(--line);border-left:4px solid var(--gold);background:#F9F7F1;padding:25px 29px;margin:30px 0 34px;}
-html[lang="ru"] .sr702-consular-route .sr702-consular-kicker{display:block;color:var(--seal);font-size:12px;letter-spacing:.09em;text-transform:uppercase;font-weight:700;margin-bottom:8px;}
-html[lang="ru"] .sr702-consular-route h2{margin:0 0 16px;font-size:25px;line-height:1.3;}
-html[lang="ru"] .sr702-consular-route p{margin:0 0 14px!important;line-height:1.75;}
+html[lang="ru"] .sr702-consular-route{border-left:3px solid var(--gold);background:var(--parchment);padding:18px 22px;margin:25px 0 29px;}
+html[lang="ru"] .sr702-consular-route h3{margin:0 0 12px;font-size:19px;line-height:1.4;}
+html[lang="ru"] .sr702-consular-route p{margin:0 0 11px!important;line-height:1.7;}
 html[lang="ru"] .sr702-consular-route p:last-child{margin-bottom:0!important;}
-html[lang="ru"] .sr702-consular-route a{color:var(--seal);text-underline-offset:2px;}
-html[lang="ru"] .sr702-consular-route .sr702-consular-bottom{border-top:1px solid var(--line);padding-top:14px;margin-top:18px!important;}
-@media(max-width:430px){html[lang="ru"] .sr702-consular-route{padding:20px 18px;margin:25px 0 28px;}html[lang="ru"] .sr702-consular-route h2{font-size:22px;}}
+@media(max-width:430px){html[lang="ru"] .sr702-consular-route{padding:16px 17px;margin:22px 0 25px;}}
 html[lang="ru"] .sr702-final{background:var(--parchment);padding:27px 24px 38px;margin:32px -24px 0;border-bottom:0;}
 html[lang="ru"] .sr702-voice{border-left:3px solid var(--gold);padding:22px 30px;background:#F9F7F1;margin:36px 0;}
 html[lang="ru"] .sr702-voice p:first-child{font-size:17px;line-height:1.8;}
@@ -984,14 +981,12 @@ def decree_page(lang):
  <p class="sr702-note"><strong>Практический совет:</strong> сначала составьте план действий и календарь с учётом даты выдачи справки об отсутствии судимости, записи в консульство и подачи документов в МВД.</p>
 </section>
 <section class="sr702-consular-route" aria-labelledby="sr702-consular-heading">
- <span class="sr702-consular-kicker">Альтернативный способ подачи</span>
- <h2 id="sr702-consular-heading">Можно ли подать заявление на РВП через российское консульство?</h2>
- <p><strong>Да, это предусмотрено законом.</strong> Заявление на РВП можно подать через российское консульство в государстве вашего проживания — в том числе в стране гражданства, если вы проживаете там. Такая возможность прямо предусмотрена <a href="https://www.consultant.ru/document/cons_doc_LAW_37868/c9b9574537c49598dac3a13845550e8995a3f405/" target="_blank" rel="noopener noreferrer">пунктом 4 статьи 6 Федерального закона № 115-ФЗ</a>, хотя на практике используется нечасто. Мы сопровождали такие обращения главным образом через российское консульство во Франции. Это альтернатива маршруту, при котором вы сначала въезжаете в Россию по специальной визе, а затем подаёте заявление в МВД.</p>
- <p><strong>Консульство не рассматривает заявление по существу.</strong> Оно принимает документы и направляет их в территориальный орган МВД России. Именно МВД проводит проверку и принимает решение. По общему правилу срок рассмотрения — до четырёх месяцев со дня поступления заявления в МВД, а не со дня обращения в консульство.</p>
- <p><strong>Регион будущего проживания необходимо выбрать заранее.</strong> Заявление направят в МВД того субъекта РФ, где вы планируете постоянно проживать.</p>
- <p><strong>Медицинское освидетельствование, дактилоскопия и фотографирование проходят в России.</strong> После въезда нужно пройти медицинское освидетельствование в течение 30 календарных дней, а дактилоскопию и фотографирование — в МВД по месту выдачи РВП. Даже если положительное решение принято, само разрешение оформляется после приезда и выполнения необходимых процедур.</p>
- <p><strong>По нашей практике, пересылка документов через консульство может увеличить общий срок примерно на два месяца.</strong> Это ориентир, а не установленный законом дополнительный срок. Но такой вариант иногда удобнее: вы можете завершать дела в стране проживания, пока заявление рассматривается в России, и приехать ближе к ожидаемому решению. После положительного решения при необходимости можно оформить через консульство визу для въезда за получением РВП. Так вам не придётся проводить весь период рассмотрения заявления в России.</p>
- <p class="sr702-consular-bottom"><strong>Важно:</strong> у этого способа есть свои нюансы, в том числе порядок приёма в конкретном консульстве и оформление въезда после решения МВД. Поэтому мы рекомендуем проходить такую процедуру с опытным миграционным юристом.</p>
+ <h3 id="sr702-consular-heading">РВП через консульство</h3>
+ <p>Вы можете подать заявление на РВП через российское консульство в стране проживания. Это предусмотрено законом, хотя используется нечасто. В нашей практике мы чаще сопровождали такие обращения через консульство во Франции.</p>
+ <p>Консульство только принимает документы и направляет их в МВД России. Поэтому заранее выберите регион будущего постоянного проживания.</p>
+ <p>Медицинское освидетельствование, дактилоскопию и фотографирование вы пройдёте после въезда в Россию.</p>
+ <p>Подача через консульство может увеличить общий срок примерно на два месяца. Но иногда это удобнее: вы завершаете дела за рубежом, пока МВД рассматривает заявление, и приезжаете ближе к ожидаемому решению, а не ждёте его в России.</p>
+ <p>У такой процедуры есть нюансы. Рекомендуем проходить её с опытным миграционным юристом.</p>
 </section>
 <section class="sr702-stage" id="step2">
  <div class="sr702-stage-head"><span class="sr702-number">02</span><div><span class="sr702-kicker">Первые дни после пересечения границы</span><h2>Прибытие в Россию: что сделать в первую очередь</h2></div></div>
