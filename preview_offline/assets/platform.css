@@ -471,6 +471,15 @@ html[lang="ru"] .sr702-expand[open] summary{border-bottom:1px solid var(--line);
 html[lang="ru"] .sr702-expand>p,html[lang="ru"] .sr702-expand>ul,html[lang="ru"] .sr702-expand>.sr702-countries{margin:16px 18px 19px !important;}
 html[lang="ru"] .sr702-countries{line-height:1.85;font-size:14px;}
 html[lang="ru"] .sr702-note{border-left:3px solid var(--gold);background:var(--parchment);padding:15px 18px;margin:20px 0 4px !important;line-height:1.7;}
+
+html[lang="ru"] .sr702-consular-route{border:1px solid var(--line);border-left:4px solid var(--gold);background:#F9F7F1;padding:25px 29px;margin:30px 0 34px;}
+html[lang="ru"] .sr702-consular-route .sr702-consular-kicker{display:block;color:var(--seal);font-size:12px;letter-spacing:.09em;text-transform:uppercase;font-weight:700;margin-bottom:8px;}
+html[lang="ru"] .sr702-consular-route h2{margin:0 0 16px;font-size:25px;line-height:1.3;}
+html[lang="ru"] .sr702-consular-route p{margin:0 0 14px!important;line-height:1.75;}
+html[lang="ru"] .sr702-consular-route p:last-child{margin-bottom:0!important;}
+html[lang="ru"] .sr702-consular-route a{color:var(--seal);text-underline-offset:2px;}
+html[lang="ru"] .sr702-consular-route .sr702-consular-bottom{border-top:1px solid var(--line);padding-top:14px;margin-top:18px!important;}
+@media(max-width:430px){html[lang="ru"] .sr702-consular-route{padding:20px 18px;margin:25px 0 28px;}html[lang="ru"] .sr702-consular-route h2{font-size:22px;}}
 html[lang="ru"] .sr702-final{background:var(--parchment);padding:27px 24px 38px;margin:32px -24px 0;border-bottom:0;}
 html[lang="ru"] .sr702-voice{border-left:3px solid var(--gold);padding:22px 30px;background:#F9F7F1;margin:36px 0;}
 html[lang="ru"] .sr702-voice p:first-child{font-size:17px;line-height:1.8;}
