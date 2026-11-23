@@ -495,3 +495,30 @@ html[lang="ru"] .sr702-with-image .sr702-visual-crop>img{width:100%;height:auto;
 html[lang="ru"] .sr-top .sr-eyebrow{line-height:1.65;overflow-wrap:break-word;}
 @media(max-width:760px){html[lang="ru"] .sr702-toc>div{grid-auto-flow:row;grid-template-rows:none;grid-template-columns:1fr;}}
 @media(max-width:430px){html[lang="ru"] .sr-top .sr-eyebrow{font-size:11px;letter-spacing:.04em;}html[lang="ru"] .sr702-strategy{font-size:15px;}}
+
+/* Decree 702: identical Inter font, size and line-height across the three introduction paragraphs */
+html[lang="ru"] .sr702-overview > p.sr702-lead,
+html[lang="ru"] .sr702-overview > p.sr702-lead + p,
+html[lang="ru"] .sr702-overview > p.sr702-strategy {
+  font-family:Inter,system-ui,sans-serif;
+  font-size:17px;
+  font-weight:400;
+  line-height:1.75;
+  letter-spacing:normal;
+}
+html[lang="ru"] .sr702-overview > p.sr702-strategy {
+  padding:0;
+  margin-top:14px!important;
+  margin-bottom:24px!important;
+}
+html[lang="ru"] .sr702-overview > p strong {
+  font-family:inherit;
+  font-size:inherit;
+  line-height:inherit;
+  font-weight:700;
+}
+@media(max-width:430px) {
+ html[lang="ru"] .sr702-overview > p.sr702-lead,
+ html[lang="ru"] .sr702-overview > p.sr702-lead + p,
+ html[lang="ru"] .sr702-overview > p.sr702-strategy {font-size:16px;}
+}
