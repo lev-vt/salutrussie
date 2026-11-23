@@ -282,8 +282,13 @@ class SiteTests(unittest.TestCase):
  def test_edited_legal_content_and_french_consistency(self):
   for lang in ('ru','fr'):
    decree=BeautifulSoup((ROOT/lang/'migration/decree-702/index.html').read_text())
-   self.assertIn('publication.pravo.gov.ru/document/0001202408190001',str(decree.main))
-   self.assertIn('publication.pravo.gov.ru/document/0001202409200036',str(decree.main))
+   if lang=='ru':
+    self.assertIn('garant.ru/products/ipo/prime/doc/409448235/',str(decree.main))
+    self.assertIn('garant.ru/products/ipo/prime/doc/410316959/',str(decree.main))
+    self.assertIn('cons_doc_LAW_37868',str(decree.main))
+   else:
+    self.assertIn('publication.pravo.gov.ru/document/0001202408190001',str(decree.main))
+    self.assertIn('publication.pravo.gov.ru/document/0001202409200036',str(decree.main))
    self.assertNotIn('гарантированная виза',decree.main.get_text(' ',strip=True).lower())
    for slug in ('how-to-choose-residence','renting-a-home','starting-a-business','investor-checklist'):
     with self.subTest(lang=lang,slug=slug):
@@ -327,18 +332,21 @@ class SiteTests(unittest.TestCase):
  def test_decree_702_russian_service_journey(self):
   page=BeautifulSoup((ROOT/'ru/migration/decree-702/index.html').read_text(encoding='utf-8'),'html.parser')
   self.assertEqual(len(page.select('main h1')),1)
-  self.assertIn('Переезд в Россию по Указу № 702',page.title.get_text())
+  self.assertIn('Переезд в Россию по указу 702',page.title.get_text())
   for anchor in ('step0','step1','step2','step3','step4','life','faq702'):
    with self.subTest(anchor=anchor):
     self.assertIsNotNone(page.select_one(f'#{anchor}'))
   self.assertEqual(len(page.select('article .sr702-with-image img')),4)
+  self.assertEqual(len(page.select('.sr702-visual-crop')),2)
+  self.assertIn('ИДЕОЛОГИЧЕСКАЯ ПРОГРАММА',page.select_one('.sr-top .sr-eyebrow').get_text(' ',strip=True))
+  self.assertNotIn('Обновлено 23 ноября',page.main.get_text(' ',strip=True))
   self.assertEqual(len(page.select('#faq702 details')),6)
   self.assertGreaterEqual(len(page.select('article .sr702-stage details')),10)
   self.assertTrue(any('rvp-shared-values-702' in a.get('href','') for a in page.select('article a[href]')))
   self.assertTrue(any('consultations' in a.get('href','') for a in page.select('article a[data-analytics-event="consultation_click"]')))
-  self.assertIn('https://publication.pravo.gov.ru/document/0001202409200036',str(page.main))
+  self.assertIn('https://www.garant.ru/products/ipo/prime/doc/410316959/',str(page.main))
   self.assertIn('30 суток',page.main.get_text(' ',strip=True))
-  self.assertIn('до трёх месяцев',page.main.get_text(' ',strip=True))
+  self.assertIn('на три месяца',page.main.get_text(' ',strip=True))
   self.assertNotIn('консульство обязано',page.main.get_text(' ',strip=True).lower())
   self.assertNotIn('1126',page.main.get_text(' ',strip=True))
   self.assertIn('noindex',page.select_one('meta[name="robots"]')['content'])
