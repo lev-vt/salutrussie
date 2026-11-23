@@ -696,3 +696,21 @@ html[lang] body:not(.d702-design) .sr-ui-body .sr-content{overflow-wrap:anywhere
 
 .sr-ui-hero-photo{min-height:235px;overflow:hidden;position:relative;background:#f7f1e7}.sr-ui-hero-photo img{width:100%;height:235px;object-fit:cover;object-position:center 32%;border-radius:12px}.sr-ui-hero-photo:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#f7f1e7 0%,transparent 18%);pointer-events:none}
 @media(max-width:600px){.sr-ui-hero-photo{display:block;margin-top:18px;min-height:160px}.sr-ui-hero-photo img{height:190px}.sr-ui-hero-photo:after{background:linear-gradient(180deg,#f7f1e7,transparent 15%)}}
+
+/* V3.2 audit: readability and accessibility without changing the approved composition. */
+html[lang] body:not(.d702-design) .sr-ui-author{padding:12px 0 16px;margin-bottom:22px}
+.sr-ui-author small{line-height:1.45}
+.sr-ui-author div{min-width:0}
+html[lang] body:not(.d702-design) .sr-content .expert-lead{font-size:17px;line-height:1.68}
+html[lang] body:not(.d702-design) .sr-ui-body .expert-article>p,html[lang] body:not(.d702-design) .sr-ui-body .expert-article>ul,html[lang] body:not(.d702-design) .sr-ui-body .expert-article>ol{max-width:76ch}
+.sr-legal-references{border-top:1px solid #e5d7bd;margin-top:24px;padding-top:12px}
+.sr-legal-references h3{margin:4px 0 10px}
+.sr-legal-references ul{padding-left:22px}
+html[lang] body:not(.d702-design) .sr-ui-body .sr-content :is(h2,h3)[id]{scroll-margin-top:calc(var(--sr-head) + 26px)}
+html[lang] body .sr-header .nav-links a:focus-visible,html[lang] body .sr-header button:focus-visible{outline:2px solid #e3c38b;outline-offset:4px}
+html[lang] body:not(.d702-design) .sr-card:focus-visible{outline:2px solid #94601d;outline-offset:3px}
+html[lang] body:not(.d702-design) .hero.v2-home .hero-seal img{object-fit:contain}
+html[lang] body:not(.d702-design) .sr-ui-side nav a{min-height:44px}
+html[lang] body:not(.d702-design) .sr-ui-body .sr-content .btn-primary{overflow-wrap:normal;white-space:normal}
+@media(max-width:900px){html[lang] body:not(.d702-design) .sr-ui-body .sr-content :is(h2,h3)[id]{scroll-margin-top:calc(var(--sr-head) + 78px)}}
+@media(max-width:600px){.sr-ui-author{gap:10px}.sr-ui-author img{width:40px;height:40px}html[lang] body:not(.d702-design) .sr-content .expert-lead{font-size:16px}html[lang] body:not(.d702-design) .sr-card .sr-link{font-size:14px}}
