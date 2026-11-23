@@ -892,7 +892,7 @@ def decree_page(lang):
  ru=lang=='ru'
  url=path(lang,'migration/decree-702')
  title='Переезд в Россию по указу 702' if ru else 'S’installer en Russie selon le décret n° 702'
- desc='Переезд в Россию по указу 702: программа разделения ценностей, список стран, оформление визы, документы, РВП, риски и сопровождение юриста.' if ru else 'Conditions du dispositif, points à vérifier et préparation du dossier.'
+ desc='Переезд в Россию по указу 702: разделение ценностей, идеологическая программа, список стран, оформление визы, документы, РВП и юридическая помощь.' if ru else 'Conditions du dispositif, points à vérifier et préparation du dossier.'
  source='https://kremlin.ru/acts/bank/51035'
  publication='https://publication.pravo.gov.ru/document/0001202408190001'
  countries='https://publication.pravo.gov.ru/document/0001202409200036'
