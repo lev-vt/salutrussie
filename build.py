@@ -39,6 +39,12 @@ for font_file in (ROOT/'src'/'fonts').iterdir():
 shutil.copy2(ROOT/'src'/'fonts'/'fonts.css',OUT/'assets'/'fonts.css')
 shutil.copy2(ROOT/'src'/'founder-lev-vtiurin-2026.webp',OUT/'assets'/'founder-lev-vtiurin-2026.webp')
 shutil.copy2(ROOT/'src'/'founder-lev-vtiurin-cutout-2026.webp',OUT/'assets'/'founder-lev-vtiurin-cutout-2026.webp')
+# User-supplied Decree 702 artwork: exact original files, no retouching or encoding.
+for artwork in ('decree702-stage1-visa.jpg','decree702-stage2-arrival.jpg','decree702-stage3-documents.png','decree702-stage4-mvd.png'):
+    artwork_path=ROOT/'src'/artwork
+    if artwork_path.is_file():
+        shutil.copy2(artwork_path,OUT/'assets'/artwork)
+
 (OUT/'assets'/'favicon.svg').write_text('''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="SalutRussie">
 <rect width="64" height="64" rx="12" fill="#131B2E"/>
 <circle cx="32" cy="32" r="25" fill="none" stroke="#A9803E" stroke-width="1.5"/>
