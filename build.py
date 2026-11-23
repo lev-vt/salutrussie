@@ -37,6 +37,8 @@ for font_file in (ROOT/'src'/'fonts').iterdir():
     if font_file.suffix in ('.woff2','.txt'):
         shutil.copy2(font_file,OUT/'assets'/'fonts'/font_file.name)
 shutil.copy2(ROOT/'src'/'fonts'/'fonts.css',OUT/'assets'/'fonts.css')
+shutil.copy2(ROOT/'src'/'founder-lev-vtiurin-2026.webp',OUT/'assets'/'founder-lev-vtiurin-2026.webp')
+shutil.copy2(ROOT/'src'/'founder-lev-vtiurin-cutout-2026.webp',OUT/'assets'/'founder-lev-vtiurin-cutout-2026.webp')
 (OUT/'assets'/'favicon.svg').write_text('''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="SalutRussie">
 <rect width="64" height="64" rx="12" fill="#131B2E"/>
 <circle cx="32" cy="32" r="25" fill="none" stroke="#A9803E" stroke-width="1.5"/>
@@ -217,6 +219,273 @@ body { min-width: 300px; }
   .sr-width {padding:0 20px;}
 }
 @media(max-width:420px) {.sr-steps {grid-template-columns:1fr;} .sr-card h3 {font-size:21px;}}
+
+/* RU approved homepage, 2026-11-22. Navigation emphasis is scoped to RU only. */
+.hero.v2-home .sr-hero-method{max-width:720px;margin-top:15px;font-size:16px;line-height:1.68;color:var(--cream-text);}
+.hero.v2-home .sr-hero-arrow{display:inline-block;color:var(--gold-soft);font-size:1.3em;font-weight:700;line-height:1;vertical-align:-.04em;margin:0 4px;}
+.hero.v2-home .sr-hero-values{max-width:720px;margin-top:13px;color:var(--gold-soft);font-size:14px;font-weight:700;line-height:1.6;letter-spacing:.02em;}
+.sr-founder-spot{background:var(--parchment-2);padding:30px 0;border-bottom:1px solid var(--line);}
+.sr-founder-panel{display:grid;grid-template-columns:112px minmax(0,1fr) auto;align-items:center;gap:25px;background:var(--parchment);border:1px solid var(--line);border-left:3px solid var(--gold);padding:20px 25px;}
+.sr-founder-portrait{display:block;width:112px;height:140px;object-fit:cover;object-position:center 19%;border:1px solid var(--line);}
+.sr-founder-copy{min-width:0;}
+.sr-founder-kicker{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--seal);}
+.sr-founder-copy h2{font-family:var(--font-display);font-size:clamp(24px,2.6vw,33px);line-height:1.16;margin:6px 0;}
+.sr-founder-copy p{color:var(--ink-text-soft);font-size:14px;line-height:1.55;max-width:650px;margin:4px 0;}
+.sr-founder-copy .sr-founder-role{font-weight:600;color:var(--ink-text);}
+.sr-founder-more{display:inline-flex;align-items:center;text-decoration:none;white-space:nowrap;color:var(--seal);font-size:13px;font-weight:700;border-bottom:1px solid var(--gold);padding:8px 0;}
+.sr-founder-more:hover{color:var(--seal-bright);}
+html[lang="ru"] .nav-links>li:first-child>.sr-drop-button{font-weight:750;color:var(--cream-text);border-bottom:0;padding-bottom:0;}
+html[lang="ru"] .nav-links>li:nth-child(2)>a{font-weight:750;color:var(--gold-soft);border-bottom:0;padding-bottom:0;}
+@media(max-width:980px){
+ html[lang="ru"] .nav-links>li:first-child>.sr-drop-button{display:block;width:100%;text-align:left;padding:14px 28px;border-bottom:0;line-height:1.35;}
+ html[lang="ru"] .nav-links>li:nth-child(2)>a{padding:14px 28px;border-bottom:0;}
+ .sr-founder-panel{grid-template-columns:100px minmax(0,1fr);gap:18px;}
+ .sr-founder-portrait{width:100px;height:125px;}
+ .sr-founder-more{grid-column:2;justify-self:start;}
+}
+@media(max-width:520px){
+ .hero.v2-home .sr-hero-method{font-size:15px;}
+ .hero.v2-home .sr-hero-values{font-size:13px;}
+ .sr-founder-spot{padding:20px 0;}
+ .sr-founder-panel{grid-template-columns:78px minmax(0,1fr);gap:12px;padding:16px;}
+ .sr-founder-portrait{width:78px;height:100px;}
+ .sr-founder-copy h2{font-size:25px;}
+ .sr-founder-copy p{font-size:12.5px;line-height:1.5;}
+ .sr-founder-kicker{font-size:9px;}
+ .sr-founder-more{font-size:12px;}
+}
+@media(max-width:350px){.sr-founder-panel{grid-template-columns:1fr;}.sr-founder-more{grid-column:1;}.sr-founder-portrait{width:90px;height:113px;}}
+
+/* Homepage design iteration: readable Cyrillic, consistent type, responsive hero */
+html[lang="ru"]:has(.hero.v2-home){--font-display:'Inter',sans-serif;}
+html[lang="ru"] .hero.v2-home{padding:52px 0 58px;}
+html[lang="ru"] .hero.v2-home .wrap{grid-template-columns:minmax(0,1fr) 230px;gap:34px;align-items:center;}
+html[lang="ru"] .hero.v2-home h1{font-family:'Inter',sans-serif;font-weight:700;font-size:clamp(34px,3.4vw,48px);line-height:1.13;letter-spacing:-.025em;max-width:100%;margin:14px 0 17px;text-wrap:balance;}
+html[lang="ru"] .hero.v2-home .hero-lede{font-family:var(--font-body);font-size:16px;line-height:1.6;font-weight:400;color:var(--cream-text-soft);letter-spacing:normal;max-width:760px;margin-top:0;}
+html[lang="ru"] .hero.v2-home .sr-hero-method{font-family:var(--font-body);font-size:16px;line-height:1.6;font-weight:400;color:var(--cream-text-soft);letter-spacing:normal;max-width:760px;margin-top:12px;}
+html[lang="ru"] .hero.v2-home .sr-hero-values{display:inline-block;color:var(--cream-text);font-size:16px;line-height:1.35;font-weight:700;letter-spacing:0;padding:10px 16px;border-left:3px solid var(--gold-soft);background:rgba(255,255,255,.07);margin-top:16px;max-width:100%;}
+html[lang="ru"] .hero.v2-home .hero-actions{margin-top:20px;}
+html[lang="ru"] .hero.v2-home .hero-seal{display:flex;align-items:center;justify-content:center;transform:translateY(-27px);}
+html[lang="ru"] .hero.v2-home .hero-seal svg{max-width:230px;}
+html[lang="ru"] .sr-founder-spot{padding:26px 0;}
+html[lang="ru"] .sr-founder-panel{grid-template-columns:172px minmax(0,1fr);align-items:center;gap:12px 28px;padding:22px 24px;}
+html[lang="ru"] .sr-founder-portrait-frame{display:block;width:172px;height:212px;grid-row:1/span 2;overflow:hidden;border:1px solid var(--line);}
+html[lang="ru"] .sr-founder-portrait{display:block;width:100%;height:100%;object-fit:cover;object-position:center;transform:scale(1);transform-origin:50% 50%;border:0;}
+html[lang="ru"] .sr-founder-kicker{font-size:12px;letter-spacing:.075em;}
+html[lang="ru"] .sr-founder-copy h2{font-family:'Inter',sans-serif;font-weight:700;font-size:clamp(25px,2.6vw,34px);letter-spacing:-.022em;line-height:1.15;margin:8px 0;}
+html[lang="ru"] .sr-founder-copy p{font-size:15px;line-height:1.55;margin:5px 0;}
+html[lang="ru"] .sr-founder-more{grid-column:2;justify-self:start;white-space:normal;font-size:13.5px;line-height:1.5;padding-bottom:3px;}
+@media(max-width:980px){
+ html[lang="ru"] .sr-founder-panel{grid-template-columns:154px minmax(0,1fr);gap:12px 20px;}
+ html[lang="ru"] .sr-founder-portrait-frame{width:154px;height:190px;}
+}
+@media(max-width:900px){
+ html[lang="ru"] .hero.v2-home .wrap{grid-template-columns:minmax(0,1fr);gap:0;}
+ html[lang="ru"] .hero.v2-home .hero-seal{display:none;}
+ html[lang="ru"] .hero.v2-home{padding:44px 0 50px;}
+ html[lang="ru"] .hero.v2-home h1{font-size:clamp(31px,5.2vw,43px);}
+}
+@media(max-width:680px){
+ html[lang="ru"] .sr-founder-panel{grid-template-columns:132px minmax(0,1fr);gap:12px 15px;padding:18px;}
+ html[lang="ru"] .sr-founder-portrait-frame{width:132px;height:164px;}
+ html[lang="ru"] .sr-founder-copy h2{font-size:26px;}
+ html[lang="ru"] .sr-founder-copy p{font-size:13px;}
+ html[lang="ru"] .sr-founder-kicker{font-size:10px;}
+}
+@media(max-width:600px){
+ html[lang="ru"] .hero.v2-home{padding:31px 0 40px;}
+ html[lang="ru"] .hero.v2-home h1{font-size:clamp(29px,7.5vw,36px);line-height:1.16;letter-spacing:-.025em;margin:13px 0 16px;}
+ html[lang="ru"] .hero.v2-home .hero-lede{font-size:15px;line-height:1.55;}
+ html[lang="ru"] .hero.v2-home .sr-hero-method{font-size:15px;line-height:1.55;}
+ html[lang="ru"] .hero.v2-home .sr-hero-values{font-size:14.5px;line-height:1.4;padding:10px 12px;}
+ html[lang="ru"] .hero.v2-home .hero-actions{flex-direction:column;align-items:stretch;}
+ html[lang="ru"] .hero.v2-home .hero-actions .btn{justify-content:center;text-align:center;min-height:45px;}
+}
+@media(max-width:400px){
+ html[lang="ru"] .sr-founder-panel{grid-template-columns:minmax(0,1fr);}
+ html[lang="ru"] .sr-founder-portrait-frame{grid-row:auto;width:156px;height:182px;}
+ html[lang="ru"] .sr-founder-more{grid-column:1;}
+ html[lang="ru"] .sr-founder-copy h2{font-size:26px;}
+ html[lang="ru"] .sr-founder-copy p{font-size:14px;}
+}
+
+/* RU header legibility: all top-level destinations are visible; prominent links remain bold */
+html[lang="ru"] .nav-links{font-size:15px;gap:13px;flex-wrap:nowrap;}
+html[lang="ru"] .nav-links>li>a{border-bottom:0;}
+html[lang="ru"] .nav-links>li>a:hover{border-bottom:0;}
+html[lang="ru"] .nav-links .has-drop>button{font-size:inherit;}
+html[lang="ru"] .nav-links .nav-drop a{font-size:14.5px;}
+html[lang="ru"] .nav-cta{font-size:14px;}
+html[lang="ru"] .lang-switch a{font-size:12px;}
+@media(max-width:1180px){
+ html[lang="ru"] .nav-links{position:absolute;top:100%;left:0;right:0;display:flex;flex-direction:column;gap:0;background:var(--ink);border-bottom:1px solid var(--line-dark);max-height:0;overflow:hidden;transition:max-height .25s ease;flex-wrap:nowrap;}
+ html[lang="ru"] .nav-links.open{max-height:80vh;overflow-y:auto;}
+ html[lang="ru"] .nav-links li{border-top:1px solid var(--line-dark);}
+ html[lang="ru"] .nav-links>li>a{display:block;padding:14px 28px;white-space:normal;}
+ html[lang="ru"] .nav-links .has-drop>button{display:block;width:100%;text-align:left;padding:14px 28px;color:var(--cream-text);font-size:15px;line-height:1.35;}
+ html[lang="ru"] .nav-links .nav-drop{position:static;background:transparent;border:0;box-shadow:none;padding:6px 8px 14px 16px;width:100%;}
+ html[lang="ru"] .nav-links .has-drop.is-open .nav-drop{display:grid;gap:2px;}
+ html[lang="ru"] .nav-links .nav-drop a{display:block;padding:11px 20px;white-space:normal;}
+ html[lang="ru"] .burger{display:block;font-size:24px;padding:4px 8px;}
+ html[lang="ru"] .nav-cta{display:none;}
+}
+/* Editorial founder photo: transparent original, no document-photo rectangle. */
+/* Founder touches the lower color boundary without a frame. */
+html[lang="ru"] .sr-founder-spot{padding-bottom:0;}
+html[lang="ru"] .sr-founder-spot .sr-founder-panel{grid-template-columns:264px minmax(0,1fr);grid-template-rows:auto auto;gap:2px 16px;min-height:282px;overflow:hidden;padding:0 28px;border:0;box-shadow:none;background:transparent;}
+html[lang="ru"] .sr-founder-spot .sr-founder-portrait-frame{position:relative;grid-row:1/span 2;grid-column:1;align-self:end;width:264px;height:282px;overflow:hidden;border:0;background:radial-gradient(ellipse at 50% 50%,rgba(169,128,62,.18),transparent 70%);}
+html[lang="ru"] .sr-founder-spot .sr-founder-portrait{position:absolute;top:0;left:50%;display:block;width:264px;max-width:none;height:auto;object-fit:contain;transform:translateX(-50%);border:0;}
+html[lang="ru"] .sr-founder-spot .sr-founder-copy{grid-column:2;align-self:end;padding-top:20px;}
+html[lang="ru"] .sr-founder-spot .sr-founder-more{grid-column:2;align-self:start;justify-self:start;margin-bottom:23px;}
+.sr-about-founder{grid-template-columns:minmax(255px,.86fr) minmax(0,1.14fr);gap:0;max-width:960px;margin:0 auto;align-items:stretch;background:var(--parchment-2);border:1px solid var(--line);border-left:3px solid var(--gold);}
+.sr-about-founder .sr-about-portrait{height:360px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 48% 42%,rgba(169,128,62,.21),transparent 72%);}
+.sr-about-founder .lev-photo{position:absolute;top:0;left:50%;transform:translateX(-50%);width:min(100%,330px);max-width:none;height:auto;aspect-ratio:auto;object-fit:contain;object-position:center top;border:0;}
+.sr-about-founder .founder-card{border:0;background:transparent;display:flex;flex-direction:column;justify-content:center;padding:32px clamp(24px,4.5vw,52px);}
+.sr-about-founder .founder-card h2{font-family:var(--font-body);font-weight:700;font-size:clamp(27px,3vw,38px);line-height:1.17;}
+.sr-about-founder .founder-card .role{font-size:14px;}
+.sr-about-founder .founder-card p.bio{font-size:15px;line-height:1.67;max-width:52ch;}
+@media(max-width:980px){
+ html[lang="ru"] .sr-founder-spot .sr-founder-panel{grid-template-columns:220px minmax(0,1fr);padding:0 22px;gap:2px 16px;}
+ html[lang="ru"] .sr-founder-spot .sr-founder-portrait-frame{width:220px;height:240px;}
+ html[lang="ru"] .sr-founder-spot .sr-founder-portrait{width:220px;}
+}
+@media(max-width:760px){
+ .sr-about-founder{grid-template-columns:minmax(0,1fr);}
+ .sr-about-founder .sr-about-portrait{height:285px;}
+ .sr-about-founder .lev-photo{width:255px;}
+ .sr-about-founder .founder-card{padding:26px 24px 30px;}
+}
+@media(max-width:540px){
+ html[lang="ru"] .sr-founder-spot .sr-founder-panel{grid-template-columns:minmax(0,1fr);grid-template-rows:auto;gap:0;padding:0;}
+ html[lang="ru"] .sr-founder-spot .sr-founder-portrait-frame{grid-row:auto;grid-column:1;width:100%;height:235px;margin:0;}
+ html[lang="ru"] .sr-founder-spot .sr-founder-portrait{width:220px;}
+ html[lang="ru"] .sr-founder-spot .sr-founder-copy{grid-column:1;padding:15px 20px 0;}
+ html[lang="ru"] .sr-founder-spot .sr-founder-more{grid-column:1;margin:10px 20px 22px;}
+ html[lang="ru"] .sr-founder-spot .sr-founder-copy p{font-size:14px;}
+ .sr-about-founder .sr-about-portrait{height:265px;}
+ .sr-about-founder .lev-photo{width:238px;}
+}
+
+/* Unified RU typography and focused services catalog: approved 2026-11-22 */
+html[lang="ru"]{--font-display:'Inter',sans-serif;--font-body:'Inter',sans-serif;}
+html[lang="ru"] .sr-top h1{font-family:var(--font-body);font-weight:700;font-size:clamp(32px,4vw,46px);line-height:1.15;letter-spacing:-.025em;}
+html[lang="ru"] .sr-services-section{padding-top:42px;padding-bottom:64px;}
+html[lang="ru"] .sr-services-lead{margin:0 0 20px;}
+html[lang="ru"] .sr-services-grid{gap:18px;}
+html[lang="ru"] .sr-services-grid .sr-service-card{position:relative;min-width:0;min-height:335px;padding:26px 25px 25px;gap:13px;background:var(--parchment);border:1px solid var(--line);transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease;}
+html[lang="ru"] .sr-services-grid .sr-service-card:hover,html[lang="ru"] .sr-services-grid .sr-service-card:focus-within{border-color:var(--gold);box-shadow:0 8px 20px rgba(19,27,46,.08);}
+html[lang="ru"] .sr-services-grid .sr-card--priority{border:1px solid var(--gold);border-top:4px solid var(--gold);background:linear-gradient(150deg,var(--parchment-2),var(--parchment) 64%);}
+html[lang="ru"] .sr-services-grid .sr-card--priority .sr-icon{background:var(--gold);color:var(--ink);border-color:var(--gold);}
+html[lang="ru"] .sr-services-grid .sr-service-card h3{font-family:var(--font-body);font-size:22px;line-height:1.25;font-weight:700;letter-spacing:-.02em;}
+html[lang="ru"] .sr-services-grid .sr-service-card>p{font-size:14px;line-height:1.58;margin:0;min-height:0;}
+html[lang="ru"] .sr-services-grid .sr-service-card ul{display:flex;flex-direction:column;gap:9px;list-style:none;padding:14px 0 0;margin:1px 0 0;border-top:1px solid var(--line);}
+html[lang="ru"] .sr-services-grid .sr-service-card li{margin:0;padding:0;font-size:14px;line-height:1.45;overflow-wrap:anywhere;}
+html[lang="ru"] .sr-services-grid .sr-service-card li a{color:var(--ink-text);text-decoration-color:var(--line);text-underline-offset:3px;}
+html[lang="ru"] .sr-services-grid .sr-service-card li a:hover{color:var(--seal);text-decoration-color:var(--gold);}
+html[lang="ru"] .sr-services-grid .sr-service-card li .sr-services-program{display:inline-block;padding:7px 10px;background:rgba(169,128,62,.14);border-left:3px solid var(--gold);color:var(--seal);font-weight:700;text-decoration:none;}
+html[lang="ru"] .sr-services-grid .sr-service-card li .sr-services-program:hover{text-decoration:underline;}
+html[lang="ru"] .sr-services-grid .sr-service-card>.sr-link{display:inline-flex;align-self:flex-start;align-items:center;margin-top:auto;padding-top:18px;font-size:14px;font-weight:700;line-height:1.5;text-decoration:none;}
+html[lang="ru"] .sr-services-grid .sr-service-card>.sr-link:hover{text-decoration:underline;text-underline-offset:3px;}
+html[lang="ru"] .sr-services-pricing{margin:24px 0 0;text-align:right;}
+html[lang="ru"] .sr-services-pricing .sr-link{font-size:14px;font-weight:700;color:var(--seal);text-underline-offset:3px;}
+html[lang="ru"] .sr-services-section+.sr-sec{padding-top:34px;}
+@media(max-width:980px){html[lang="ru"] .sr-services-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(max-width:680px){
+ html[lang="ru"] .sr-services-section{padding:30px 0 48px;}
+ html[lang="ru"] .sr-services-grid{grid-template-columns:minmax(0,1fr);gap:14px;}
+ html[lang="ru"] .sr-services-grid .sr-service-card{min-height:0;padding:23px 21px;}
+ html[lang="ru"] .sr-services-grid .sr-service-card h3{font-size:21px;}
+ html[lang="ru"] .sr-services-pricing{text-align:left;}
+}
+
+
+/* Services wayfinding / migration hub, approved architecture 2026-11-22 */
+html[lang="ru"] .sr-breadcrumbs{border-bottom:1px solid var(--line);background:var(--parchment);font-size:12px;line-height:1.5;color:var(--ink-text-soft);}
+html[lang="ru"] .sr-breadcrumbs .sr-width{padding-top:12px;padding-bottom:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+html[lang="ru"] .sr-breadcrumbs a{text-decoration:none;color:var(--ink-text-soft);text-underline-offset:3px;}
+html[lang="ru"] .sr-breadcrumbs a:hover{text-decoration:underline;color:var(--seal);}
+html[lang="ru"] .sr-breadcrumbs [aria-current="page"]{font-weight:650;color:var(--ink-text);}
+html[lang="ru"] .sr-breadcrumb-separator{opacity:.52;}
+html[lang="ru"] .sr-migration-top{padding:48px 0 52px;}
+html[lang="ru"] .sr-migration-top h1{margin:12px 0 15px;}
+html[lang="ru"] .sr-migration-top p{max-width:780px;font-size:17px;line-height:1.65;}
+html[lang="ru"] .sr-migration-actions{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin-top:26px;}
+html[lang="ru"] .sr-migration-jump{font-size:14px;text-underline-offset:4px;color:var(--cream-text);font-weight:600;}
+html[lang="ru"] .sr-migration-hub{padding:45px 0 60px;}
+html[lang="ru"] .sr-migration-section-heading{font-size:clamp(26px,3vw,36px);font-weight:700;margin:10px 0 23px;letter-spacing:-.02em;}
+html[lang="ru"] .sr-migration-feature{display:grid;grid-template-columns:56px minmax(0,1fr) 20px;align-items:center;gap:20px;padding:25px 27px;color:var(--ink-text);border:1px solid var(--gold);border-left:5px solid var(--gold);background:linear-gradient(115deg,var(--parchment-2),var(--parchment) 75%);text-decoration:none;transition:border-color .18s,box-shadow .18s,transform .18s;}
+html[lang="ru"] .sr-migration-feature:hover,html[lang="ru"] .sr-migration-feature:focus-visible{box-shadow:0 10px 25px rgba(19,27,46,.10);transform:translateY(-2px);}
+html[lang="ru"] .sr-migration-feature-icon{display:flex;align-items:center;justify-content:center;width:55px;height:55px;background:var(--gold);color:var(--ink);font-size:29px;}
+html[lang="ru"] .sr-migration-feature-copy{display:flex;flex-direction:column;gap:6px;min-width:0;}
+html[lang="ru"] .sr-migration-feature-label{font-size:11px;letter-spacing:.09em;font-weight:750;color:var(--seal);}
+html[lang="ru"] .sr-migration-feature-copy strong{font-size:clamp(20px,2.5vw,26px);font-weight:700;line-height:1.25;}
+html[lang="ru"] .sr-migration-feature-copy>span:last-child{font-size:14px;line-height:1.6;color:var(--ink-text-soft);}
+html[lang="ru"] .sr-migration-feature-arrow{font-size:21px;color:var(--seal);}
+html[lang="ru"] .sr-migration-subheading{font-size:23px;font-weight:700;margin:38px 0 18px;line-height:1.3;}
+html[lang="ru"] .sr-migration-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;}
+html[lang="ru"] .sr-migration-service{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:113px;padding:19px 21px;color:var(--ink-text);border:1px solid var(--line);background:var(--parchment);text-decoration:none;transition:border-color .18s,background .18s,transform .18s;}
+html[lang="ru"] .sr-migration-service:hover,html[lang="ru"] .sr-migration-service:focus-visible{border-color:var(--gold);background:var(--parchment-2);transform:translateY(-2px);}
+html[lang="ru"] .sr-migration-service>span:first-child{min-width:0;display:flex;flex-direction:column;gap:6px;}
+html[lang="ru"] .sr-migration-service strong{font-size:18px;font-weight:700;line-height:1.35;}
+html[lang="ru"] .sr-migration-service small{font-size:13px;line-height:1.5;color:var(--ink-text-soft);}
+html[lang="ru"] .sr-migration-service>span:last-child{font-size:20px;color:var(--seal);align-self:center;}
+html[lang="ru"] .sr-migration-service:last-child:nth-child(odd){grid-column:span 2;}
+html[lang="ru"] .sr-migration-special{padding:23px 0 0;margin-top:30px;border-top:1px solid var(--line);}
+html[lang="ru"] .sr-migration-special h2{font-size:22px;font-weight:700;margin:0 0 6px;}
+html[lang="ru"] .sr-migration-special p{color:var(--ink-text-soft);font-size:14px;line-height:1.6;}
+html[lang="ru"] .sr-migration-special-links{display:flex;gap:16px 28px;flex-wrap:wrap;margin-top:14px;}
+html[lang="ru"] .sr-migration-special-links a{color:var(--seal);font-size:14px;font-weight:700;text-underline-offset:4px;}
+html[lang="ru"] .sr-migration-explain{padding:56px 0;}
+html[lang="ru"] .sr-migration-explain h2{font-size:27px;font-weight:700;margin:0 0 22px;}
+html[lang="ru"] .sr-migration-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));list-style:none;padding:0;margin:0 0 32px;gap:16px;}
+html[lang="ru"] .sr-migration-steps li{border-top:2px solid var(--gold);padding:16px 12px 10px 0;min-width:0;}
+html[lang="ru"] .sr-migration-steps li>span{display:block;color:var(--seal);font-weight:750;font-size:12px;letter-spacing:.09em;margin-bottom:7px;}
+html[lang="ru"] .sr-migration-steps strong{display:block;font-size:17px;font-weight:700;line-height:1.35;}
+html[lang="ru"] .sr-migration-steps p{margin-top:7px;color:var(--ink-text-soft);font-size:14px;line-height:1.6;}
+html[lang="ru"] .sr-migration-prep{border:1px solid var(--line);background:var(--parchment);}
+html[lang="ru"] .sr-migration-prep summary{display:flex;justify-content:space-between;gap:15px;align-items:center;padding:17px 20px;cursor:pointer;font-weight:700;font-size:16px;list-style:none;}
+html[lang="ru"] .sr-migration-prep summary::-webkit-details-marker{display:none;}
+html[lang="ru"] .sr-migration-prep summary span{font-size:23px;color:var(--seal);line-height:1;}
+html[lang="ru"] .sr-migration-prep[open] summary span{transform:rotate(45deg);}
+html[lang="ru"] .sr-migration-prep-content{border-top:1px solid var(--line);padding:18px 23px 23px;font-size:14px;line-height:1.7;}
+html[lang="ru"] .sr-migration-prep-content ul{padding-left:22px;margin:11px 0 13px;}
+html[lang="ru"] .sr-migration-prep-content li{margin-bottom:5px;}
+html[lang="ru"] .sr-migration-prep-content p{margin:0 0 10px;}
+html[lang="ru"] .sr-migration-prep-note a{font-weight:700;text-underline-offset:3px;color:var(--seal);}
+html[lang="ru"] .sr-migration-close{padding:56px 0 72px;}
+html[lang="ru"] .sr-migration-close .sr-cta p+p{margin-top:12px;}
+@media(max-width:760px){
+ html[lang="ru"] .sr-migration-top{padding:35px 0 42px;}
+ html[lang="ru"] .sr-migration-hub{padding:34px 0 48px;}
+ html[lang="ru"] .sr-migration-feature{grid-template-columns:44px minmax(0,1fr) 16px;gap:14px;padding:20px 16px;}
+ html[lang="ru"] .sr-migration-feature-icon{width:44px;height:44px;font-size:23px;}
+ html[lang="ru"] .sr-migration-steps{grid-template-columns:minmax(0,1fr);gap:4px;}
+ html[lang="ru"] .sr-migration-explain{padding:42px 0;}
+}
+@media(max-width:540px){
+ html[lang="ru"] .sr-migration-top p{font-size:15px;}
+ html[lang="ru"] .sr-migration-actions{flex-direction:column;align-items:stretch;gap:16px;}
+ html[lang="ru"] .sr-migration-actions .btn{text-align:center;justify-content:center;}
+ html[lang="ru"] .sr-migration-jump{text-align:center;}
+ html[lang="ru"] .sr-migration-feature{grid-template-columns:minmax(0,1fr) 16px;}
+ html[lang="ru"] .sr-migration-feature-icon{display:none;}
+ html[lang="ru"] .sr-migration-links{grid-template-columns:minmax(0,1fr);}
+ html[lang="ru"] .sr-migration-service:last-child:nth-child(odd){grid-column:auto;}
+ html[lang="ru"] .sr-migration-service{min-height:90px;padding:15px 17px;}
+ html[lang="ru"] .sr-migration-service strong{font-size:16px;}
+ html[lang="ru"] .sr-migration-close{padding:43px 0 52px;}
+}
+
+
+
+/* Migration hub personalized messaging and search vocabulary, 2026-11-22 */
+html[lang="ru"] .sr-migration-feature-aliases{font-size:13px;line-height:1.5;color:var(--seal);font-weight:650;letter-spacing:.01em;}
+html[lang="ru"] .sr-migration-service--protection strong{font-size:17px;line-height:1.35;overflow-wrap:break-word;}
+html[lang="ru"] .sr-migration-close .sr-migration-close-lead{font-size:18px;font-weight:700;color:var(--ink-text);line-height:1.35;margin-bottom:10px;}
+html[lang="ru"] .sr-migration-close .sr-migration-route{display:flex;flex-wrap:wrap;align-items:center;gap:7px 10px;margin-top:18px;color:var(--ink-text);font-weight:650;font-size:13px;line-height:1.6;}
+html[lang="ru"] .sr-migration-close .sr-migration-route span[aria-hidden="true"]{color:var(--gold);font-size:18px;}
+@media(max-width:540px){html[lang="ru"] .sr-migration-feature-aliases{font-size:12px;}html[lang="ru"] .sr-migration-service--protection strong{font-size:16px;}html[lang="ru"] .sr-migration-close .sr-migration-route{font-size:12px;}}
+
 '''
 (OUT/'assets'/'platform.css').write_text(CSS_ADD+LEGAL_CSS,encoding='utf-8')
 shutil.copy2(ROOT/'assets'/'expert-articles.css',OUT/'assets'/'expert-articles.css')
@@ -281,7 +550,7 @@ LANGS={
  'en':{'home':'Home','services':'Services','decree':'Decree 702','kb':'Insights','about':'About','contacts':'Contact','consult':'Contact us','reviews':'Reviews','prices':'Fees','more':'Learn more →','discuss':'Discuss a project →','start':'Contact us','all':'All','articles':'Articles','instructions':'Guides','news':'News'},
 }
 SECTIONS={
- 'migration':{'ru':('Immigration et statuts','Миграция и переезд','РВП, ВНЖ, гражданство, визы, Указ 702 и правовая помощь при простых и сложных миграционных ситуациях.'),'fr':('Immigration','Immigration et séjour','Titres de séjour, visas, nationalité russe et accompagnement juridique.') ,'symbol':'✦'},
+ 'migration':{'ru':('Immigration et statuts','Переезд в Россию','РВП, ВНЖ, гражданство, визы, Указ 702 и правовая помощь при простых и сложных миграционных ситуациях.'),'fr':('Immigration','S’installer en Russie','Titres de séjour, visas, nationalité russe et accompagnement juridique.') ,'symbol':'✦'},
  'real-estate':{'ru':('Недвижимость','Недвижимость','Аренда, покупка, договоры и юридическая проверка объекта до принятия обязательств.'),'fr':('Immobilier','Immobilier en Russie','Location, acquisition, contrats et vérification juridique avant tout engagement.'),'symbol':'⌂'},
  'business':{'ru':('Бизнес','Бизнес в России','Создание компании, корпоративные документы, юридические риски и международный найм.'),'fr':('Entreprises','Créer une entreprise','Création de sociétés, documents, risques juridiques et recrutement international.'),'symbol':'§'},
  'investments':{'ru':('Инвестиции','Инвестиции','Юридическая проверка сделки, активов и условий участия в инвестиционном проекте.'),'fr':('Investissements','Investissements en Russie','Vérification juridique des actifs, des parties et des conditions de participation.'),'symbol':'↗'},
@@ -293,9 +562,9 @@ PROGRAMS={
  'vnzh':{'ru':('Вид на жительство','ВНЖ в России','Анализируем возможные основания для получения вида на жительство и последовательность действий.'),'fr':('Résidence permanente','Titre de séjour (VNZh)','Analyse des voies d’accès au titre de séjour et des documents requis.')},
  'citizenship':{'ru':('Гражданство Российской Федерации','Гражданство России','Выбираем применимое основание, проверяем документы и сопровождаем согласованную процедуру.'),'fr':('Nationalité russe','Nationalité russe','Vérification du fondement juridique et accompagnement du dossier.')},
  'visas':{'ru':('Визы','Визы в Россию','Помогаем определить подходящий визовый режим, проверить документы и последовательность оформления.'),'fr':('Visas','Visas pour la Russie','Choix du régime de visa et préparation du dossier.')},
- 'students':{'ru':('Образование и РВПО','РВПО и учёба в России','Помощь иностранным студентам по вопросам статуса и документов.'),'fr':('Études','Études et séjour','Assistance aux étudiants étrangers concernant le statut et les documents.')},
+ 'students':{'ru':('Образование и РВПО','Учёба в России и РВПО','Помощь иностранным студентам по вопросам статуса и документов.'),'fr':('Études','Études et séjour','Assistance aux étudiants étrangers concernant le statut et les documents.')},
  'family':{'ru':('Переезд семьи','Семейный переезд','Подбираем последовательность оформления статусов и документов для членов семьи.'),'fr':('Famille','S’installer en famille','Planifier le statut et les démarches des membres de la famille.')},
- 'disputes':{'ru':('Судебная защита','Миграционные споры','Обжалование отказов и решений органов власти, защита в суде и оценка процессуальных рисков.'),'fr':('Contentieux','Contentieux migratoire','Recours contre les décisions administratives et défense devant les tribunaux.')}
+ 'disputes':{'ru':('Защита','Защита в суде и государственных органах (МВД, ФСБ)','Помогаем обжаловать решения, защититься при выдворении или депортации и отстоять права в суде и компетентных государственных органах.'),'fr':('Contentieux','Contentieux migratoire','Recours contre les décisions administratives et défense devant les tribunaux.')}
 }
 SUBPAGES={
  'real-estate':['rent','buy','legal-check'],
@@ -390,17 +659,39 @@ def cta(lang,title=None):
  sub='Выберите направление консультации. Объём работы и стоимость согласуем.' if lang=='ru' else 'Choisissez votre domaine de consultation. Le périmètre et les tarifs seront confirmés avant tout engagement.'
  return f'<section class="sr-sec"><div class="sr-width"><div class="sr-cta"><div><h2>{esc(text)}</h2><p>{sub}</p></div><a class="btn btn-primary" data-analytics-event="consultation_click" href="{path(lang,"consultations")}">{LANGS[lang]["start"]} →</a></div></div></section>'
 
+def service_breadcrumbs_ru(url,title):
+ parts=url.strip('/').split('/')
+ names={'migration':'Переезд в Россию','real-estate':'Недвижимость','business':'Бизнес в России','investments':'Инвестиции','legal':'Юридическая помощь','relocation':'Переезд и адаптация'}
+ if len(parts)<2 or parts[0]!='ru' or parts[1] not in ('services',*names):return ''
+ crumbs=[('Главная',path('ru'))]
+ if parts[1]=='services':
+  crumbs.append(('Все услуги',None))
+ else:
+  crumbs.append(('Все услуги',path('ru','services')))
+  if len(parts)==2:crumbs.append((names[parts[1]],None))
+  else:
+   crumbs.append((names[parts[1]],path('ru',parts[1])))
+   crumbs.append((title,None))
+ bits=[]
+ for i,(label,url) in enumerate(crumbs):
+  if i:bits.append('<span class="sr-breadcrumb-separator" aria-hidden="true">›</span>')
+  bits.append(f'<a href="{url}">{esc(label)}</a>' if url else f'<span aria-current="page">{esc(label)}</span>')
+ return '<nav class="sr-breadcrumbs" aria-label="Навигационная цепочка"><div class="sr-width">'+''.join(bits)+'</div></nav>'
+
 def shell(lang,url,title,description,body,noindex=False,article=False,ru_only=False,structured=None):
  skip={'ru':'Перейти к содержанию','fr':'Aller au contenu','en':'Skip to content'}[lang]
- return '<!doctype html>\n'+f'<html lang="{lang}"><head>{meta(title,description,lang,url,noindex,article,ru_only,structured)}</head><body><a class="sr-skip" href="#main">{skip}</a>{nav(lang,url)}<main id="main">{body}</main>{footer(lang)}<script src="/assets/platform.js" defer></script></body></html>'
+ trail=service_breadcrumbs_ru(url,title) if lang=='ru' else ''
+ return '<!doctype html>\n'+f'<html lang="{lang}"><head>{meta(title,description,lang,url,noindex,article,ru_only,structured)}</head><body><a class="sr-skip" href="#main">{skip}</a>{nav(lang,url)}<main id="main">{trail}{body}</main>{footer(lang)}<script src="/assets/platform.js" defer></script></body></html>'
 
 def home(lang):
  ru=lang=='ru';title='Помощь иностранцам в России: миграция, недвижимость, бизнес' if ru else 'Services aux étrangers en Russie : immigration, immobilier, affaires'
- intro='Живите, работайте и развивайте бизнес в России — опираясь на наш опыт и знания' if ru else 'Vivre, s’installer et entreprendre en Russie — avec le bon accompagnement.'
- detail=('Миграция, недвижимость, создание бизнеса, инвестиции и юридическая помощь. Мы помогаем по всем вопросам в России, организуем профессиональное сопровождение.' if ru else 'Immigration, immobilier, création d’entreprise, investissement et conseil juridique. Nous analysons votre situation et construisons avec vous une stratégie adaptée.')
+ intro='Живите, работайте и развивайте бизнес в России' if ru else 'Vivre, s’installer et entreprendre en Russie — avec le bon accompagnement.'
+ detail=('Мы помогаем иностранцам переехать в Россию, оформить РВП, ВНЖ и гражданство. Решаем сложные юридические вопросы, сопровождаем покупку недвижимости, инвестиции и открытие бизнеса.' if ru else 'Immigration, immobilier, création d’entreprise, investissement et conseil juridique. Nous analysons votre situation et construisons avec vous une stratégie adaptée.')
  emblem=BeautifulSoup((SRC/('index-ru.html' if ru else 'index.html')).read_text(),'html.parser').select_one('.hero-seal')
  emblem=str(emblem) if emblem else '<div class="hero-seal" aria-hidden="true">SR</div>'
- hero=f'''<section class="hero v2-home"><div class="wrap"><div><div class="sr-hero-kicker">{'УСЛУГИ ДЛЯ ИНОСТРАНЦЕВ В РОССИИ' if ru else 'SERVICES AUX ÉTRANGERS EN RUSSIE'}</div><h1>{esc(intro)}</h1><p class="hero-lede">{esc(detail)}</p><div class="hero-actions"><a class="btn btn-primary" data-analytics-event="consultation_click" href="{path(lang,'consultations')}">{'Получить консультацию →' if ru else 'Demander une consultation →'}</a><a class="btn btn-ghost" href="{path(lang,'services')}">{'Все услуги' if ru else 'Tous nos services'}</a></div></div>{emblem}</div></section>'''
+ hero_followup=("<p class=\"sr-hero-method\">Разрабатываем для вас индивидуальную стратегию <span class=\"sr-hero-arrow\" aria-hidden=\"true\">→</span> сопровождаем вас на каждом этапе её реализации.</p><p class=\"sr-hero-values\">Профессионально. Безопасно. Надёжно.</p>" if ru else '')
+ hero=f'''<section class="hero v2-home"><div class="wrap"><div><div class="sr-hero-kicker">{'УСЛУГИ ДЛЯ ИНОСТРАНЦЕВ В РОССИИ' if ru else 'SERVICES AUX ÉTRANGERS EN RUSSIE'}</div><h1>{esc(intro)}</h1><p class="hero-lede">{esc(detail)}</p>{hero_followup}<div class="hero-actions"><a class="btn btn-primary" data-analytics-event="consultation_click" href="{path(lang,'consultations')}">{'Получить консультацию →' if ru else 'Demander une consultation →'}</a><a class="btn btn-ghost" href="{path(lang,'services')}">{'Все услуги' if ru else 'Tous nos services'}</a></div></div>{emblem}</div></section>'''
+ founder=("<section class=\"sr-founder-spot\" aria-label=\"Основатель и личная ответственность\"><div class=\"sr-width\"><div class=\"sr-founder-panel\"><div class=\"sr-founder-portrait-frame\"><img class=\"sr-founder-portrait\" src=\"/assets/founder-lev-vtiurin-cutout-2026.webp\" alt=\"Лев Втюрин — основатель SalutRussie\" loading=\"lazy\" width=\"112\" height=\"140\"></div><div class=\"sr-founder-copy\"><span class=\"sr-founder-kicker\">ЛИЧНАЯ ОТВЕТСТВЕННОСТЬ</span><h2>Лев Втюрин</h2><p class=\"sr-founder-role\">Основатель SalutRussie · Более 20 лет юридической практики</p><p>Лично отвечаю за правовую стратегию и качество сопровождения каждого проекта.</p></div><a class=\"sr-founder-more\" href=\"{path(lang,'about')}\">О бюро и опыте →</a></div></div></section>".replace("{path(lang,'about')}",path(lang,'about')) if ru else '')
  services=f'''<section class="sr-sec" id="services"><div class="sr-width"><div class="sr-section-head"><span class="eyebrow">{'НАПРАВЛЕНИЯ' if ru else 'NOS SERVICES'}</span><h2>{'Чем мы можем помочь' if ru else 'Comment pouvons-nous vous aider ?'}</h2><p>{'Выберите интересующее вас направление — мы подскажем, с чего начать' if ru else 'Choisissez votre besoin : nous définirons l’accompagnement approprié.'}</p></div>{cards(lang,list(SECTIONS.items()))}</div></section>'''
  steps=[('01','Ваша заявка','Опишите свой вопрос своими словами в том формате, как вам удобно'),('02','Консультация','Проводим подробную консультацию, разбираем вашу ситуацию и отвечаем на все вопросы'),('03','План действий','Готовим пошаговый план действий для достижения вашей цели'),('04','Сопровождение','Сопровождаем на согласованных этапах работы')] if ru else [('01','Expliquez votre projet','Présentez votre besoin sans documents sensibles au premier contact.'),('02','Choisissez une consultation','Nous analysons votre situation et répondons à vos questions.'),('03','Obtenez un plan','Analyse des pièces et étapes suivantes.'),('04','Accompagnement','Nous intervenons selon le périmètre convenu.')]
  process=f'''<section class="sr-sec alt"><div class="sr-width"><div class="sr-section-head"><span class="eyebrow">{'ПРОЦЕСС' if ru else 'NOTRE MÉTHODE'}</span><h2>{'Как мы работаем' if ru else 'Comment nous travaillons'}</h2></div><div class="sr-steps">'''
@@ -416,7 +707,7 @@ def home(lang):
  knowledge+=cards(lang,opts)+f'<p style="margin-top:25px"><a class="btn btn-ghost" href="{path(lang,"knowledge")}">{"Все материалы и поиск →" if ru else "Rechercher dans les ressources →"}</a></p></div></section>'
  about=f'''<section class="sr-sec alt"><div class="sr-width"><div class="sr-section-head"><span class="eyebrow">{'О КОМАНДЕ' if ru else 'NOTRE ÉQUIPE'}</span><h2>{'Небольшая команда профессионалов: бутик, а не масс-маркет' if ru else 'Expertise juridique et coordination des spécialistes'}</h2><p>{'Все специалисты SalutRussie придерживаются единого стандарта качества услуг. Мы делаем только то, что приближает к результату. Наш главный принцип — сначала стратегия, потом реализация' if ru else 'Chaque situation commence par l’analyse de vos besoins. Nous précisons les prestations réalisées par notre équipe et celles de nos partenaires.'}</p></div><a class="btn btn-primary" href="{path(lang,"about")}">{'О нас →' if ru else 'Notre équipe →'}</a></div></section>'''
  meta_description=('Помощь иностранцам в России: миграция, РВП, ВНЖ, Указ 702 (разделение ценностей, идеологическая программа), недвижимость, бизнес и юридическая помощь.' if ru else detail)
- return shell(lang,path(lang),title,meta_description,hero+services+feature(lang)+process+knowledge+about+cta(lang))
+ return shell(lang,path(lang),title,meta_description,hero+founder+services+feature(lang)+process+knowledge+about+cta(lang))
 
 def about_ru():
  source=BeautifulSoup((SRC/'o-kompanii-ru.html').read_text(encoding='utf-8'),'html.parser')
@@ -425,7 +716,7 @@ def about_ru():
  asset='/assets/ru-o-kompanii-ru-0.jpg'
  (OUT/asset.lstrip('/')).write_bytes(base64.b64decode(data))
  body="""<div class="page-head"><div class="wrap"><span class="eyebrow">МИГРАЦИОННОЕ БЮРО</span><h1>Мы начинали как семейное бюро — сегодня работаем по всей России</h1><p>SalutRussie выросло из небольшой семейной практики в команду профессионалов. Наш основной центр находится в Москве, а сотрудничество со специалистами в регионах позволяет сопровождать клиентов в разных городах России.</p></div></div>
- <section class="sr-sec"><div class="wrap"><div class="lev-about sr-about-founder"><img class="lev-photo" src="/assets/ru-o-kompanii-ru-0.jpg" alt="Лев Втюрин — основатель SalutRussie" width="600" height="750"><div class="founder-card"><h2>Лев Втюрин</h2><span class="role">Миграционный юрист — основатель</span><p class="bio">Более 20 лет юридической практики. Специализация — миграционное право, судебная защита и сложные миграционные ситуации.</p><p class="bio">Лично участвует в разработке правовой стратегии сложных дел и в судебной защите клиентов.</p></div></div></div></section>
+ <section class="sr-sec"><div class="wrap"><div class="lev-about sr-about-founder"><div class="sr-about-portrait"><img class="lev-photo" src="/assets/founder-lev-vtiurin-cutout-2026.webp" alt="Лев Втюрин — основатель SalutRussie" width="600" height="750"></div><div class="founder-card"><h2>Лев Втюрин</h2><span class="role">Миграционный юрист — основатель</span><p class="bio">Более 20 лет юридической практики. Специализация — миграционное право, судебная защита и сложные миграционные ситуации.</p><p class="bio">Лично участвует в разработке правовой стратегии сложных дел и в судебной защите клиентов.</p></div></div></div></section>
  <section class="sr-sec alt"><div class="sr-width"><div class="sr-section-head"><span class="eyebrow">КОМАНДА И ГЕОГРАФИЯ</span><h2>Как устроено наше бюро</h2><p>Мы начинали как семейное бюро, а сегодня объединяем московскую команду и профессиональные связи в разных городах страны. Каждый проект ведётся по общим стандартам SalutRussie.</p></div><div class="sr-about-flow"><div class="sr-about-node main"><h3>SalutRussie — Москва</h3><p>Основной профессиональный центр<br>Лев Втюрин — основатель<br>Команда миграционных юристов</p></div><div class="sr-about-connector" aria-hidden="true"></div><div class="sr-about-branches"><div class="sr-about-node"><h3>Профильные специалисты</h3><p>Переводчики, нотариусы и другие специалисты, необходимые для решения задачи клиента</p></div><div class="sr-about-node"><h3>Региональное сотрудничество</h3><p>Профессиональные партнёры в разных городах России. Координацию сопровождения осуществляет SalutRussie</p></div></div><div class="sr-about-connector" aria-hidden="true"></div><div class="sr-about-node"><h3>Профессиональное сообщество</h3><p>Обучение миграционных юристов, единые стандарты, сотрудничество с экспертными блогерами и сообществами иностранцев</p></div></div><p class="sr-about-cities"><strong>География сотрудничества:</strong> Москва · Санкт-Петербург · Казань · Екатеринбург · Пермь · Новосибирск · Челябинск · Уфа</p></div></section>
  <section class="sr-sec"><div class="sr-width sr-about-standards"><div class="sr-section-head"><span class="eyebrow">КАЧЕСТВО</span><h2>Единые стандарты работы</h2></div><p>Мы разработали единые стандарты подготовки документов и сопровождения миграционных дел. Обучаем юристов миграционному праву и развиваем профессиональное сотрудничество.</p><p>Мы также взаимодействуем с экспертными блогерами и сообществами иностранцев, в том числе в Telegram.</p><p class="sr-about-vision">Наш главный принцип — сначала стратегия, потом реализация</p></div></section>
  <section class="sr-sec alt"><div class="sr-width sr-about-mission"><div class="sr-section-head"><span class="eyebrow">НАШ ПОДХОД</span><h2>Философия и миссия SalutRussie</h2></div><h3 class="sr-about-vision">Безопасно и легально на каждом этапе</h3><p>Мы считаем, что переезд в Россию — это гораздо больше, чем оформление визы или вида на жительство.</p><p>Наша задача — помогать иностранцам не только с юридическими вопросами, но и с практическими задачами новой жизни: поиском жилья, адаптацией, трудоустройством, открытием бизнеса и созданием законных источников дохода в России.</p><p>Мы стремимся сделать жизнь в новой стране понятнее, безопаснее и комфортнее.</p></div></section>
@@ -443,25 +734,54 @@ def basic_page(lang,url,title,desc,items=None,rich=None):
 
 def services_ru():
  title='Все услуги для иностранцев'
- desc='Профессиональная помощь в России: выберите подходящее направление.'
- shortcuts={'migration': [('migration/decree-702','Указ 702')]+[
-  (f'migration/{slug}',PROGRAMS[slug]['ru'][1]) for slug in ('rvp','vnzh','visas','citizenship')
- ]}
- for section, slugs in SUBPAGES.items():
-  shortcuts[section]=[(f'{section}/{slug}',SUBLABEL[slug][0]) for slug in slugs]
+ desc='От миграционной стратегии до недвижимости, бизнеса и юридической защиты — помогаем решать вопросы, возникающие при переезде и жизни в России.'
+ shortcuts={
+  'migration':[
+   ('migration/decree-702','Переезд по Указу 702'),
+   ('migration/visas','Визы в Россию'),
+   ('migration/rvp','РВП в России'),
+   ('migration/vnzh','ВНЖ в России'),
+   ('migration/citizenship','Гражданство России'),
+   ('migration/disputes','Защита в суде и государственных органах (МВД, ФСБ)')
+  ],
+  'business':[
+   ('business/company-registration','Открытие компании'),
+   ('business/legal-support','Юридическое сопровождение бизнеса'),
+   ('business/tax-consulting','Налоговое консультирование')
+  ],
+  'investments':[
+   ('investments/legal-due-diligence','Юридическая проверка и сопровождение инвестиционного проекта'),
+   ('investments/project-selection','Подбор инвестиционных проектов')
+  ],
+  'legal':[
+   ('consultations','Консультации'),
+   ('legal/document-preparation','Подготовка документов'),
+   ('legal/disputes','Судебные споры')
+  ],
+  'relocation':[
+   ('relocation/administrative-procedures','Административные процедуры'),
+   ('relocation/everyday-life','Бытовые вопросы'),
+   ('relocation/russian-language','Изучение русского языка')
+  ]
+ }
+ shortcuts['real-estate']=[(f'real-estate/{slug}',SUBLABEL[slug][0]) for slug in SUBPAGES['real-estate']]
  body=heading('ru',title,desc,LANGS['ru']['services'])
- body+='<section class="sr-sec"><div class="sr-width"><div class="sr-section-head"><h2>Выберите направление</h2></div><div class="sr-grid">'
- for slug, data in SECTIONS.items():
+ body+='<section class="sr-sec sr-services-section"><div class="sr-width"><div class="sr-services-lead"><span class="eyebrow">НАПРАВЛЕНИЯ ПОМОЩИ</span></div><div class="sr-grid sr-services-grid">'
+ for slug,data in SECTIONS.items():
   _,name,description=data['ru']
-  body+=f'<section class="sr-card"><span class="sr-icon" aria-hidden="true">{esc(data["symbol"])}</span><h3>{esc(name)}</h3><p>{esc(description)}</p>'
+  if slug=='investments':description='Подбор инвестиционных проектов, юридическая проверка и сопровождение сделок.'
+  priority=' sr-card--priority' if slug=='migration' else ''
+  body+=f'<section class="sr-card sr-service-card{priority}"><span class="sr-icon" aria-hidden="true">{esc(data["symbol"])}</span><h3>{esc(name)}</h3><p>{esc(description)}</p>'
   if slug in shortcuts:
    body+='<ul>'
    for tail,label in shortcuts[slug]:
-    body+=f'<li><a href="{path("ru",tail)}">{esc(label)}</a></li>'
+    accent=' class="sr-services-program"' if slug=='migration' and tail=='migration/decree-702' else ''
+    body+=f'<li><a{accent} href="{path("ru",tail)}">{esc(label)}</a></li>'
    body+='</ul>'
   body+=f'<a class="sr-link" href="{path("ru",slug)}">Подробнее о направлении →</a></section>'
- body+=f'</div><p><a class="sr-link" href="{path("ru","pricing")}">Тарифы →</a></p></div></section>'
- return shell('ru',path('ru','services'),title,desc,body+cta('ru'))
+ body+=f'</div><p class="sr-services-pricing"><a class="sr-link" href="{path("ru","pricing")}">Тарифы →</a></p></div></section>'
+ consult=cta('ru').replace('Выберите направление консультации. Объём работы и стоимость согласуем.','Не уверены, какая услуга вам нужна? Опишите свою ситуацию — мы поможем определить подходящий правовой маршрут. Формат и стоимость работы согласуем заранее.')
+ return shell('ru',path('ru','services'),title,desc,body+consult)
 
 def pricing_ru():
  title='Стоимость юридических услуг'
@@ -484,7 +804,7 @@ def about_fr():
  title='Notre cabinet juridique en Russie'
  desc='Découvrez le fondateur de SalutRussie et notre méthode de travail.'
  body='''<div class="page-head"><div class="wrap"><span class="eyebrow">NOTRE CABINET</span><h1>Une pratique juridique à taille humaine, présente pour vos projets en Russie</h1><p>SalutRussie a commencé comme un cabinet familial. Nous travaillons aujourd’hui sur des dossiers dans différentes régions de Russie, en définissant d’abord la stratégie et les étapes adaptées au cas concret.</p></div></div>
- <section class="sr-sec"><div class="wrap"><div class="lev-about sr-about-founder"><img class="lev-photo" src="/assets/ru-o-kompanii-ru-0.jpg" alt="Lev Vtiurin, fondateur de SalutRussie" width="600" height="750"><div class="founder-card"><h2>Lev Vtiurin</h2><span class="role">Juriste en droit migratoire, fondateur</span><p class="bio">Plus de vingt ans de pratique juridique en Russie, notamment en droit migratoire, dans les dossiers complexes et la défense devant les tribunaux.</p><p class="bio">Il étudie la situation, explique les risques et détermine avec le client les démarches à entreprendre.</p></div></div></div></section>
+ <section class="sr-sec"><div class="wrap"><div class="lev-about sr-about-founder"><div class="sr-about-portrait"><img class="lev-photo" src="/assets/founder-lev-vtiurin-cutout-2026.webp" alt="Lev Vtiurin, fondateur de SalutRussie" width="600" height="750"></div><div class="founder-card"><h2>Lev Vtiurin</h2><span class="role">Juriste en droit migratoire, fondateur</span><p class="bio">Plus de vingt ans de pratique juridique en Russie, notamment en droit migratoire, dans les dossiers complexes et la défense devant les tribunaux.</p><p class="bio">Il étudie la situation, explique les risques et détermine avec le client les démarches à entreprendre.</p></div></div></div></section>
  <section class="sr-sec alt"><div class="sr-width"><div class="sr-section-head"><span class="eyebrow">NOTRE MÉTHODE</span><h2>Une stratégie avant les démarches</h2><p>Nous commençons par les faits et les documents. Nous définissons les questions juridiques, les options à vérifier et les étapes utiles. Le périmètre de l’accompagnement est convenu avant toute intervention.</p></div><div class="sr-steps"><div class="sr-step"><b>01</b><h3>Votre situation</h3><p>Vous décrivez votre objectif et les difficultés rencontrées.</p></div><div class="sr-step"><b>02</b><h3>Analyse</h3><p>Nous vérifions les faits, les documents et le cadre juridique applicable.</p></div><div class="sr-step"><b>03</b><h3>Plan</h3><p>Nous proposons une séquence de démarches et signalons les risques.</p></div><div class="sr-step"><b>04</b><h3>Accompagnement</h3><p>Nous intervenons dans les limites convenues ensemble.</p></div></div></div></section>
  <section class="sr-sec"><div class="sr-width sr-about-mission"><div class="sr-section-head"><span class="eyebrow">NOTRE OBJECTIF</span><h2>Agir légalement et avec méthode à chaque étape</h2></div><p>Nous accompagnons les questions de séjour, de logement, d’activité économique et d’adaptation en Russie. Nous ne promettons pas de décision administrative : chaque dossier dépend des faits et des règles applicables.</p></div></section>'''
  return shell('fr',path('fr','about'),title,desc,body+cta('fr'))
@@ -526,6 +846,57 @@ def b2b_page(lang,part):
  close=f'<section class="sr-sec"><div class="sr-width"><div class="sr-cta"><div><h2>{action}</h2><p>{"Опишите задачу без персональных данных работников. Мы предложим следующий шаг и согласуем объём работы." if lang=="ru" else "Send a short project brief without workers’ personal data. We will agree the next step and scope." if lang=="en" else "Envoyez un bref descriptif sans données personnelles des travailleurs. Nous conviendrons de la suite."}</p></div><a class="btn btn-primary" href="{email}">{action} →</a></div></div></section>'
  return shell(lang,url,title,desc,heading(lang,title,desc,label)+body+close)
 
+
+def migration_hub_ru():
+ title='Переезд в Россию'
+ desc='Мы поможем вам выбрать законный путь переезда и проживания в России, оформить необходимые документы и защитим ваши права в сложных миграционных ситуациях.'
+ body='''<div class="sr-top sr-migration-top"><div class="sr-width">
+ <div class="sr-eyebrow">МИГРАЦИОННАЯ ПОМОЩЬ</div>
+ <h1>Переезд в Россию</h1>
+ <p>Мы поможем вам выбрать законный путь переезда и проживания в России, оформить необходимые документы и защитим ваши права в сложных миграционных ситуациях.</p>
+ <div class="sr-migration-actions">
+  <a class="btn btn-primary" data-analytics-event="consultation_click" href="/ru/consultations/">Обсудить мою ситуацию →</a>
+  <a class="sr-migration-jump" href="#migration-services">Посмотреть услуги ↓</a>
+ </div>
+</div></div>
+<section class="sr-sec sr-migration-hub" id="migration-services"><div class="sr-width">
+ <span class="eyebrow">НАЧНИТЕ С ВАШЕЙ ЗАДАЧИ</span>
+ <h2 class="sr-migration-section-heading">Выберите миграционную услугу</h2>
+ <a class="sr-migration-feature" href="/ru/migration/decree-702/" aria-label="Подробнее о переезде по Указу 702">
+  <span class="sr-migration-feature-icon" aria-hidden="true">✳</span>
+  <span class="sr-migration-feature-copy"><span class="sr-migration-feature-label">СПЕЦИАЛЬНАЯ ПРОГРАММА</span><strong>Переезд в Россию по Указу 702</strong><span class="sr-migration-feature-aliases">«Разделение ценностей» · «идеологическая программа»</span><span>Проверим применимость программы, определим правовой маршрут и согласуем сопровождение.</span></span>
+  <span class="sr-migration-feature-arrow" aria-hidden="true">↗</span>
+ </a>
+ <h2 class="sr-migration-subheading">Другие миграционные услуги</h2>
+ <div class="sr-migration-links">
+  <a class="sr-migration-service" href="/ru/migration/visas/"><span><strong>Визы в Россию</strong><small>Подберём подходящую визу и сопроводим её оформление</small></span><span aria-hidden="true">↗</span></a>
+  <a class="sr-migration-service" href="/ru/migration/rvp/"><span><strong>РВП в России</strong><small>Поможем оформить разрешение на временное проживание (РВП)</small></span><span aria-hidden="true">↗</span></a>
+  <a class="sr-migration-service" href="/ru/migration/vnzh/"><span><strong>ВНЖ в России</strong><small>Поможем получить вид на жительство (ВНЖ) для постоянного проживания в России</small></span><span aria-hidden="true">↗</span></a>
+  <a class="sr-migration-service" href="/ru/migration/citizenship/"><span><strong>Гражданство России</strong><small>Определим подходящее основание, подготовим документы и проведём вас по этапам получения гражданства</small></span><span aria-hidden="true">↗</span></a>
+  <a class="sr-migration-service sr-migration-service--protection" href="/ru/migration/disputes/"><span><strong>Защита в суде и государственных органах (МВД, ФСБ)</strong><small>Отказы, жалобы, выдворение и депортация, административные и судебные споры</small></span><span aria-hidden="true">↗</span></a>
+ </div>
+ <div class="sr-migration-special"><h2>Специальные ситуации</h2><p>Для студентов и семей порядок оформления может отличаться.</p>
+  <div class="sr-migration-special-links"><a href="/ru/migration/students/">Учёба в России и РВПО <span aria-hidden="true">↗</span></a><a href="/ru/migration/family/">Семейный переезд <span aria-hidden="true">↗</span></a></div>
+ </div>
+</div></section>
+<section class="sr-sec alt sr-migration-explain"><div class="sr-width">
+ <h2>Как мы работаем</h2>
+ <ol class="sr-migration-steps"><li><span>01</span><strong>Разбираем ваши планы</strong><p>Уточняем ваше гражданство, текущий статус, сроки документов и цели поездки или переезда в Россию.</p></li><li><span>02</span><strong>Готовим миграционную стратегию</strong><p>Разрабатываем стратегию под вашу ситуацию и составляем пошаговый план действий.</p></li><li><span>03</span><strong>Сопровождаем до результата</strong><p>Помогаем с документами и обращениями, сопровождаем вас на каждом согласованном этапе.</p></li></ol>
+ <details class="sr-migration-prep"><summary>Что подготовить к первой консультации? <span aria-hidden="true">+</span></summary>
+  <div class="sr-migration-prep-content"><p>Для начала достаточно описать вашу ситуацию и планы своими словами. Если есть возможность, подготовьте:</p>
+   <ul><li>Гражданство и место постоянного проживания каждого заявителя.</li><li>Ваши цели, пожелания и предполагаемые даты въезда в Россию.</li><li>Копии имеющихся документов (можете прислать их заранее или мы отдельно запросим необходимое).</li><li>Сведения о семье, работе, учёбе или бизнесе, которые могут влиять на ваши планы.</li></ul>
+   <p class="sr-migration-prep-note">Дополнительно: <a href="/ru/knowledge/articles/how-to-choose-residence/">как выбрать основание для проживания в России →</a></p>
+  </div>
+ </details>
+</div></section>
+<section class="sr-sec sr-migration-close"><div class="sr-width"><div class="sr-cta"><div>
+ <h2>Не знаете, с чего начать?</h2>
+ <p class="sr-migration-close-lead">Расскажите о ваших планах.</p>
+ <p>Я — Лев Втюрин, основатель SalutRussie. Более 20 лет юридической практики. Лично отвечаю за миграционную стратегию и качество сопровождения каждого проекта.</p>
+ <div class="sr-migration-route" aria-label="Этапы работы"><span>Опишите ситуацию</span><span aria-hidden="true">→</span><span>Подготовим миграционную стратегию</span><span aria-hidden="true">→</span><span>Согласуем тариф</span><span aria-hidden="true">→</span><span>Приступим к реализации плана</span></div>
+ </div><a class="btn btn-primary" data-analytics-event="consultation_click" href="/ru/consultations/">Обсудить мою ситуацию →</a></div></div></section>'''
+ return shell('ru',path('ru','migration'),title,desc,body)
+
 def service_pages(lang):
  ru=lang=='ru'
  for slug,data in SECTIONS.items():
@@ -537,19 +908,45 @@ def service_pages(lang):
   elif slug in SUBPAGES:
    for part in SUBPAGES[slug]:
     lab=SUBLABEL[part][0 if ru else 1];sub.append((f'{slug}/{part}',{'symbol':'↗',lang:(lab,lab,'Условия и состав услуги обсуждаются индивидуально.' if ru else 'Prestations adaptées aux besoins individuels.')}))
+  if ru and slug=='business':
+   sub.append(('business/tax-consulting',{'symbol':'↗','ru':('Налоговое консультирование','Налоговое консультирование','Правовая и налоговая оценка вопросов бизнеса с иностранным участием.')}))
+  if ru and slug=='investments':
+   sub=[
+    ('investments/legal-due-diligence',{'symbol':'↗','ru':('Юридическая проверка и сопровождение инвестиционного проекта','Юридическая проверка и сопровождение инвестиционного проекта','Проверка актива, сделки и юридическое сопровождение проекта.')}),
+    ('investments/project-selection',{'symbol':'↗','ru':('Подбор инвестиционных проектов','Подбор инвестиционных проектов','Поиск и первичный отбор вариантов по согласованным критериям.')})
+   ]
+  if ru and slug=='relocation':
+   sub=[
+    ('relocation/administrative-procedures',{'symbol':'↗','ru':('Административные процедуры','Административные процедуры','Документы, контроль сроков и организация обращений.')}),
+    ('relocation/everyday-life',{'symbol':'↗','ru':('Бытовые вопросы','Бытовые вопросы','Практические вопросы жилья и адаптации после переезда.')}),
+    ('relocation/russian-language',{'symbol':'↗','ru':('Изучение русского языка','Изучение русского языка','Подбор подходящего формата обучения для взрослых и детей.')})
+   ]
   rich=rich_section(lang,slug)
-  write(url,basic_page(lang,url,info[1],info[2],sub if sub else None,rich))
+  if ru and slug=='investments':
+   info=(info[0],info[1],'Подбор инвестиционных проектов, юридическая проверка и сопровождение сделок в России.')
+  write(url,migration_hub_ru() if ru and slug=='migration' else basic_page(lang,url,info[1],info[2],sub if sub else None,rich))
   for part in SUBPAGES.get(slug,[]):
    lab=SUBLABEL[part][0 if ru else 1];desc=DETAILS[part][lang][0]
-   write(path(lang,f'{slug}/{part}'),basic_page(lang,path(lang,f'{slug}/{part}'),lab,desc,rich=detail_rich(lang,part)))
+   rich_detail=detail_rich(lang,part)
+   if ru and slug=='investments' and part=='legal-due-diligence':
+    lab="Юридическая проверка и сопровождение инвестиционного проекта";desc="Проверяем актив, контрагента и условия сделки, затем сопровождаем согласованные этапы инвестиционного проекта."
+    rich_detail="<section class=\"sr-sec\"><div class=\"sr-width sr-b2b-copy\"><h2>Проверка и сопровождение в одном процессе</h2><p>Юридическая проверка не гарантирует прибыль и не заменяет самостоятельную финансовую оценку инвестиции. Состав сопровождения зависит от сделки.</p><ul><li>Проверяем стороны сделки, полномочия, права на активы, ограничения, существенные договоры и споры.</li><li>Согласуем условия приобретения или участия, этапы оплаты, передачу прав и необходимые гарантии.</li><li>Готовим или проверяем договоры и сопровождаем согласованные юридические этапы реализации проекта.</li><li>Фиксируем контрольные точки, отчётность, ответственность сторон и условия выхода из проекта.</li></ul><p class=\"sr-note\">Состав услуги, привлечение профильных специалистов и стоимость согласуются индивидуально до начала работы.</p></div></section>"
+   write(path(lang,f'{slug}/{part}'),basic_page(lang,path(lang,f'{slug}/{part}'),lab,desc,rich=rich_detail))
  for slug,d in PROGRAMS.items():
   title=d[lang][1];desc=d[lang][2];url=path(lang,'migration/'+slug)
   rich=detail_rich(lang,'migration-disputes' if slug=='disputes' else slug)
   write(url,basic_page(lang,url,title,desc,rich=rich))
 
+RU_ADDITIONAL_SERVICE_PAGES=[["business/tax-consulting","Налоговое консультирование","Налоговые вопросы открытия и ведения бизнеса иностранцами в России.","<section class=\"sr-sec\"><div class=\"sr-width sr-b2b-copy\"><h2>С чем поможем</h2><p>Налоги влияют на выбор формы бизнеса, структуру платежей и содержание договоров. Мы помогаем определить вопросы и риски до принятия решений; специализированный бухгалтерский учёт или подготовка отчётности согласуются отдельно.</p><ul><li>Выбор и предварительная оценка системы налогообложения с учётом деятельности и статуса предпринимателя.</li><li>Налоговые последствия договоров, расчётов с партнёрами и участия иностранного собственника.</li><li>Подготовка правовых вопросов к бухгалтеру или налоговому специалисту, согласование необходимых документов.</li></ul><p class=\"sr-note\">Состав услуги, привлечение профильных специалистов и стоимость согласуются индивидуально до начала работы.</p></div></section>"],["investments/project-selection","Подбор инвестиционных проектов","Поиск и предварительный отбор инвестиционных проектов в России под цели и критерии клиента.","<section class=\"sr-sec\"><div class=\"sr-width sr-b2b-copy\"><h2>Как организуем подбор</h2><p>Подбор — это поиск подходящих для рассмотрения вариантов, а не обещание наличия конкретного объекта, доходности или одобрения сделки. Предложения и условия участия проверяются отдельно.</p><ul><li>Уточним инвестиционные цели, бюджет, регион, отрасль, желаемый формат участия и допустимые риски.</li><li>Определим критерии отбора и доступные для рассмотрения проекты или активы; проверим полноту исходной информации.</li><li>Подготовим перечень вопросов продавцу или партнёру, а перед сделкой согласуем юридическую проверку и сопровождение.</li></ul><p class=\"sr-note\">Состав услуги, привлечение профильных специалистов и стоимость согласуются индивидуально до начала работы.</p></div></section>"],["relocation/administrative-procedures","Административные процедуры","Помощь с организацией административных процедур после переезда в Россию.","<section class=\"sr-sec\"><div class=\"sr-width sr-b2b-copy\"><h2>Что можно организовать</h2><p>После въезда в Россию возникают разные административные задачи: адрес, документы, уведомления и обращения. Перечень действий зависит от статуса человека и региона; решения принимаются уполномоченными органами.</p><ul><li>План обращений в государственные органы и контроль важных сроков.</li><li>Подготовку перечня документов, заявлений и необходимых подтверждений.</li><li>Сопровождение предусмотренных законом административных действий по согласованному поручению.</li></ul><p class=\"sr-note\">Состав услуги, привлечение профильных специалистов и стоимость согласуются индивидуально до начала работы.</p></div></section>"],["relocation/everyday-life","Бытовые вопросы","Практическая организация повседневных вопросов при переезде и адаптации в России.","<section class=\"sr-sec\"><div class=\"sr-width sr-b2b-copy\"><h2>С чем можно обратиться</h2><p>Мы поможем составить понятный план бытовых задач и определить, какие вопросы решаются непосредственно, а для каких нужны отдельные исполнители. Условия их участия согласуем заранее.</p><ul><li>Ориентирование в вопросах жилья, аренды и взаимодействия с собственником.</li><li>Организация первых практических шагов: связь, документы и необходимые бытовые сервисы.</li><li>Составление индивидуального плана прибытия семьи, учёта потребностей детей и сроков переезда.</li></ul><p class=\"sr-note\">Состав услуги, привлечение профильных специалистов и стоимость согласуются индивидуально до начала работы.</p></div></section>"],["relocation/russian-language","Изучение русского языка","Помощь с выбором формата изучения русского языка при переезде в Россию.","<section class=\"sr-sec\"><div class=\"sr-width sr-b2b-copy\"><h2>Как поможем начать</h2><p>Помогаем с ориентирами и подбором формата обучения; проведение занятий преподавателем и стоимость обучения оговариваются отдельно. Требования к языковым экзаменам проверяются для конкретного миграционного основания.</p><ul><li>Определить цель обучения: бытовое общение, работа, учёба или подготовка к предусмотренным законом проверкам.</li><li>Подобрать подходящий формат: занятия индивидуально, в группе или дистанционно.</li><li>Составить план обучения под сроки переезда и особенности членов семьи.</li></ul><p class=\"sr-note\">Состав услуги, привлечение профильных специалистов и стоимость согласуются индивидуально до начала работы.</p></div></section>"]]
+def extra_service_pages_ru():
+ for tail,title,desc,rich in RU_ADDITIONAL_SERVICE_PAGES:
+  url=path('ru',tail)
+  body=heading('ru',title,desc,'Услуги')+rich+cta('ru')
+  write(url,shell('ru',url,title,desc,body))
+
 def consultations(lang):
  ru=lang=='ru'
- entries=[('migration','Миграция и переезд','Immigration et séjour','РВП, ВНЖ, Указ 702, визы и гражданство','RVP, VNZh, décret 702, visas, nationalité'),('real-estate','Недвижимость','Immobilier','Аренда, договоры, покупка и юридическая проверка','Location, achat et contrats'),('business','Бизнес и инвестиции','Entreprises et investissements','Создание компании, инвестиционные сделки и сопровождение','Création de société, projets et investissements'),('legal','Вопросы к юристу','Questions juridiques','Любые вопросы к российскому юристу','Documents, contentieux et questions spécifiques')]
+ entries=[('migration','Переезд в Россию','S’installer en Russie','РВП, ВНЖ, Указ 702, визы и гражданство','RVP, VNZh, décret 702, visas, nationalité'),('real-estate','Недвижимость','Immobilier','Аренда, договоры, покупка и юридическая проверка','Location, achat et contrats'),('business','Бизнес и инвестиции','Entreprises et investissements','Создание компании, инвестиционные сделки и сопровождение','Création de société, projets et investissements'),('legal','Вопросы к юристу','Questions juridiques','Любые вопросы к российскому юристу','Documents, contentieux et questions spécifiques')]
  s=heading(lang,'Выберите вид консультации' if ru else 'Choisissez votre consultation','Выберите направление, затем напишите нам. Стоимость, формат и объём согласуем до оплаты.' if ru else 'Choisissez un domaine. Nous confirmerons le format, le périmètre et le prix avant paiement.',LANGS[lang]['consult'])
  s+='<section class="sr-sec"><div class="sr-width"><div class="sr-contact-list">'
  for slug,r,f,rd,fd in entries:
@@ -656,6 +1053,7 @@ def write(url,content):
 
 for lang in ('ru','fr'):
  write(path(lang),home(lang));service_pages(lang)
+ if lang=='ru':extra_service_pages_ru()
  write(path(lang,'services'),services_ru() if lang=='ru' else basic_page(lang,path(lang,'services'),'Tous nos services','Choisissez le domaine qui correspond à votre projet.',list(SECTIONS.items())))
  write(path(lang,'consultations'),consultations(lang))
  write(path(lang,'knowledge'),knowledge(lang))
