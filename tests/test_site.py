@@ -324,4 +324,20 @@ class SiteTests(unittest.TestCase):
     self.assertTrue(any(f'/{slug}/' in a.get('href','') for a in listing.select('a[href]')))
     self.assertIn('/fr/knowledge/',str(page.select_one('.lang-switch')))
     self.assertFalse((ROOT/'fr/knowledge/articles'/slug/'index.html').exists())
+ def test_decree_702_russian_service_journey(self):
+  page=BeautifulSoup((ROOT/'ru/migration/decree-702/index.html').read_text(encoding='utf-8'),'html.parser')
+  self.assertEqual(len(page.select('main h1')),1)
+  self.assertIn('РВП без квоты',page.main.get_text(' ',strip=True))
+  self.assertIn('Переезд в Россию по Указу № 702',page.title.get_text())
+  for anchor in ('benefits','eligibility','route','documents','risks','support','faq','legal-sources'):
+   with self.subTest(anchor=anchor):
+    self.assertIsNotNone(page.select_one(f'#{anchor}'))
+  self.assertGreaterEqual(len(page.select('article details')),5)
+  self.assertGreaterEqual(len(page.select('article ol li')),8)
+  self.assertTrue(any('rvp-shared-values-702' in a.get('href','') for a in page.select('article a[href]')))
+  self.assertTrue(any('consultations' in a.get('href','') for a in page.select('article a[data-analytics-event="consultation_click"]')))
+  self.assertIn('https://publication.pravo.gov.ru/document/0001202409200036',str(page.main))
+  self.assertNotIn('Виза гарантирована',page.main.get_text(' ',strip=True))
+  self.assertIn('noindex',page.select_one('meta[name="robots"]')['content'])
+
 if __name__=='__main__':unittest.main()
