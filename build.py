@@ -579,24 +579,14 @@ html[lang="ru"] .sr702-overview > p strong {
 }
 
 
-/* Decree 702 stage 1: enlarge the visa only, crop white margins, native accessible lightbox */
-html[lang="ru"] .sr702-with-image--visa {grid-template-columns:minmax(0,1.08fr) minmax(350px,1.12fr);gap:26px;}
-html[lang="ru"] .sr702-with-image--visa .sr702-visa-figure {width:100%;max-width:100%;margin:0;}
-html[lang="ru"] .sr702-visa-preview {display:block;position:relative;width:100%;padding:0;border:1px solid var(--line);background:var(--parchment);cursor:zoom-in;font:inherit;text-align:left;border-radius:5px;overflow:hidden;}
-html[lang="ru"] .sr702-visa-crop {display:block;position:relative;overflow:hidden;aspect-ratio:4/3;background:#eee8dd;}
-html[lang="ru"] .sr702-with-image .sr702-visa-crop img,html[lang="ru"] .sr702-visa-crop img{display:block;width:100%;height:100%;max-height:none;object-fit:cover;object-position:center center;transform:scale(1.045);border:0;border-radius:0;}
-html[lang="ru"] .sr702-visa-preview:hover .sr702-visa-crop img{transform:scale(1.075);transition:transform .2s ease;}
-html[lang="ru"] .sr702-visa-open-hint{display:block;padding:11px 15px;background:#17223a;color:#f1ecde;text-align:center;font-size:13px;font-weight:750;line-height:1.4;}
-html[lang="ru"] .sr702-visa-figure figcaption{padding-top:10px;}
-html[lang="ru"] .sr702-visa-dialog{border:1px solid #a9803e;background:#17223a;color:#f1ecde;box-shadow:0 20px 100px #0008;padding:0;width:min(94vw,1050px);max-width:94vw;max-height:94vh;border-radius:6px;overflow:auto;}
-html[lang="ru"] .sr702-visa-dialog::backdrop{background:rgba(8,13,24,.86);}
-html[lang="ru"] .sr702-visa-dialog-inside{padding:14px 18px 16px;}
-html[lang="ru"] .sr702-visa-close{display:flex;align-items:center;justify-content:flex-end;gap:9px;margin:0 0 10px auto;border:1px solid #807252;border-radius:4px;background:#26334e;color:#fff;padding:6px 13px;cursor:pointer;font-size:25px;line-height:1;}
-html[lang="ru"] .sr702-visa-close span{font-size:13px;font-weight:700;}
-html[lang="ru"] .sr702-visa-crop--full{width:100%;max-width:100%;aspect-ratio:4/3;}
-html[lang="ru"] .sr702-visa-dialog .sr702-visa-modal-caption{color:#f1ecde;text-align:center;font-size:13px;margin:12px 0 0;line-height:1.5;}
-@media(max-width:760px){html[lang="ru"] .sr702-with-image--visa{grid-template-columns:minmax(0,1fr);gap:16px;}html[lang="ru"] .sr702-with-image--visa .sr702-visa-figure{max-width:580px;}html[lang="ru"] .sr702-visa-dialog-inside{padding:10px;}}
-@media(prefers-reduced-motion:reduce){html[lang="ru"] .sr702-visa-preview:hover .sr702-visa-crop img{transition:none;transform:scale(1.045);}}
+
+/* Stage 1: static, enlarged visa without outer white margins */
+html[lang="ru"] .sr702-with-image--visa{grid-template-columns:minmax(0,1.08fr) minmax(350px,1.12fr);gap:26px;}
+html[lang="ru"] .sr702-with-image--visa .sr702-visa-figure{width:100%;max-width:100%;margin:0;}
+html[lang="ru"] .sr702-visa-crop{display:block;position:relative;overflow:hidden;aspect-ratio:4/3;border:1px solid var(--line);border-radius:5px;background:var(--parchment);}
+html[lang="ru"] .sr702-with-image .sr702-visa-crop img{display:block;width:100%;height:100%;max-height:none;object-fit:cover;object-position:center center;transform:scale(1.045);border:0;border-radius:0;}
+html[lang="ru"] .sr702-visa-figure figcaption{padding:10px 6px 0;font-size:12px;line-height:1.5;color:var(--ink-text-soft);text-align:center;}
+@media(max-width:760px){html[lang="ru"] .sr702-with-image--visa{grid-template-columns:minmax(0,1fr);gap:16px;}html[lang="ru"] .sr702-with-image--visa .sr702-visa-figure{max-width:580px;margin:0 auto;}}
 
 '''
 (OUT/'assets'/'platform.css').write_text(CSS_ADD+LEGAL_CSS,encoding='utf-8')
@@ -979,7 +969,7 @@ def decree_page(lang):
  <p>По Указу 702 для въезда предусмотрена <strong>однократная обыкновенная частная виза на три месяца</strong>. Важно правильно подготовить документы, указать предполагаемые даты поездки и запросить подходящий срок. Даты действия визы фиксируются в решении российского консульства.</p>
  <p><strong>Самое важное — получить справку об отсутствии судимости ещё до поездки.</strong> Для подачи на РВП в России справка действует <strong>три месяца с момента выдачи</strong>. Документ нужно оформить с апостилем либо другой предусмотренной легализацией. Нотариальный перевод на русский язык вы сделаете уже в России.</p><p><strong>Особое внимание — электронным справкам и электронным апостилям.</strong> Если в вашей стране справку выдают только в электронном виде, заранее обсудите оформление с миграционным юристом. При подтверждении подлинности таких документов в разных регионах России возникают нюансы, которые лучше решить ещё до выезда.</p>
  <p>Подготовьте паспорт, документы о проживании, заявление о мотивах переезда и визовую анкету; проверьте правила того консульства, куда планируете обращаться.</p>
- </div><figure class="sr702-visa-figure"><button type="button" class="sr702-visa-preview" data-sr702-visa-open aria-haspopup="dialog" aria-controls="sr702-visa-dialog" aria-label="Увеличить пример визы по Указу 702"><span class="sr702-visa-crop"><img src="/assets/decree702-stage1-visa.jpg" width="595" height="842" loading="lazy" alt="Пример частной визы по Указу 702 с закрытыми личными данными"></span><span class="sr702-visa-open-hint" aria-hidden="true">⤢ Нажмите, чтобы увеличить</span></button><figcaption>Пример частной визы по Указу 702. Персональные данные закрыты.</figcaption></figure></div>
+ </div><figure class="sr702-visa-figure"><span class="sr702-visa-crop"><img src="/assets/decree702-stage1-visa.jpg" width="595" height="842" loading="lazy" alt="Пример частной визы по Указу 702 с закрытыми личными данными"></span><figcaption>Пример частной визы по Указу 702. Персональные данные закрыты.</figcaption></figure></div>
  <details class="sr702-expand"><summary>Очень важно на этом этапе</summary><ul><li>Указывайте правильные даты поездки и запрашиваемый срок визы. Из-за ошибок при самостоятельной подаче иногда выдают визу на более короткий срок.</li><li>Правильно рассчитывайте срок действия справки об отсутствии судимости: к дате подачи в МВД она должна оставаться действительной.</li><li>Если вы уже законно находитесь в России, порядок обращения за РВП может зависеть от региона пребывания и категории вашей визы.</li><li>Специальная частная виза разрешает один въезд. Если потребуется выехать во время рассмотрения заявления, для возвращения может понадобиться новая виза.</li></ul></details>
  <p class="sr702-note"><strong>Практический совет:</strong> сначала составьте план действий и календарь с учётом даты выдачи справки об отсутствии судимости, записи в консульство и подачи документов в МВД.</p>
 </section>
@@ -987,7 +977,7 @@ def decree_page(lang):
  <div class="sr702-stage-head"><span class="sr702-number">02</span><div><span class="sr702-kicker">Первые дни после пересечения границы</span><h2>Прибытие в Россию: что сделать в первую очередь</h2></div></div>
  <div class="sr702-with-image"><div>
  <p><strong>Добро пожаловать в Россию!</strong></p><p>После пересечения границы нужно спокойно, но оперативно выполнить миграционные формальности, чтобы сохранить возможность получения РВП.</p>
- <ul><li>Получите при въезде и сохраните миграционную карту. Не теряйте её до завершения оформления документов.</li><li>Оформите <strong>миграционный учёт по месту пребывания</strong> (его часто называют регистрацией). В гостинице уведомление отправляет администрация не позднее следующего рабочего дня; при проживании в квартире общий срок — семь рабочих дней, уведомление обычно подаёт принимающая сторона. <strong>Важно не только подать уведомление, но и получить подтверждение его принятия МВД: отрывную часть или электронный документ.</strong></li><li>Подготовьте нотариально удостоверенные переводы иностранных документов.</li><li>Выберите регион, где действительно планируете проживать и подавать документы.</li><li>При необходимости займитесь СНИЛС, Госуслугами, мобильной связью и банком: это полезные бытовые шаги, но не универсальные условия получения РВП.</li></ul>
+ <ul><li>Получите при въезде и сохраните миграционную карту. Не теряйте её.</li><li>Оформите <strong>миграционный учёт по месту пребывания</strong> (его часто называют регистрацией). В гостинице уведомление отправляет администрация не позднее следующего рабочего дня; при проживании в квартире общий срок — семь рабочих дней, уведомление обычно подаёт принимающая сторона. <strong>Важно не только подать уведомление, но и получить подтверждение его принятия МВД: отрывную часть или электронный документ.</strong></li><li>Подготовьте нотариально удостоверенные переводы иностранных документов.</li><li>Выберите регион, где действительно планируете проживать и подавать документы.</li><li>При необходимости займитесь СНИЛС, Госуслугами, мобильной связью и банком: это полезные бытовые шаги, но не универсальные условия получения РВП.</li></ul>
  </div><figure><div class="sr702-visual-crop sr702-visual-crop--arrival"><img src="/assets/decree702-stage2-arrival.jpg" width="680" height="720" loading="lazy" alt="Иллюстрация поездки семьи на самолёте в Россию"></div><figcaption>Переезд — это не только документы, но и начало новой жизни.</figcaption></figure></div>
  <details class="sr702-expand"><summary>Чего нельзя делать после прибытия</summary><ul><li><strong>Не покупайте фиктивную регистрацию.</strong> Регистрация должна соответствовать реальному месту пребывания; фиктивная постановка на учёт может повлечь серьёзную ответственность, вплоть до выдворения и запрета на въезд в предусмотренных законом случаях.</li><li>Не выбирайте регион подачи только потому, что там якобы быстрее принимают документы. РВП обычно связано с определённым субъектом РФ, а правила проживания и работы имеют ограничения.</li></ul></details>
 </section>
@@ -1039,20 +1029,7 @@ def decree_page(lang):
 </article>'''
  else:
   body='''<article class="sr-content"><p class="sr-meta">Texte sur le site de la présidence consulté le 21 novembre 2026 · Vérifiez la version en vigueur avant toute demande</p><p>Le décret présidentiel russe n° 702 du 19 août 2024 prévoit une voie spécifique pour certaines personnes qui souhaitent s’installer en Russie. Il ouvre un droit de <strong>déposer une demande</strong> de permis de séjour temporaire (RVP), sans garantir l’obtention du permis ou du visa.</p><h2>Ce que prévoit le décret</h2><ul><li>Une demande de RVP hors quota, sans document attestant la connaissance de la langue russe, de l’histoire et du droit russes, sous réserve des conditions du décret.</li><li>Un visa privé ordinaire à entrée unique de trois mois, délivré sur décision du responsable du poste diplomatique ou consulaire dans les cas prévus.</li><li>L’examen du dossier selon la procédure applicable, avec les motifs de refus prévus à l’article 7 de la loi fédérale n° 115-FZ.</li></ul><p>Lisez le <a href="SOURCE">texte du décret n° 702 sur le site de la présidence</a>, sa <a href="PUBLICATION">notice de publication officielle</a> et la <a href="COUNTRIES">liste gouvernementale des États concernés</a> (ordonnance n° 2560-r). La nationalité, le lieu de résidence permanente et la version actuelle de cette liste doivent être vérifiés pour chaque personne.</p><h2>Préparer votre dossier</h2><ol><li>Notez votre nationalité, votre résidence permanente et le lieu prévu pour la demande de visa.</li><li>Décrivez les motifs de votre projet et les membres de votre famille concernés.</li><li>Rassemblez les informations sur vos passeports, vos séjours et vos entrées précédentes en Russie.</li><li>Vérifiez les conditions du décret et les éventuels motifs de refus.</li><li>Confirmez les pièces, l’autorité compétente et les délais selon les règles en vigueur avant le dépôt.</li></ol><h2>Questions fréquentes</h2><h3>Le visa est-il garanti ?</h3><p>Non. Le décret prévoit une décision consulaire ; il ne garantit pas une réponse favorable.</p><h3>Le RVP est-il automatique ?</h3><p>Non. Le dossier reste soumis à l’examen et aux motifs de refus applicables.</p><h3>La nationalité suffit-elle ?</h3><p>Non. Il faut examiner toutes les conditions et les faits du dossier.</p><p class="sr-note">Ce guide présente le cadre général. La liste des pièces et les délais doivent être confirmés pour votre situation.</p>
-<dialog id="sr702-visa-dialog" class="sr702-visa-dialog" aria-label="Увеличенный образец частной визы по Указу 702"><div class="sr702-visa-dialog-inside"><button class="sr702-visa-close" data-sr702-visa-close type="button" aria-label="Закрыть увеличенную визу">× <span>Закрыть</span></button><div class="sr702-visa-crop sr702-visa-crop--full"><img src="/assets/decree702-stage1-visa.jpg" width="595" height="842" alt="Увеличенный образец частной визы по Указу 702. Все личные данные скрыты."></div><p class="sr702-visa-modal-caption">Образец частной визы по Указу 702. Персональные данные закрыты. Нажмите Esc, чтобы закрыть.</p></div></dialog>
-<script>
-(function(){
- const trigger=document.querySelector('[data-sr702-visa-open]');
- const modal=document.getElementById('sr702-visa-dialog');
- const close=document.querySelector('[data-sr702-visa-close]');
- if(!trigger||!modal||!close)return;
- trigger.addEventListener('click',()=>{if(typeof modal.showModal==='function')modal.showModal();else modal.setAttribute('open','');});
- const dismiss=()=>{if(typeof modal.close==='function')modal.close();else modal.removeAttribute('open');};
- close.addEventListener('click',dismiss);
- modal.addEventListener('click',event=>{if(event.target===modal)dismiss();});
- modal.addEventListener('close',()=>trigger.focus());
-})();
-</script>
+
 </article>'''
  body=body.replace('SOURCE',source).replace('PUBLICATION',publication).replace('COUNTRIES',countries)
  return shell(lang,url,title,desc,heading(lang,title,desc,'УКАЗ 702 · РАЗДЕЛЕНИЕ ЦЕННОСТЕЙ · ИДЕОЛОГИЧЕСКАЯ ПРОГРАММА' if ru else 'DÉCRET 702')+body+cta(lang))
