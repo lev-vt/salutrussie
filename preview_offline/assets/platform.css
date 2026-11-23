@@ -522,3 +522,22 @@ html[lang="ru"] .sr702-overview > p strong {
  html[lang="ru"] .sr702-overview > p.sr702-lead + p,
  html[lang="ru"] .sr702-overview > p.sr702-strategy {font-size:16px;}
 }
+
+/* Decree 702 stage 1: enlarge the visa only, crop white margins, native accessible lightbox */
+html[lang="ru"] .sr702-with-image--visa {grid-template-columns:minmax(0,1.08fr) minmax(350px,1.12fr);gap:26px;}
+html[lang="ru"] .sr702-with-image--visa .sr702-visa-figure {width:100%;max-width:100%;margin:0;}
+html[lang="ru"] .sr702-visa-preview {display:block;position:relative;width:100%;padding:0;border:1px solid var(--line);background:var(--parchment);cursor:zoom-in;font:inherit;text-align:left;border-radius:5px;overflow:hidden;}
+html[lang="ru"] .sr702-visa-crop {display:block;position:relative;overflow:hidden;aspect-ratio:4/3;background:#eee8dd;}
+html[lang="ru"] .sr702-with-image .sr702-visa-crop img,html[lang="ru"] .sr702-visa-crop img{display:block;width:100%;height:100%;max-height:none;object-fit:cover;object-position:center center;transform:scale(1.045);border:0;border-radius:0;}
+html[lang="ru"] .sr702-visa-preview:hover .sr702-visa-crop img{transform:scale(1.075);transition:transform .2s ease;}
+html[lang="ru"] .sr702-visa-open-hint{display:block;padding:11px 15px;background:#17223a;color:#f1ecde;text-align:center;font-size:13px;font-weight:750;line-height:1.4;}
+html[lang="ru"] .sr702-visa-figure figcaption{padding-top:10px;}
+html[lang="ru"] .sr702-visa-dialog{border:1px solid #a9803e;background:#17223a;color:#f1ecde;box-shadow:0 20px 100px #0008;padding:0;width:min(94vw,1050px);max-width:94vw;max-height:94vh;border-radius:6px;overflow:auto;}
+html[lang="ru"] .sr702-visa-dialog::backdrop{background:rgba(8,13,24,.86);}
+html[lang="ru"] .sr702-visa-dialog-inside{padding:14px 18px 16px;}
+html[lang="ru"] .sr702-visa-close{display:flex;align-items:center;justify-content:flex-end;gap:9px;margin:0 0 10px auto;border:1px solid #807252;border-radius:4px;background:#26334e;color:#fff;padding:6px 13px;cursor:pointer;font-size:25px;line-height:1;}
+html[lang="ru"] .sr702-visa-close span{font-size:13px;font-weight:700;}
+html[lang="ru"] .sr702-visa-crop--full{width:100%;max-width:100%;aspect-ratio:4/3;}
+html[lang="ru"] .sr702-visa-dialog .sr702-visa-modal-caption{color:#f1ecde;text-align:center;font-size:13px;margin:12px 0 0;line-height:1.5;}
+@media(max-width:760px){html[lang="ru"] .sr702-with-image--visa{grid-template-columns:minmax(0,1fr);gap:16px;}html[lang="ru"] .sr702-with-image--visa .sr702-visa-figure{max-width:580px;}html[lang="ru"] .sr702-visa-dialog-inside{padding:10px;}}
+@media(prefers-reduced-motion:reduce){html[lang="ru"] .sr702-visa-preview:hover .sr702-visa-crop img{transition:none;transform:scale(1.045);}}
