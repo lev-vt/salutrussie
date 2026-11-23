@@ -34,11 +34,11 @@
 </section>
 <section class="sr702-stage" id="step1">
  <div class="sr702-stage-head"><span class="sr702-number">01</span><div><span class="sr702-kicker">До выезда из вашей страны</span><h2>Получение визы и подготовка документов</h2></div></div>
- <div class="sr702-with-image"><div>
+ <div class="sr702-with-image sr702-with-image--visa"><div>
  <p>По Указу 702 для въезда предусмотрена <strong>однократная обыкновенная частная виза на три месяца</strong>. Важно правильно подготовить документы, указать предполагаемые даты поездки и запросить подходящий срок. Даты действия визы фиксируются в решении российского консульства.</p>
- <p><strong>Самое важное — получить справку об отсутствии судимости ещё до поездки.</strong> Для подачи на РВП в России справка действует <strong>три месяца с момента выдачи</strong>. Документ нужно оформить с апостилем либо другой предусмотренной легализацией и нотариальным переводом на русский язык.</p><p><strong>Особое внимание — электронным справкам и электронным апостилям.</strong> Если в вашей стране справку выдают только в электронном виде, заранее обсудите оформление с миграционным юристом. При подтверждении подлинности таких документов в разных регионах России возникают нюансы, которые лучше решить ещё до выезда.</p>
+ <p><strong>Самое важное — получить справку об отсутствии судимости ещё до поездки.</strong> Для подачи на РВП в России справка действует <strong>три месяца с момента выдачи</strong>. Документ нужно оформить с апостилем либо другой предусмотренной легализацией. Нотариальный перевод на русский язык вы сделаете уже в России.</p><p><strong>Особое внимание — электронным справкам и электронным апостилям.</strong> Если в вашей стране справку выдают только в электронном виде, заранее обсудите оформление с миграционным юристом. При подтверждении подлинности таких документов в разных регионах России возникают нюансы, которые лучше решить ещё до выезда.</p>
  <p>Подготовьте паспорт, документы о проживании, заявление о мотивах переезда и визовую анкету; проверьте правила того консульства, куда планируете обращаться.</p>
- </div><figure><img src="../../../assets/decree702-stage1-visa.jpg" width="595" height="842" loading="lazy" alt="Пример специальной частной визы по Указу 702 с закрытыми личными данными"><figcaption>Пример визы по Указу 702. Персональные данные закрыты.</figcaption></figure></div>
+ </div><figure class="sr702-visa-figure"><button type="button" class="sr702-visa-preview" data-sr702-visa-open aria-haspopup="dialog" aria-controls="sr702-visa-dialog" aria-label="Увеличить пример визы по Указу 702"><span class="sr702-visa-crop"><img src="../../../assets/decree702-stage1-visa.jpg" width="595" height="842" loading="lazy" alt="Пример частной визы по Указу 702 с закрытыми личными данными"></span><span class="sr702-visa-open-hint" aria-hidden="true">⤢ Нажмите, чтобы увеличить</span></button><figcaption>Пример частной визы по Указу 702. Персональные данные закрыты.</figcaption></figure></div>
  <details class="sr702-expand"><summary>Очень важно на этом этапе</summary><ul><li>Указывайте правильные даты поездки и запрашиваемый срок визы. Из-за ошибок при самостоятельной подаче иногда выдают визу на более короткий срок.</li><li>Правильно рассчитывайте срок действия справки об отсутствии судимости: к дате подачи в МВД она должна оставаться действительной.</li><li>Если вы уже законно находитесь в России, порядок обращения за РВП может зависеть от региона пребывания и категории вашей визы.</li><li>Специальная частная виза разрешает один въезд. Если потребуется выехать во время рассмотрения заявления, для возвращения может понадобиться новая виза.</li></ul></details>
  <p class="sr702-note"><strong>Практический совет:</strong> сначала составьте план действий и календарь с учётом даты выдачи справки об отсутствии судимости, записи в консульство и подачи документов в МВД.</p>
 </section>
@@ -95,4 +95,19 @@
  <li>Приказы МВД России, регулирующие порядок подачи и рассмотрения документов на РВП.</li></ul>
  <p>Для подробного юридического анализа читайте <a href="../../../ru/knowledge/articles/rvp-shared-values-702/">экспертную статью «РВП по Указу 702: условия, документы и правовые риски»</a>. Здесь изложен практический путь переезда и юридического сопровождения.</p>
 </section>
+
+<dialog id="sr702-visa-dialog" class="sr702-visa-dialog" aria-label="Увеличенный образец частной визы по Указу 702"><div class="sr702-visa-dialog-inside"><button class="sr702-visa-close" data-sr702-visa-close type="button" aria-label="Закрыть увеличенную визу">× <span>Закрыть</span></button><div class="sr702-visa-crop sr702-visa-crop--full"><img src="../../../assets/decree702-stage1-visa.jpg" width="595" height="842" alt="Увеличенный образец частной визы по Указу 702. Все личные данные скрыты."></div><p class="sr702-visa-modal-caption">Образец частной визы по Указу 702. Персональные данные закрыты. Нажмите Esc, чтобы закрыть.</p></div></dialog>
+<script>
+(function(){
+ const trigger=document.querySelector('[data-sr702-visa-open]');
+ const modal=document.getElementById('sr702-visa-dialog');
+ const close=document.querySelector('[data-sr702-visa-close]');
+ if(!trigger||!modal||!close)return;
+ trigger.addEventListener('click',()=>{if(typeof modal.showModal==='function')modal.showModal();else modal.setAttribute('open','');});
+ const dismiss=()=>{if(typeof modal.close==='function')modal.close();else modal.removeAttribute('open');};
+ close.addEventListener('click',dismiss);
+ modal.addEventListener('click',event=>{if(event.target===modal)dismiss();});
+ modal.addEventListener('close',()=>trigger.focus());
+})();
+</script>
 </article><section class="sr-sec"><div class="sr-width"><div class="sr-cta"><div><h2>Нужна помощь?</h2><p>Выберите направление консультации. Объём работы и стоимость согласуем.</p></div><a class="btn btn-primary" data-analytics-event="consultation_click" href="../../../ru/consultations/index.html">Начать с консультации →</a></div></div></section></main><footer class="sr-footer"><div class="sr-width"><div><div class="sr-footer-brand">SalutRussie</div><p class="sr-small">Профессиональная помощь для иностранцев в России</p></div><div><a href="../../../ru/services/index.html">Услуги</a><a href="../../../ru/consultations/index.html">Консультация</a><a href="../../../ru/knowledge/index.html">Полезная информация</a><a href="../../../ru/pricing/index.html">Тарифы</a><a href="../../../ru/contacts/index.html">Контакты</a><br><a href="../../../ru/privacy/index.html">Персональные данные</a><p class="sr-small">© 2018–2026 SalutRussie</p></div></div></footer><script src="../../../assets/platform.js" defer></script></body></html>
