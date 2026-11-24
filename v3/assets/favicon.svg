@@ -1,6 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="SalutRussie">
-<rect width="64" height="64" rx="12" fill="#131B2E"/>
-<circle cx="32" cy="32" r="25" fill="none" stroke="#A9803E" stroke-width="1.5"/>
-<circle cx="32" cy="32" r="20" fill="none" stroke="#A9803E" stroke-width=".7"/>
-<text x="32" y="39" text-anchor="middle" font-family="Georgia,serif" font-size="20" fill="#F1ECDE">SR</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="SalutRussie"><rect width="64" height="64" rx="11" fill="#f7f1e7"/><circle cx="32" cy="32" r="29" fill="none" stroke="#A9803E" stroke-width="1.6"/><circle cx="32" cy="32" r="23" fill="none" stroke="#7C2C2C" stroke-width="1.2"/><path d="M32 7 38 25 32 20 26 25Z M32 57 38 39 32 44 26 39Z M7 32 23 26 19 32 23 38Z M57 32 41 26 45 32 41 38Z" fill="#A9803E"/><text x="32" y="37" text-anchor="middle" font-family="Georgia,serif" font-weight="bold" font-size="15" fill="#79172b">SR</text></svg>

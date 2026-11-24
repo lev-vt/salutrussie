@@ -1,3 +1,5 @@
+// Remember only a deliberate language-switch click. Direct language URLs stay unchanged.
+(function(){document.addEventListener('click',function(event){var el=event.target;if(!el||!el.closest)return;var link=el.closest('a[hreflang]');if(!link)return;var lang=link.getAttribute('hreflang');if(['ru','en','fr'].indexOf(lang)<0)return;try{localStorage.setItem('salutrussie.language',lang)}catch(e){}},true)})();
 (() => {
  const menu=document.getElementById('navLinks');
  const burger=document.getElementById('burger');
