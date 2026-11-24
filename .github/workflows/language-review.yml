@@ -1,0 +1,38 @@
+name: Language and favicon update
+on:
+  push:
+    branches: [language-favicon-review-20261125]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare current production-domain review
+        run: |
+          python3 v3-release/prepare_seo.py --source v3 --output release-review --site-url https://salutrussie.ru/
+          python3 v3-release/validate_release.py --root release-review --site-url https://salutrussie.ru/
+      - name: Install Chromium
+        run: |
+          npm install --no-save --no-package-lock playwright@1.51.1
+          npx playwright install --with-deps chromium
+      - name: Test language routing and favicon
+        run: |
+          python3 -m http.server 8765 --directory release-review >/tmp/http.log 2>&1 &
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:8765/ >/dev/null && break; sleep 1; done
+          node v3-release/test-language.cjs
+      - name: Prepare three-file patch
+        run: |
+          mkdir -p update/assets
+          cp release-review/index.html update/
+          cp release-review/assets/platform.js release-review/assets/favicon.svg update/assets/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: salutrussie-language-favicon-update
+          path: update/
+          retention-days: 7
