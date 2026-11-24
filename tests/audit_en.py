@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 EN = ROOT / "v3" / "en"
 CYR = re.compile(r"[А-Яа-яЁё]")
 OLD_ABBR = re.compile(r"\b(?:TRP|PRP|VNZH)\b")
-COMPANY = "ООО «ИННОВАЦИОННЫЕ ПРАВОВЫЕ РЕШЕНИЯ»"
+COMPANY = "Innovative Legal Solutions LLC"
 
 class Document(HTMLParser):
     def __init__(self, source):
@@ -84,7 +84,9 @@ def main():
         if desc:
             if desc[0] in descriptions: report(issues,p,"Duplicate description: "+str(descriptions[desc[0]].relative_to(ROOT)))
             descriptions[desc[0]] = p
-        prose = " ".join(d.main_text).replace(COMPANY,"")
+        if COMPANY not in raw: report(issues,p,"Missing official English company name")
+        if "ИННОВАЦИОННЫЕ ПРАВОВЫЕ РЕШЕНИЯ" in raw or re.search(r'LLC\s+(?:"|&quot;)INNOVATIVE LEGAL SOLUTIONS',raw,re.I): report(issues,p,"Legacy legal entity name")
+        prose = " ".join(d.main_text)
         if CYR.search(prose): report(issues,p,"Unexpected Cyrillic in main text")
         if OLD_ABBR.search(prose): report(issues,p,"Deprecated residence abbreviation")
         for k,v in Counter(d.ids).items():
