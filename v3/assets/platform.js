@@ -88,7 +88,30 @@ const header=document.querySelector('.sr-header'),menu=document.getElementById('
 if(header){
  const sync=()=>document.documentElement.style.setProperty('--sr-head',Math.ceil(header.getBoundingClientRect().height)+'px');sync();if('ResizeObserver'in window)new ResizeObserver(sync).observe(header);
  if(burger)burger.setAttribute('aria-label',d.menu);
- if(menu){const routes=['services','migration','for-business','knowledge','about','contacts'];const cats=L==='ru'?['Все услуги','Переезд в Россию','Недвижимость','Бизнес в России','Инвестиции','Юридическая помощь','Переезд и адаптация','Указ 702']:L==='fr'?['Tous les services','S’installer en Russie','Immobilier','Affaires','Investissements','Assistance juridique','Installation','Décret 702']:['All services','Move to Russia','Property','Business','Investments','Legal assistance','Relocation','Decree 702'];menu.replaceChildren(...routes.map((s,i)=>{const li=el('li');if(i===0){li.className='has-drop';const button=el('button','sr-drop-button',d.nav[0]+' ▾');button.type='button';button.setAttribute('aria-expanded','false');button.setAttribute('aria-controls','service-drop');const drop=el('div','nav-drop');drop.id='service-drop';['services','migration','real-estate','business','investments','legal','relocation','migration/decree-702'].forEach((r,j)=>drop.append(a(url(r),cats[j])));button.addEventListener('click',()=>{const open=li.classList.toggle('is-open');button.setAttribute('aria-expanded',String(open))});document.addEventListener('click',e=>{if(!li.contains(e.target)){li.classList.remove('is-open');button.setAttribute('aria-expanded','false')}});li.append(button,drop)}else{const link=a(url(s),d.nav[i]);if(suffix===s||suffix.startsWith(s+'/')){link.className='active';if(suffix===s)link.setAttribute('aria-current','page')}li.append(link)}return li}));const li=el('li','sr-mobile-consult');li.append(a(url('consultations'),d.consult));menu.append(li)}
+
+ if(menu){
+ const labels=L==='ru'?{decree:'Указ 702',all:'Все услуги',catalog:'Другие услуги',categories:['Недвижимость','Бизнес в России','Инвестиции','Юридическая помощь','Переезд и адаптация']}:
+ L==='fr'?{decree:'Décret 702',all:'Tous les services',catalog:'Autres services',categories:['Immobilier','Affaires en Russie','Investissements','Assistance juridique','Installation']}:
+ {decree:'Decree 702',all:'All services',catalog:'Other services',categories:['Property','Business in Russia','Investments','Legal assistance','Relocation']};
+ const compact=matchMedia('(max-width:1279px)');
+ const routes=['real-estate','business','investments','legal','relocation'];
+ const item=(s,label,cls='')=>{const li=el('li',cls);const link=a(url(s),label);const active=s==='migration'?suffix==='migration'||(suffix.startsWith('migration/')&&!suffix.startsWith('migration/decree-702')):suffix===s||suffix.startsWith(s+'/');if(active){link.classList.add('active');if(suffix===s)link.setAttribute('aria-current','page')}li.append(link);return li};
+ const service=el('li','has-drop sr-desktop-services');const button=el('button','sr-drop-button',d.nav[0]+' ▾');button.type='button';button.setAttribute('aria-expanded','false');button.setAttribute('aria-controls','service-drop');const drop=el('div','nav-drop');drop.id='service-drop';drop.append(a(url('services'),labels.all),...routes.map((s,i)=>a(url(s),labels.categories[i])));service.append(button,drop);
+ const closeDrop=()=>{service.classList.remove('is-open');button.setAttribute('aria-expanded','false')};
+ button.addEventListener('click',()=>{const on=service.classList.toggle('is-open');button.setAttribute('aria-expanded',String(on))});
+ menu.replaceChildren(service,item('migration',d.nav[1]),item('migration/decree-702',labels.decree,'sr-nav-decree'),item('for-business',d.nav[2]),item('knowledge',d.nav[3]),item('about',d.nav[4]),item('contacts',d.nav[5]),item('consultations',d.consult,'sr-mobile-consult'));
+ const secondary=el('li','sr-mobile-services');secondary.append(el('span','sr-mobile-services-title',labels.catalog));const grid=el('div','sr-mobile-services-grid');grid.append(a(url('services'),labels.all),...routes.map((s,i)=>a(url(s),labels.categories[i])));secondary.append(grid);menu.append(secondary);
+ const nav=header.querySelector('.nav');const quick=el('div','sr-mobile-quick');const decree=a(url('migration/decree-702'),labels.decree,'sr-quick-decree');const consultation=a(url('consultations'),d.consult,'sr-quick-consult');consultation.dataset.analyticsEvent='consultation_click';if(suffix==='migration/decree-702')decree.setAttribute('aria-current','page');quick.append(decree,consultation);nav?.after(quick);
+ header.classList.add('sr-nav-v33');
+ const closeMenu=()=>{menu.classList.remove('open');burger?.setAttribute('aria-expanded','false');closeDrop()};
+ document.addEventListener('click',e=>{if(!header.contains(e.target))closeMenu();else if(!service.contains(e.target))closeDrop()});
+ menu.querySelectorAll('a').forEach(link=>link.addEventListener('click',closeMenu));
+ const reorder=()=>{const featured=menu.querySelector('.sr-nav-decree');if(!featured)return;if(compact.matches){menu.prepend(featured)}else{const migration=menu.querySelector('a[href="'+url('migration')+'"]')?.closest('li');migration?.after(featured)}};
+ reorder();
+ compact.addEventListener?.('change',()=>{closeMenu();reorder()});
+ burger?.setAttribute('aria-label',d.menu);
+ }
+
  const brand=header.querySelector('.brand');if(brand&&!brand.querySelector('svg')){const mark=el('span');mark.innerHTML='<svg class="seal-mark" fill="none" viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="27" stroke="#A9803E" stroke-width="1.2"/><circle cx="30" cy="30" r="21" stroke="#A9803E" stroke-width=".7"/><text x="30" y="37" font-size="17" font-family="Georgia,serif" text-anchor="middle" fill="#F1ECDE">SR</text></svg>';brand.prepend(mark.firstChild)}
  const sw=header.querySelector('.lang-switch');if(sw){sw.setAttribute('aria-label',d.lang);sw.querySelectorAll('a[lang]').forEach(x=>{x.hreflang=x.lang})}
 }
@@ -96,7 +119,7 @@ const foot=document.querySelector('.sr-footer .sr-width>div:last-child');if(foot
 if(document.body.classList.contains('d702-design'))return;
 const main=document.getElementById('main');if(!main)return;
 const home=main.querySelector('.hero.v2-home'),hero=main.querySelector(':scope > .sr-top, :scope > .page-head'),article=suffix.startsWith('knowledge/articles/'),legal=['offer','privacy','payment','pricing'].includes(suffix),listing=suffix==='knowledge';
-if(home){const portrait=home.querySelector('.hero-seal');if(portrait&&!portrait.querySelector('img')){const image=el('img');image.src=new URL('assets/founder-lev-vtiurin-cutout-2026.webp',root).href;image.alt=L==='ru'?'Лев Втюрин — основатель SalutRussie':'Lev Vtiurin — SalutRussie';image.width=600;image.height=750;image.fetchPriority='high';portrait.replaceChildren(image)}}
+
 if(hero&&!article&&!legal&&!listing){const w=hero.querySelector(':scope > .sr-width, :scope > .wrap');if(w){const inner=el('div','sr-ui-hero-inner'),art=el('div','sr-ui-hero-art');art.setAttribute('aria-hidden','true');if(suffix==='migration'){const img=el('img');img.src=new URL('assets/decree702-stage2-arrival.jpg',root).href;img.alt='';img.width=680;img.height=720;img.fetchPriority='high';art.classList.add('sr-ui-hero-photo');art.append(img)}else art.append(icon(kind(suffix)));w.before(inner);inner.append(w,art)}}
 const commercial=Boolean(home)||hero&&!article&&!legal&&!listing&&!['contacts','consultations','about'].includes(suffix);
 let endHero=home||hero;
