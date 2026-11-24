@@ -154,3 +154,61 @@ const mobile=matchMedia('(max-width:900px)'),setMode=()=>{details.open=!mobile.m
 summary.addEventListener('click',e=>{if(!mobile.matches)e.preventDefault()});links.forEach(link=>link.addEventListener('click',()=>{if(mobile.matches)details.open=false}));document.addEventListener('click',e=>{if(mobile.matches&&details.open&&!side.contains(e.target))details.open=false});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&mobile.matches&&details.open){details.open=false;summary.focus()}});
 let pending=false;function update(){const offset=(header?.getBoundingClientRect().height||76)+(mobile.matches?90:35);let index=0;headings.forEach((h,i)=>{if(h.getBoundingClientRect().top<=offset)index=i});links.forEach((x,i)=>{if(i===index)x.setAttribute('aria-current','location');else x.removeAttribute('aria-current')});pending=false}addEventListener('scroll',()=>{if(!pending){pending=true;requestAnimationFrame(update)}},{passive:true});addEventListener('resize',update);update();
 })();
+
+/* Direct contact from commercial calls to action; keep the consultation catalogue separate. */
+(function(){
+ const script=document.currentScript;
+ const root=script&&script.src?new URL('../',script.src):null;
+ const lang=['ru','en','fr'].includes(document.documentElement.lang)?document.documentElement.lang:'en';
+ if(!root)return;
+ const contactURL=new URL(lang+'/contacts/',root).href;
+ const labels={
+  ru:{title:'Как вам удобнее связаться с нами?',lead:'Выберите удобный канал связи.',email:'Электронная почта',close:'Закрыть'},
+  en:{title:'How would you like to contact us?',lead:'Choose your preferred contact method.',email:'Email',close:'Close'},
+  fr:{title:'Comment souhaitez-vous nous contacter ?',lead:'Choisissez votre moyen de contact préféré.',email:'E-mail',close:'Fermer'}
+ }[lang];
+ const channels=[
+  {name:'WhatsApp',detail:'+7 968 534-19-15',href:'https://wa.me/79685341915',icon:'<path d="M20.5 11.5a8.5 8.5 0 0 1-12.7 7.4L3 20l1.2-4.7A8.5 8.5 0 1 1 20.5 11.5Z"/><path d="M8 8.5c1 4 3 6 7 7l1.5-2-2.5-1-1 1c-2-1-3-2-4-4l1-1-1-2.5Z"/>'},
+  {name:'Telegram',detail:'@lev_vt',href:'https://t.me/lev_vt',icon:'<path d="M3 10 21 3l-4 18-6-5-3 3 1-6 9-7-11 6Z"/>'},
+  {name:labels.email,detail:'salutrussie@salutrussie.ru',href:'mailto:salutrussie@salutrussie.ru',icon:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>'}
+ ];
+ function qualifies(a){
+  if(a.hasAttribute('data-sr-direct-contact'))return true;
+  if(a.hasAttribute('hreflang')||a.classList.contains('btn-ghost')||a.closest('details.sr-contact-details,.sr-contact-choice'))return false;
+  if(!(a.matches('.nav-cta,.btn,.expert-cta,.sr-quick-consult,[data-analytics-event="consultation_click"]')||a.closest('.sr-mobile-consult')))return false;
+  const raw=a.getAttribute('href')||'';
+  try{const url=new URL(raw,location.href);
+   return (url.origin===location.origin&&/\/(?:consultations|contacts)\/?$/.test(url.pathname))||/^mailto:salutrussie@salutrussie\.ru(?:\?|$)/i.test(raw)||(/^https:\/\/(?:wa\.me\/79685341915|t\.me\/lev_vt)(?:[/?#]|$)/i.test(raw));
+  }catch(e){return false}
+ }
+ function element(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text)e.textContent=text;return e}
+ function init(){
+  const dialog=element('dialog','sr-direct-contact');dialog.setAttribute('aria-labelledby','sr-direct-contact-title');
+  const panel=element('div','sr-direct-contact-panel');
+  const close=element('button','sr-direct-contact-close','×');close.type='button';close.setAttribute('aria-label',labels.close);
+  const title=element('h2','',labels.title);title.id='sr-direct-contact-title';
+  panel.append(close,title,element('p','sr-direct-contact-lead',labels.lead));
+  const choices=element('div','sr-direct-contact-choices');
+  for(const channel of channels){
+   const a=element('a','sr-direct-contact-option');a.href=channel.href;
+   if(channel.href.startsWith('https:')){a.target='_blank';a.rel='noopener noreferrer'}
+   const icon=element('span','sr-direct-contact-icon');icon.innerHTML='<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+channel.icon+'</svg>';
+   const content=element('span','sr-direct-contact-copy');content.append(element('strong','',channel.name),element('small','',channel.detail));
+   const arrow=element('span','sr-direct-contact-arrow','→');arrow.setAttribute('aria-hidden','true');a.append(icon,content,arrow);choices.append(a);
+   a.addEventListener('click',()=>{if(typeof window.ym==='function'&&window.SALUTRUSSIE_METRIKA_ID)window.ym(window.SALUTRUSSIE_METRIKA_ID,'reachGoal','contact_outbound')});
+  }
+  panel.append(choices);dialog.append(panel);document.body.append(dialog);
+  let opener=null;
+  const supported=typeof dialog.showModal==='function';
+  for(const a of document.querySelectorAll('a[href]'))if(qualifies(a)){a.href=contactURL;a.setAttribute('data-sr-direct-contact','');if(supported)a.setAttribute('aria-haspopup','dialog')}
+  if(!supported){dialog.remove();return}
+  close.addEventListener('click',()=>dialog.close());
+  dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close()});
+  dialog.addEventListener('close',()=>{if(opener&&opener.isConnected&&opener.getClientRects().length)opener.focus();opener=null});
+  document.addEventListener('click',e=>{
+   const a=e.target.closest?.('a[href]');if(!a||!qualifies(a)||e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+   e.preventDefault();opener=a;if(!dialog.open){dialog.showModal();close.focus()}
+  });
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();

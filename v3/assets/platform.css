@@ -904,3 +904,23 @@ html[lang="ru"] body:not(.d702-design) .sr-services-b2b-panel>*{min-width:0;over
  html[lang="ru"] body.d702-design.d702-js .d702-toc-toggle[aria-expanded="true"]+#d702-nav{max-height:max(80px,calc(100dvh - var(--d702-header) - 70px))}
  html[lang="ru"] body:not(.d702-design) .sr-ui-side details[open] nav{max-height:max(80px,calc(100dvh - var(--sr-head,100px) - 70px))}
 }
+
+/* One-step contact selector shared by all language versions. */
+.sr-direct-contact{display:none;box-sizing:border-box;border:1px solid #d8c49f;border-radius:15px;background:#fcfaf6;color:#171e2c;width:min(480px,calc(100% - 28px));max-width:calc(100% - 28px);max-height:calc(100% - 32px);padding:0;overflow:auto;box-shadow:0 18px 65px rgba(19,27,46,.26);margin:auto;position:fixed;inset:0}
+.sr-direct-contact[open]{display:block}
+.sr-direct-contact::backdrop{background:rgba(19,27,46,.58)}
+.sr-direct-contact-panel{position:relative;padding:28px}
+.sr-direct-contact h2{font-family:Georgia,'Times New Roman',serif;font-size:clamp(24px,5vw,30px);line-height:1.18;margin:0 36px 10px 0;color:#171e2c;overflow-wrap:anywhere}
+.sr-direct-contact-lead{font-size:15px;line-height:1.45;margin:0 0 20px;color:#424650}
+.sr-direct-contact-close{position:absolute;right:14px;top:14px;width:44px;height:44px;background:transparent;color:#171e2c;border:0;border-radius:8px;font-size:29px;cursor:pointer;line-height:1}
+.sr-direct-contact-close:hover{background:#f1e9db}
+.sr-direct-contact-choices{display:grid;gap:10px}
+.sr-direct-contact-option{display:flex;align-items:center;gap:14px;min-height:72px;padding:12px 14px;border:1px solid #d8c49f;border-radius:10px;background:#f7f1e7;text-decoration:none!important;color:#171e2c!important}
+.sr-direct-contact-option:hover{border-color:#94601d;background:#f1e9db}
+.sr-direct-contact-option:focus-visible,.sr-direct-contact-close:focus-visible{outline:2px solid #94601d;outline-offset:3px}
+.sr-direct-contact-icon{color:#94601d;display:grid;place-items:center;flex:0 0 32px}
+.sr-direct-contact-copy{display:grid;gap:4px;min-width:0;flex:1}
+.sr-direct-contact-copy strong{font-size:16px;color:#79172b;line-height:1.2}
+.sr-direct-contact-copy small{font-size:13px;color:#424650;overflow-wrap:anywhere}
+.sr-direct-contact-arrow{color:#79172b}
+@media(max-width:480px){.sr-direct-contact-panel{padding:23px 17px}.sr-direct-contact-option{gap:10px;padding:12px 10px}.sr-direct-contact-close{right:7px;top:7px}}
