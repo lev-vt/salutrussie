@@ -1,0 +1,26 @@
+name: SalutRussie release review
+on:
+  push:
+    branches: [release-review-20261124]
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build non-indexable review copy
+        run: python3 v3-release/prepare_seo.py --source v3 --output release-review --site-url https://salutrussie.ru/
+      - name: Validate review copy
+        run: python3 v3-release/validate_release.py --root release-review --site-url https://salutrussie.ru/
+      - name: Test indexed build without publishing
+        run: |
+          python3 v3-release/prepare_seo.py --source v3 --output release-index-test --site-url https://salutrussie.ru/ --enable-indexing
+          python3 v3-release/validate_release.py --root release-index-test --site-url https://salutrussie.ru/ --indexable
+      - name: Archive non-indexable review copy only
+        uses: actions/upload-artifact@v4
+        with:
+          name: salutrussie-release-review
+          path: release-review/
+          retention-days: 7
