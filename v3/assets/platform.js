@@ -43,8 +43,9 @@
    const t=document.createElement('textarea');t.value=text;t.style.position='fixed';t.style.opacity='0';document.body.append(t);t.select();
    try{ok=document.execCommand('copy')}catch(e){}t.remove();
   }
-  const fr=document.documentElement.lang==='fr';
-  b.textContent=ok?(fr?'Copié':'Скопировано'):(fr?'Sélectionnez et copiez le texte':'Выделите и скопируйте текст');
+  const locale=document.documentElement.lang;
+  const labels=locale==='fr'?['Copié','Sélectionnez et copiez le texte']:locale==='en'?['Copied','Select and copy the text']:['Скопировано','Выделите и скопируйте текст'];
+  b.textContent=labels[ok?0:1];
   if(!ok){const sel=window.getSelection();const range=document.createRange();range.selectNodeContents(el);sel.removeAllRanges();sel.addRange(range);}
   b.focus();
  }));
