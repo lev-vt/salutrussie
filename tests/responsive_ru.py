@@ -26,6 +26,9 @@ def main():
     args = parser.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
     pages = sorted((ROOT / "v3" / "ru").rglob("*.html"))
+    en_home = ROOT / "v3" / "en" / "index.html"
+    if en_home.is_file():
+        pages.append(en_home)
     if not pages:
         raise SystemExit("No RU HTML pages found")
     server = ThreadingHTTPServer(("127.0.0.1", 0), functools.partial(QuietHandler, directory=str(ROOT)))
