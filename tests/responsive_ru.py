@@ -50,6 +50,9 @@ def main():
                                 response = page.goto(base + rel, wait_until="load", timeout=30000)
                                 if not response or not response.ok:
                                     found.append("Page failed to load")
+                                # Legacy alias uses a zero-delay HTML refresh; wait for its real destination.
+                                if rel == "v3/ru/migration/decree-702-design/index.html":
+                                    page.wait_for_url(base + "v3/ru/migration/decree-702/", wait_until="load", timeout=10000)
                                 page.evaluate("document.fonts.ready")
                                 data = page.evaluate("""() => {
                                   const root = document.documentElement;
@@ -63,6 +66,11 @@ def main():
                                     found.append("Missing viewport meta")
                                 if data["scroll"] > data["width"] + 2:
                                     found.append(f"Horizontal overflow: {data['scroll']} > {data['width']}")
+                                    offenders = page.evaluate("""() => [...document.querySelectorAll('body *')]
+                                      .filter(el => { const r = el.getBoundingClientRect(); return r.width > 0 && r.right > document.documentElement.clientWidth + 2; })
+                                      .map(el => ({tag:el.tagName, cls:typeof el.className === 'string' ? el.className : '', right:Math.round(el.getBoundingClientRect().right)}))
+                                      .sort((a,b)=>b.right-a.right).slice(0,12)""")
+                                    found.append("Overflow candidates: " + json.dumps(offenders, ensure_ascii=False))
                                 if data["broken"]:
                                     found.append("Broken loaded image(s): " + ", ".join(data["broken"]))
                                 burger = page.locator("#burger")
