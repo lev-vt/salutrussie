@@ -3,7 +3,7 @@
 Does not deploy or modify the source. Indexing is disabled unless explicitly requested."""
 import argparse, html, json, re, shutil
 from pathlib import Path
-from urllib.parse import urlsplit
+from urllib.parse import urlsplit, urljoin
 from xml.etree.ElementTree import Element, SubElement, ElementTree
 
 def main():
@@ -27,6 +27,14 @@ def main():
     for route in routes:
         if not (args.source / route / "index.html").is_file():
             parser.error(f"Missing required route: {route}")
+    actual_routes = {
+        path.parent.relative_to(args.source).as_posix() + "/"
+        for lang in ("ru", "en", "fr")
+        for path in (args.source / lang).rglob("index.html")
+        if path.parent.relative_to(args.source).as_posix() != "ru/migration/decree-702-design"
+    }
+    if actual_routes != routes:
+        parser.error(f"Route manifest mismatch; missing: {sorted(routes - actual_routes)}; unlisted: {sorted(actual_routes - routes)}")
     shutil.copytree(args.source, args.output)
     exclusion = set(manifest["excludedFromSitemap"])
     sitemap_urls = []
@@ -56,15 +64,30 @@ def main():
                 tags += '<link rel="alternate" hreflang="x-default" href="' + escaped(base) + '">'
         def update_schema(match):
             data = json.loads(match.group(1))
+            def normalize(node):
+                if isinstance(node, list):
+                    return [normalize(value) for value in node]
+                if not isinstance(node, dict):
+                    return node
+                result = {}
+                for key, value in node.items():
+                    if key in ("@id", "url", "image", "item") and isinstance(value, str):
+                        result[key] = urljoin(canonical, value)
+                    else:
+                        result[key] = normalize(value)
+                return result
+            data = normalize(data)
             if isinstance(data, dict) and data.get("@type") == "Article":
                 data["url"] = canonical
                 data["mainEntityOfPage"] = {"@type": "WebPage", "@id": canonical}
-                if isinstance(data.get("author"), dict):
-                    data["author"]["url"] = base + lang + "/about/"
-                if isinstance(data.get("publisher"), dict):
-                    data["publisher"]["url"] = base + lang + "/"
-                return '<script type="application/ld+json">' + json.dumps(data, ensure_ascii=False).replace("<", "\\u003c") + '</script>'
-            return match.group(0)
+                for role in ("author", "publisher"):
+                    entity = data.get(role)
+                    if isinstance(entity, dict):
+                        if entity.get("@type") == "Organization":
+                            entity["url"] = base + lang + "/"
+                        elif entity.get("@type") == "Person":
+                            entity["url"] = base + lang + "/about/"
+            return '<script type="application/ld+json">' + json.dumps(data, ensure_ascii=False).replace("<", "\\u003c") + '</script>'
         doc = re.sub(r'<script type="application/ld\+json">([\s\S]*?)</script>', update_schema, doc)
         doc = put_tags(doc, tags)
         path.write_text(doc, encoding="utf-8")
