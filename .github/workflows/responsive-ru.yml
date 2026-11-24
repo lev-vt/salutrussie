@@ -1,14 +1,29 @@
-name: RU responsive smoke test
+name: Site responsive tests and English audit
 on:
   pull_request:
     branches: [gh-pages]
     paths:
       - 'v3/**'
       - 'tests/responsive_ru.py'
+      - 'tests/audit_en.py'
       - '.github/workflows/responsive-ru.yml'
 permissions:
   contents: read
 jobs:
+  audit-en:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python tests/audit_en.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: english-static-audit
+          path: english-audit.json
+          retention-days: 7
   responsive:
     runs-on: ubuntu-latest
     timeout-minutes: 25
