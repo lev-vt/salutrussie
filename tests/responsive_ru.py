@@ -9,6 +9,7 @@ import json
 import threading
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from urllib.parse import urlsplit, parse_qs
 from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -77,6 +78,47 @@ def main():
                                     found.append("Overflow candidates: " + json.dumps(offenders, ensure_ascii=False))
                                 if data["broken"]:
                                     found.append("Broken loaded image(s): " + ", ".join(data["broken"]))
+                                if rel.startswith("v3/en/"):
+                                    # Force the loading of deferred pictures without external navigation.
+                                    loaded = page.evaluate("""async () => {
+                                      const imgs = [...document.images];
+                                      for (const i of imgs) i.loading = 'eager';
+                                      const results = await Promise.all(imgs.map(i => Promise.race([
+                                        i.decode().then(() => i.naturalWidth > 0).catch(() => false),
+                                        new Promise(resolve => setTimeout(() => resolve(false), 5000))
+                                      ])));
+                                      return imgs.filter((i,n) => !results[n]).map(i => i.getAttribute('src'));
+                                    }""")
+                                    if loaded:
+                                        found.append("Broken or undecoded image: " + ", ".join(loaded))
+                                    for lang in ("ru","en","fr"):
+                                        if page.locator(f'a[hreflang="{lang}"]').count() == 0:
+                                            found.append("Missing language switch: " + lang)
+                                    if page.locator('a[hreflang="en"][aria-current="page"]').count() == 0:
+                                        found.append("English switch is not marked current")
+                                if rel == "v3/en/consultations/index.html":
+                                    choices = page.locator("main details.sr-contact-details")
+                                    if choices.count() != 6:
+                                        found.append("Expected six consultation categories")
+                                    for i in range(choices.count()):
+                                        choice = choices.nth(i)
+                                        summary = choice.locator("summary")
+                                        if choice.get_attribute("open") is None: summary.click(timeout=4000)
+                                        if choice.get_attribute("open") is None: found.append(f"Consultation category {i+1} did not open")
+                                        drafts = []
+                                        links = choice.locator('a[href^="https://wa.me/"],a[href^="https://t.me/"],a[href^="mailto:"]')
+                                        if links.count() != 3: found.append(f"Category {i+1} must offer three contact links")
+                                        for n in range(links.count()):
+                                            link = links.nth(n)
+                                            if not link.is_visible(): found.append(f"Category {i+1} has hidden contact link")
+                                            u = urlsplit(link.get_attribute("href"))
+                                            params = parse_qs(u.query)
+                                            draft = (params.get("body") or params.get("text") or [""])[0]
+                                            drafts.append(draft)
+                                        if len(drafts) != 3 or len(set(drafts)) != 1 or not drafts[0].startswith("Hello!"):
+                                            found.append(f"Category {i+1} contact drafts inconsistent")
+                                        if choice.get_attribute("open") is not None: summary.click(timeout=4000)
+                                        if choice.get_attribute("open") is not None: found.append(f"Category {i+1} did not close")
                                 if rel == "v3/en/knowledge/index.html":
                                     if page.locator(".sr-result:not(.sr-hidden)").count() != 12:
                                         found.append("English catalogue does not show all 12 publications")
