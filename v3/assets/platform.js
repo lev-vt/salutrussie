@@ -25,8 +25,8 @@
    let active='all';let format='all';let cards=[...document.querySelectorAll('.sr-result')];
    let normalize=x=>String(x||'').toLocaleLowerCase().normalize('NFKC');
    const update=()=>{let query=normalize(q.value.trim()),count=0;
-     cards.forEach(card=>{let match=(!query||normalize(card.dataset.index).includes(query))&&(active==='all'||card.dataset.topic===active)&&(format==='all'||card.dataset.format===format);card.classList.toggle('sr-hidden',!match);if(match)count++});
-     const msg=document.getElementById('sr-count');if(msg)msg.textContent=count+' '+(document.documentElement.lang==='fr'?'résultats':'материалов');
+     cards.forEach(card=>{let match=(!query||normalize(card.dataset.index+' '+(document.documentElement.lang==='en'?card.textContent:'')).includes(query))&&(active==='all'||card.dataset.topic===active)&&(format==='all'||card.dataset.format===format);card.classList.toggle('sr-hidden',!match);if(match)count++});
+     const msg=document.getElementById('sr-count');if(msg)msg.textContent=count+' '+(document.documentElement.lang==='en'?(count===1?'result':'results'):document.documentElement.lang==='fr'?'résultats':'материалов');
      document.getElementById('sr-empty')?.classList.toggle('sr-hidden',count!==0);
    };
    q.addEventListener('input',update);
