@@ -1,0 +1,41 @@
+name: Direct contact and release review
+on:
+  push:
+    branches: [direct-contact-review-20261125]
+permissions:
+  contents: read
+jobs:
+  review:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build and validate review copy
+        run: |
+          python3 v3-release/prepare_seo.py --source v3 --output release-review --site-url https://salutrussie.ru/
+          python3 v3-release/validate_release.py --root release-review --site-url https://salutrussie.ru/
+      - name: Install browser
+        run: |
+          npm install --no-save --no-package-lock playwright@1.51.1
+          npx playwright install --with-deps chromium
+      - name: Test language routing and direct contact
+        run: |
+          python3 -m http.server 8765 --directory release-review >/tmp/http.log 2>&1 &
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:8765/ >/dev/null && break; sleep 1; done
+          node v3-release/test-direct-contact.cjs
+      - name: Archive browser report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: contact-review-report
+          path: contact-review/
+          retention-days: 7
+      - name: Archive reviewed site
+        uses: actions/upload-artifact@v4
+        with:
+          name: salutrussie-direct-contact-release
+          path: release-review/
+          retention-days: 7
