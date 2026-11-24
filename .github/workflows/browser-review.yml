@@ -9,7 +9,7 @@ permissions:
   contents: read
 jobs:
   browser-review:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
@@ -27,6 +27,7 @@ jobs:
           python3 -m http.server 8765 --directory release-review > /tmp/salutrussie-http.log 2>&1 &
           SERVER=$!
           trap 'kill "$SERVER" || true' EXIT
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:8765/ > /dev/null && break; sleep 1; done
           node v3-release/browser-review.cjs
       - name: Archive browser report and screenshots
         if: always()
