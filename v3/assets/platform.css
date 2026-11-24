@@ -834,3 +834,34 @@ html[lang="ru"] .sr-cons-founder-copy{padding:14px 12px 14px 0}
 html[lang="ru"] .sr-cons-founder-copy h2{font-size:23px}
 html[lang="ru"] .sr-cons-founder-copy p{font-size:13px}
 }
+
+/* RU responsive review — narrow-screen layout and touch targets.
+   Scoped to RU; preserve the desktop composition and Decree 702 layout. */
+@media(max-width:1279px){
+ html[lang="ru"] body .sr-header.sr-nav-v33 .lang-switch a{min-height:44px}
+}
+@media(max-width:600px){
+ html[lang="ru"] body:not(.d702-design) :is(.sr-card,.sr-step,.sr-feature,.sr-cta,.sr-contact-details,.sr-founder-copy,.sr-founder-actions){min-width:0}
+ html[lang="ru"] body:not(.d702-design) :is(.sr-card,.sr-step,.sr-feature,.sr-cta,.sr-contact-details,.sr-founder-copy,.sr-cons-founder-copy){overflow-wrap:break-word}
+ html[lang="ru"] body:not(.d702-design) main .btn{max-width:100%;min-height:44px;white-space:normal;text-align:center;justify-content:center;overflow-wrap:anywhere}
+ html[lang="ru"] body:not(.d702-design) main :is(input:not([type=checkbox]):not([type=radio]):not([type=hidden]):not([type=range]),select,textarea){max-width:100%;min-width:0;font-size:16px}
+ html[lang="ru"] body:not(.d702-design) :is(.sr-content,.expert-article) pre{max-width:100%;overflow-x:auto}
+ html[lang="ru"] body:not(.d702-design) .sr-footer .sr-width>div{min-width:0;max-width:100%;overflow-wrap:anywhere}
+}
+@media(max-width:420px){
+ html[lang="ru"] body:not(.d702-design) .hero.v2-home h1{font-size:clamp(29px,8.5vw,35px);overflow-wrap:break-word}
+ html[lang="ru"] body:not(.d702-design) :is(.sr-top,.page-head) h1{font-size:clamp(28px,8vw,32px);overflow-wrap:break-word}
+ html[lang="ru"] .sr-founder-spot .sr-founder-copy{padding:18px 16px 0}
+ html[lang="ru"] .sr-founder-actions{padding:0 16px;align-items:stretch;flex-direction:column;gap:10px}
+ html[lang="ru"] .sr-founder-actions .sr-founder-more{align-self:flex-start;padding:8px 0}
+ html[lang="ru"] .sr-about-founder .founder-card{padding:20px 16px 24px}
+ html[lang="ru"] .sr-cons-founder-panel{grid-template-columns:minmax(0,1fr);gap:0}
+ html[lang="ru"] .sr-cons-founder-photo{width:min(100%,240px);height:230px;justify-self:center;object-position:50% 12%}
+ html[lang="ru"] .sr-cons-founder-copy{padding:16px}
+ html[lang="ru"] .sr-cons-founder-copy p{font-size:15px}
+ html[lang="ru"] body:not(.d702-design) .sr-ui-benefits{grid-template-columns:minmax(0,1fr)}
+ html[lang="ru"] body:not(.d702-design) .sr-ui-benefit{min-height:48px;font-size:13px}
+}
+@media(max-width:1279px) and (max-height:480px) and (orientation:landscape){
+ html[lang="ru"] body .sr-header.sr-nav-v33 .nav-links.open{max-height:calc(100vh - var(--sr-head,100px));max-height:calc(100dvh - var(--sr-head,100px))}
+}
