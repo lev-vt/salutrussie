@@ -1,0 +1,20 @@
+name: Address audit
+on:
+  push:
+    branches: [address-audit-20261125]
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 v3-release/audit_addresses.py
+      - run: |
+          python3 v3-release/prepare_seo.py --source v3 --output release-review --site-url https://salutrussie.ru/
+          python3 v3-release/validate_release.py --root release-review --site-url https://salutrussie.ru/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: salutrussie-address-updated-review
+          path: release-review/
+          retention-days: 7
