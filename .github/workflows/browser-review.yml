@@ -1,0 +1,37 @@
+name: SalutRussie browser review
+on:
+  push:
+    branches: [release-review-20261124]
+    paths:
+      - 'v3-release/browser-review.cjs'
+      - '.github/workflows/browser-review.yml'
+permissions:
+  contents: read
+jobs:
+  browser-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser test dependencies
+        run: |
+          npm install --no-save --no-package-lock playwright@1.51.1
+          npx playwright install --with-deps chromium
+      - name: Build review copy
+        run: python3 v3-release/prepare_seo.py --source v3 --output release-review --site-url https://salutrussie.ru/
+      - name: Run browser checks
+        run: |
+          python3 -m http.server 8765 --directory release-review > /tmp/salutrussie-http.log 2>&1 &
+          SERVER=$!
+          trap 'kill "$SERVER" || true' EXIT
+          node v3-release/browser-review.cjs
+      - name: Archive browser report and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: salutrussie-browser-review
+          path: browser-review/
+          retention-days: 7
