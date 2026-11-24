@@ -77,6 +77,20 @@ def main():
                                     found.append("Overflow candidates: " + json.dumps(offenders, ensure_ascii=False))
                                 if data["broken"]:
                                     found.append("Broken loaded image(s): " + ", ".join(data["broken"]))
+                                if rel == "v3/en/knowledge/index.html":
+                                    if page.locator(".sr-result:not(.sr-hidden)").count() != 12:
+                                        found.append("English catalogue does not show all 12 publications")
+                                    page.locator("#sr-search").fill("Decree 702")
+                                    if page.locator(".sr-result:not(.sr-hidden)").count() == 0:
+                                        found.append("English catalogue search returned no Decree 702 results")
+                                    page.locator("#sr-search").fill("zzzz-no-matching-article")
+                                    if not page.locator("#sr-empty").is_visible() or page.locator("#sr-count").inner_text() != "0 results":
+                                        found.append("English catalogue empty search state incorrect")
+                                    page.locator("#sr-search").fill("")
+                                    page.locator('[data-topic-filter="business"]').click()
+                                    if page.locator('.sr-result:not(.sr-hidden)[data-topic]:not([data-topic="business"])').count() or page.locator(".sr-result:not(.sr-hidden)").count() != 4:
+                                        found.append("English catalogue business filter incorrect")
+                                    page.locator('[data-topic-filter="all"]').click()
                                 burger = page.locator("#burger")
                                 if burger.count() and burger.is_visible():
                                     burger.click(timeout=4000)
