@@ -1,0 +1,32 @@
+name: RU responsive smoke test
+on:
+  pull_request:
+    branches: [gh-pages]
+    paths:
+      - 'v3/**'
+      - 'tests/responsive_ru.py'
+      - '.github/workflows/responsive-ru.yml'
+permissions:
+  contents: read
+jobs:
+  responsive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install playwright
+      - run: python -m playwright install --with-deps ${{ matrix.browser }}
+      - run: python tests/responsive_ru.py --browsers ${{ matrix.browser }} --out responsive-ru-results
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: responsive-ru-${{ matrix.browser }}
+          path: responsive-ru-results/
+          retention-days: 7
