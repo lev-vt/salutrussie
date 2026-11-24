@@ -46,3 +46,7 @@ html[lang] body:not(.d702-design) .expert-process li{background:#fffdf9;border-c
 html[lang] body:not(.d702-design) .expert-process li span{color:#94601d}
 html[lang] body:not(.d702-design) .expert-table-wrap th{background:#f4eee4;color:#171e2c}
 html[lang] body:not(.d702-design) .expert-callout{border-color:#94601d;background:#fbf0d7;color:#171e2c}
+
+/* Readable labels on the light process cards in all languages. */
+html[lang] body:not(.d702-design) .expert-process li strong{color:#171e2c;opacity:1}
+html[lang] body:not(.d702-design) .expert-process li{color:#171e2c}
