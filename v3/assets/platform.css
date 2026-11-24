@@ -733,7 +733,7 @@ html[lang] body .sr-header.sr-nav-v33 .nav-cta{font-size:12px;padding:8px 10px;m
 html[lang] body:not(.d702-design) .hero.v2-home .hero-seal{align-items:center;min-height:300px;background:radial-gradient(ellipse,#ead9ba 0%,#f7f1e7 68%);overflow:visible}
 html[lang] body:not(.d702-design) .hero.v2-home .hero-seal svg{width:min(78%,320px);max-width:320px;height:auto;display:block;flex:none}
 html[lang] body:not(.d702-design) .hero.v2-home .hero-seal svg text{fill:#79172b}
-html[lang] body:not(.d702-design) .sr-top .btn-ghost,html[lang] body:not(.d702-design) .sr-top a.sr-link,html[lang] body:not(.d702-design) .sr-top a[href^="#"],html[lang] body:not(.d702-design) .sr-top .sr-scroll-link{color:#79172b!important;border-color:#a9803e;text-shadow:none}
+html[lang] body:not(.d702-design) .sr-top .btn-ghost,html[lang] body:not(.d702-design) .sr-top a.sr-link,html[lang] body:not(.d702-design) .sr-top a[href^="#"]:not(.btn-primary),html[lang] body:not(.d702-design) .sr-top .sr-scroll-link{color:#79172b!important;border-color:#a9803e;text-shadow:none}
 @media(min-width:1280px){html[lang] body .sr-header.sr-nav-v33 .nav-links{position:static;display:flex;flex-direction:row;max-height:none;overflow:visible;background:none;border:0;gap:clamp(9px,1.1vw,18px)}html[lang] body .sr-header.sr-nav-v33 .nav-links li{border:0}html[lang] body .sr-header.sr-nav-v33 .burger{display:none}html[lang] body .sr-header.sr-nav-v33 .nav-cta{display:inline-flex}html[lang] body .sr-header.sr-nav-v33 .sr-mobile-services,html[lang] body .sr-header.sr-nav-v33 .sr-mobile-consult{display:none}}
 @media(max-width:1279px){
 html[lang] body .sr-header.sr-nav-v33 .nav{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:9px;padding:8px 17px;align-items:center}
@@ -774,3 +774,7 @@ html[lang] body .sr-migration-jump{color:#79172b!important;border-color:#a9803e}
 /* Keep the most important actions usable at narrow widths and on touch screens. */
 @media(max-width:1279px){.sr-mobile-quick a{min-height:44px}html[lang] body .sr-header.sr-nav-v33 .nav-links>li.sr-nav-decree{order:0}html[lang] body .sr-header.sr-nav-v33 .nav-links>li>a:focus-visible,html[lang] body .sr-header.sr-nav-v33 .sr-mobile-services-grid a:focus-visible{outline:2px solid #e3c38b;outline-offset:-2px}}
 @media(max-width:340px){html[lang] body .sr-header.sr-nav-v33 .brand span{font-size:19px}html[lang] body .sr-header.sr-nav-v33 .lang-switch a{min-width:26px;padding:4px}}
+
+/* Preserve button text contrast for in-page navigation and other primary actions. */
+html[lang] body:not(.d702-design) .sr-top a.btn-primary,html[lang] body:not(.d702-design) .sr-top button.btn-primary{color:#fff!important;-webkit-text-fill-color:#fff;text-shadow:none}
+html[lang] body:not(.d702-design) .sr-top a.btn-primary:focus-visible,html[lang] body:not(.d702-design) .sr-top button.btn-primary:focus-visible{outline:2px solid #a9803e;outline-offset:3px}
