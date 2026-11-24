@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Prepare a separate release copy with canonical URLs, reciprocal hreflang and sitemap.
 Does not deploy or modify the source. Indexing is disabled unless explicitly requested."""
-import argparse, html, json, re, shutil
+import argparse, hashlib, html, json, re, shutil
 from pathlib import Path
-from urllib.parse import urlsplit, urljoin
+from urllib.parse import parse_qsl, urlencode, urlsplit, urljoin, urlunsplit
 from xml.etree.ElementTree import Element, SubElement, ElementTree
 
 def direct_contact_links(doc, route):
@@ -26,6 +26,27 @@ def direct_contact_links(doc, route):
         tag = re.sub(r'(\bhref\s*=\s*)(["\x27])(.*?)\2', lambda m: m[1] + m[2] + dest + m[2], tag, count=1, flags=re.I|re.S)
         return tag[:-1] + ' data-sr-direct-contact="">'
     return re.sub(r'<a\b[^>]*>', rewrite, doc, flags=re.I)
+
+def version_local_assets(doc, page, root, hashes):
+    """Add a content hash to local CSS, JS and favicon URLs in HTML."""
+    def rewrite(match):
+        raw = html.unescape(match.group(3))
+        parts = urlsplit(raw)
+        if parts.scheme or parts.netloc or raw.startswith('//'):
+            return match.group(0)
+        name = Path(parts.path).name.lower()
+        if not (name.endswith(('.css', '.js')) or name.startswith('favicon.')):
+            return match.group(0)
+        asset = ((root if parts.path.startswith('/') else page.parent) / parts.path.lstrip('/')).resolve()
+        if not asset.is_relative_to(root) or not asset.is_file():
+            return match.group(0)
+        if asset not in hashes:
+            hashes[asset] = hashlib.sha256(asset.read_bytes()).hexdigest()[:12]
+        query = [(key, value) for key, value in parse_qsl(parts.query, keep_blank_values=True) if key != 'v']
+        query.append(('v', hashes[asset]))
+        updated = urlunsplit(('', '', parts.path, urlencode(query), parts.fragment))
+        return match.group(1) + match.group(2) + html.escape(updated, quote=True) + match.group(2)
+    return re.sub(r'(<(?:link|script)\b[^>]*?\b(?:href|src)\s*=\s*)(["\x27])(.*?)\2', rewrite, doc, flags=re.I | re.S)
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
@@ -137,7 +158,12 @@ def main():
         (args.output / "robots.txt").write_text("User-agent: *\nAllow: /\nSitemap: " + base + "sitemap.xml\n", encoding="utf-8")
     else:
         (args.output / "robots.txt").write_text("User-agent: *\nAllow: /\n# Non-indexable review copy; use access control for private staging.\n", encoding="utf-8")
-    print(f"Prepared {len(routes)} language pages; indexable sitemap entries: {len(sitemap_urls)}. Nothing deployed.")
+    root = args.output.resolve()
+    hashes = {}
+    for page in root.rglob('*.html'):
+        doc = page.read_text(encoding='utf-8')
+        page.write_text(version_local_assets(doc, page, root, hashes), encoding='utf-8')
+    print(f"Prepared {len(routes)} language pages; versioned {len(hashes)} local assets; indexable sitemap entries: {len(sitemap_urls)}. Nothing deployed.")
 
 if __name__ == "__main__":
     main()

@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Validate a locally built SalutRussie release. No network or deployment."""
 import argparse
+import hashlib
 import json
 from collections import Counter
 from html.parser import HTMLParser
 from pathlib import Path
-from urllib.parse import unquote, urljoin, urlsplit
+from urllib.parse import parse_qs, unquote, urljoin, urlsplit
 from xml.etree import ElementTree
 
 
@@ -85,6 +86,7 @@ def validate(root, base, routes, excluded, indexing):
                 else:
                     check_schema(value, route)
     expected_sitemap = set()
+    asset_hashes = {}
     pages = [''] + sorted(routes)
     for route in pages:
         path = root / route / 'index.html'
@@ -116,8 +118,18 @@ def validate(root, base, routes, excluded, indexing):
         for link in set(page.links):
             if link.startswith('#'):
                 continue
-            if local_file(urljoin(canonical, link)) is False:
+            target_url = urljoin(canonical, link)
+            if local_file(target_url) is False:
                 fail(route, f'missing local target: {link}')
+            target = urlsplit(target_url)
+            name = Path(target.path).name.lower()
+            if target.netloc == base_parts.netloc and (name.endswith(('.css', '.js')) or name.startswith('favicon.')):
+                asset = root / unquote(target.path[len(base_parts.path):])
+                if asset.is_file():
+                    if asset not in asset_hashes:
+                        asset_hashes[asset] = hashlib.sha256(asset.read_bytes()).hexdigest()[:12]
+                    if parse_qs(target.query).get('v') != [asset_hashes[asset]]:
+                        fail(route, f'incorrect asset version: {link}')
         for schema in page.schemas:
             try:
                 check_schema(json.loads(schema), route)
