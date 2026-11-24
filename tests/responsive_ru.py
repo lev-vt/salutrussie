@@ -26,9 +26,10 @@ def main():
     args = parser.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
     pages = sorted((ROOT / "v3" / "ru").rglob("*.html"))
-    en_home = ROOT / "v3" / "en" / "index.html"
-    if en_home.is_file():
-        pages.append(en_home)
+    for localised in ("en/index.html", "en/services/index.html", "en/migration/index.html", "en/consultations/index.html", "fr/consultations/index.html"):
+        page_path = ROOT / "v3" / localised
+        if page_path.is_file():
+            pages.append(page_path)
     if not pages:
         raise SystemExit("No RU HTML pages found")
     server = ThreadingHTTPServer(("127.0.0.1", 0), functools.partial(QuietHandler, directory=str(ROOT)))
