@@ -924,3 +924,26 @@ html[lang="ru"] body:not(.d702-design) .sr-services-b2b-panel>*{min-width:0;over
 .sr-direct-contact-copy small{font-size:13px;color:#424650;overflow-wrap:anywhere}
 .sr-direct-contact-arrow{color:#79172b}
 @media(max-width:480px){.sr-direct-contact-panel{padding:23px 17px}.sr-direct-contact-option{gap:10px;padding:12px 10px}.sr-direct-contact-close{right:7px;top:7px}}
+
+/* About: keep light cards readable inside the dark practice section. */
+html[lang] body:not(.d702-design) .sr-about-services .service-grid{gap:14px;background:transparent;border:0}
+html[lang] body:not(.d702-design) .sr-about-services .service-col{display:flex;flex-direction:column;align-items:flex-start;gap:10px;min-height:0;background:#fffdf9;color:#171e2c}
+html[lang] body:not(.d702-design) .sr-about-services .service-col .num{color:#825517;margin:0;font-size:14px;line-height:1.25}
+html[lang] body:not(.d702-design) .sr-about-services .service-col h3{color:#171e2c;margin:0;font-size:clamp(20px,2vw,24px);line-height:1.22}
+html[lang] body:not(.d702-design) .sr-about-services .service-col p{color:#424650;margin:0;line-height:1.55;font-size:15px}
+html[lang] body:not(.d702-design) .sr-about-services .service-col a{color:#79172b;margin:4px 0 0;font-size:14px;line-height:1.45;overflow-wrap:anywhere}
+html[lang] body:not(.d702-design) .sr-about-services .service-col a:focus-visible{outline:2px solid #94601d;outline-offset:3px}
+@media(max-width:650px){
+ html[lang] body:not(.d702-design) .sr-about-services .service-grid{grid-template-columns:minmax(0,1fr);gap:10px}
+ html[lang] body:not(.d702-design) .sr-about-services .service-col{padding:17px;gap:7px}
+}
+/* Company identifiers: keep each label and its value together, including iOS Safari. */
+html[lang] body .sr-footer .sr-company-meta{font-size:12px;line-height:1.55;max-width:100%;margin:8px 0 0;overflow-wrap:normal}
+html[lang] body .sr-footer .sr-company-name{display:block;overflow-wrap:anywhere}
+html[lang] body .sr-footer .sr-company-ids{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:6px;align-items:baseline}
+html[lang] body .sr-footer .sr-company-id{display:inline-block;white-space:nowrap;line-height:1.55;max-width:100%;overflow-wrap:normal}
+html[lang] body .sr-footer .sr-company-id a{display:inline;color:inherit!important;font:inherit;line-height:inherit;margin:0;padding:0;text-decoration:none}
+@media(max-width:600px){
+ html[lang] body .sr-footer .sr-company-ids{display:grid;grid-template-columns:minmax(0,1fr);gap:4px}
+ html[lang] body .sr-footer .sr-company-id{justify-self:start}
+}

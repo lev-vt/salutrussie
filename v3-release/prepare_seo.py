@@ -48,6 +48,33 @@ def version_local_assets(doc, page, root, hashes):
         return match.group(1) + match.group(2) + html.escape(updated, quote=True) + match.group(2)
     return re.sub(r'(<(?:link|script)\b[^>]*?\b(?:href|src)\s*=\s*)(["\x27])(.*?)\2', rewrite, doc, flags=re.I | re.S)
 
+def format_company_footer(doc):
+    """Separate existing company identifiers without changing the legal text."""
+    def footer(match):
+        def paragraph(p):
+            body = p.group(2)
+            if not ('1247700538370' in body and '9721237517' in body):
+                return p.group(0)
+            parts = re.split(r'\s*·\s*', body)
+            if len(parts) < 3:
+                return p.group(0)
+            labels = [part for part in parts[1:] if re.search(r'\d{9,13}', part)]
+            if len(labels) != len(parts)-1:
+                return p.group(0)
+            # On narrow screens, separate each legal identifier from the company name.
+            # Compact English captions avoid overflowing a 320px viewport; full legal name is preserved.
+            labels = [re.sub(r'State registration number \(OGRN\)', 'OGRN', x) for x in labels]
+            labels = [re.sub(r'Tax identification number \(INN\)', 'INN', x) for x in labels]
+            items = ''.join('<span class="sr-company-id">' + x + '</span>' for x in labels)
+            return '<p class="sr-small sr-company-meta"><span class="sr-company-name">' + parts[0] + '</span><span class="sr-company-ids">' + items + '</span></p>'
+        return re.sub(r'(<p\b[^>]*>)([\s\S]*?)</p>', paragraph, match.group(0), flags=re.I)
+    doc = re.sub(r'<footer\b[^>]*>[\s\S]*?</footer>', footer, doc, flags=re.I)
+    # Prevent Safari from treating company registration numbers as telephone numbers.
+    # Explicit phone and messaging links remain clickable.
+    if 'sr-company-meta' in doc and not re.search(r'<meta\b[^>]*name=["\x27]format-detection["\x27]',doc,flags=re.I):
+        doc = re.sub(r'</head>',lambda m:'<meta name="format-detection" content="telephone=no">'+m.group(0),doc,count=1,flags=re.I)
+    return doc
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source", type=Path, required=True, help="Path to the V3 preview folder")
@@ -88,6 +115,7 @@ def main():
         lang, suffix = route.split("/", 1)
         path = args.output / route / "index.html"
         doc = path.read_text(encoding="utf-8")
+        doc = format_company_footer(doc)
         doc = direct_contact_links(doc, route)
         canonical = base + route
         indexable = args.enable_indexing and suffix not in exclusion
