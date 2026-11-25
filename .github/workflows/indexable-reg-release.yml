@@ -1,0 +1,43 @@
+name: Approved indexable REG.RU release
+on:
+  push:
+    branches: [indexable-release-20261125]
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build separate indexable release
+        run: |
+          python3 v3-release/prepare_seo.py --source v3 --output release-indexable --site-url https://salutrussie.ru/ --enable-indexing
+          python3 v3-release/validate_release.py --root release-indexable --site-url https://salutrussie.ru/ --indexable
+      - name: Check only indexing metadata changed from current release
+        run: |
+          python3 v3-release/prepare_seo.py --source v3 --output release-review --site-url https://salutrussie.ru/
+          python3 v3-release/validate_release.py --root release-review --site-url https://salutrussie.ru/
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          a,b=Path('release-review'),Path('release-indexable')
+          left={p.relative_to(a) for p in a.rglob('*') if p.is_file()}
+          right={p.relative_to(b) for p in b.rglob('*') if p.is_file()}
+          assert right-left=={Path('sitemap.xml')} and not left-right
+          def strip_robots(x):
+              return re.sub(rb'<meta name="robots" content="[^"]+">',b'',x)
+          for p in left-{Path('robots.txt')}:
+              x,y=(a/p).read_bytes(),(b/p).read_bytes()
+              if p.suffix=='.html':
+                  assert strip_robots(x)==strip_robots(y),str(p)
+              else:
+                  assert x==y,str(p)
+          assert not any(p.name=='.htaccess' for p in right)
+          print('RELEASE_DIFF_OK: content, contact routing, asset hashes and design unchanged; only robots and sitemap updated; no .htaccess overwrite.')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: salutrussie-indexable-2026-11-25
+          path: release-indexable/
+          retention-days: 7
