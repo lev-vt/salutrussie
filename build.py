@@ -39,6 +39,12 @@ for font_file in (ROOT/'src'/'fonts').iterdir():
 shutil.copy2(ROOT/'src'/'fonts'/'fonts.css',OUT/'assets'/'fonts.css')
 shutil.copy2(ROOT/'src'/'founder-lev-vtiurin-2026.webp',OUT/'assets'/'founder-lev-vtiurin-2026.webp')
 shutil.copy2(ROOT/'src'/'founder-lev-vtiurin-cutout-2026.webp',OUT/'assets'/'founder-lev-vtiurin-cutout-2026.webp')
+# User-supplied Decree 702 artwork: exact original files, no retouching or encoding.
+for artwork in ('decree702-stage1-visa.jpg','decree702-stage2-arrival.jpg','decree702-stage3-documents.png','decree702-stage4-mvd.png'):
+    artwork_path=ROOT/'src'/artwork
+    if artwork_path.is_file():
+        shutil.copy2(artwork_path,OUT/'assets'/artwork)
+
 (OUT/'assets'/'favicon.svg').write_text('''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="SalutRussie">
 <rect width="64" height="64" rx="12" fill="#131B2E"/>
 <circle cx="32" cy="32" r="25" fill="none" stroke="#A9803E" stroke-width="1.5"/>
@@ -486,6 +492,108 @@ html[lang="ru"] .sr-migration-close .sr-migration-route{display:flex;flex-wrap:w
 html[lang="ru"] .sr-migration-close .sr-migration-route span[aria-hidden="true"]{color:var(--gold);font-size:18px;}
 @media(max-width:540px){html[lang="ru"] .sr-migration-feature-aliases{font-size:12px;}html[lang="ru"] .sr-migration-service--protection strong{font-size:16px;}html[lang="ru"] .sr-migration-close .sr-migration-route{font-size:12px;}}
 
+
+/* Decree 702 service journey: editorial redesign from owner's Google Sites material */
+html[lang="ru"] .sr702-page{max-width:1050px;padding-top:44px;padding-bottom:65px;}
+html[lang="ru"] .sr702-page h2{font-family:Inter,system-ui,sans-serif;font-size:clamp(25px,3vw,32px);line-height:1.3;margin:0 0 18px;}
+html[lang="ru"] .sr702-lead{font-size:clamp(17px,2vw,20px);line-height:1.7;}
+html[lang="ru"] .sr702-overview{padding:7px 0 29px;}
+html[lang="ru"] .sr702-benefits{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:30px 0 24px;}
+html[lang="ru"] .sr702-benefits>div{border:1px solid var(--line);border-top:3px solid var(--gold);padding:19px 15px;background:var(--parchment);min-width:0;}
+html[lang="ru"] .sr702-benefits strong{display:block;color:var(--seal);font-size:20px;line-height:1.35;margin:0 0 6px;}
+html[lang="ru"] .sr702-benefits span{font-size:13px;line-height:1.5;color:var(--ink-text-soft);display:block;}
+html[lang="ru"] .sr702-small{font-size:13px;color:var(--ink-text-soft);}
+html[lang="ru"] .sr702-toc{border:1px solid var(--line);background:var(--parchment);padding:22px 26px;margin:25px 0 52px;}
+html[lang="ru"] .sr702-toc>strong{display:block;margin-bottom:13px;color:var(--ink-text);}
+html[lang="ru"] .sr702-toc>div{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 24px;}
+html[lang="ru"] .sr702-toc a{color:var(--seal);text-decoration:underline;text-underline-offset:3px;}
+html[lang="ru"] .sr702-stage{padding:26px 0 40px;border-bottom:1px solid var(--line);scroll-margin-top:115px;}
+html[lang="ru"] .sr702-stage-head{display:flex;align-items:flex-start;gap:17px;margin-bottom:22px;}
+html[lang="ru"] .sr702-number{flex:0 0 55px;width:55px;height:55px;display:grid;place-items:center;background:#17223a;color:#F1ECDE;font-size:23px;font-weight:700;border:1px solid #A9803E;}
+html[lang="ru"] .sr702-kicker{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--seal);display:block;margin-bottom:7px;}
+html[lang="ru"] .sr702-stage-head h2{margin:0;}
+html[lang="ru"] .sr702-with-image{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(240px,1fr);align-items:start;gap:34px;}
+html[lang="ru"] .sr702-with-image figure{margin:0;min-width:0;text-align:center;}
+html[lang="ru"] .sr702-with-image figure img{width:100%;height:auto;max-height:420px;object-fit:contain;display:block;border:1px solid var(--line);background:var(--parchment);border-radius:4px;}
+html[lang="ru"] .sr702-with-image figcaption{font-size:12px;line-height:1.5;color:var(--ink-text-soft);padding:8px 6px;}
+html[lang="ru"] .sr702-expand{background:#fff;border:1px solid var(--line);margin:13px 0 !important;padding:0 !important;}
+html[lang="ru"] .sr702-expand summary{display:block;position:relative;padding:15px 47px 15px 18px;font-weight:700;cursor:pointer;list-style:none;line-height:1.5;}
+html[lang="ru"] .sr702-expand summary::-webkit-details-marker{display:none;}
+html[lang="ru"] .sr702-expand summary:after{content:"+";position:absolute;right:18px;top:12px;color:var(--seal);font-size:23px;}
+html[lang="ru"] .sr702-expand[open] summary:after{content:"−";}
+html[lang="ru"] .sr702-expand[open] summary{border-bottom:1px solid var(--line);background:var(--parchment);}
+html[lang="ru"] .sr702-expand>p,html[lang="ru"] .sr702-expand>ul,html[lang="ru"] .sr702-expand>.sr702-countries{margin:16px 18px 19px !important;}
+html[lang="ru"] .sr702-countries{line-height:1.85;font-size:14px;}
+html[lang="ru"] .sr702-note{border-left:3px solid var(--gold);background:var(--parchment);padding:15px 18px;margin:20px 0 4px !important;line-height:1.7;}
+
+html[lang="ru"] .sr702-consular-route{border-left:3px solid var(--gold);background:var(--parchment);padding:18px 22px;margin:25px 0 29px;}
+html[lang="ru"] .sr702-consular-route h3{margin:0 0 12px;font-size:19px;line-height:1.4;}
+html[lang="ru"] .sr702-consular-route p{margin:0 0 11px!important;line-height:1.7;}
+html[lang="ru"] .sr702-consular-route p:last-child{margin-bottom:0!important;}
+@media(max-width:430px){html[lang="ru"] .sr702-consular-route{padding:16px 17px;margin:22px 0 25px;}}
+html[lang="ru"] .sr702-final{background:var(--parchment);padding:27px 24px 38px;margin:32px -24px 0;border-bottom:0;}
+html[lang="ru"] .sr702-voice{border-left:3px solid var(--gold);padding:22px 30px;background:#F9F7F1;margin:36px 0;}
+html[lang="ru"] .sr702-voice p:first-child{font-size:17px;line-height:1.8;}
+html[lang="ru"] .sr702-bottom{background:#17223a;color:#F1ECDE;margin:32px 0;padding:30px 34px;}
+html[lang="ru"] .sr702-bottom h2{color:#F1ECDE;margin-bottom:12px;}
+html[lang="ru"] .sr702-bottom p{color:#F1ECDE;}
+html[lang="ru"] .sr702-sources{font-size:14px;margin-top:36px;}
+html[lang="ru"] .sr702-sources a{color:var(--seal);text-underline-offset:3px;}
+@media(max-width:760px){html[lang="ru"] .sr702-benefits{grid-template-columns:repeat(2,minmax(0,1fr));}html[lang="ru"] .sr702-with-image{grid-template-columns:minmax(0,1fr);gap:16px;}html[lang="ru"] .sr702-with-image figure{max-width:480px;margin:auto;}html[lang="ru"] .sr702-toc>div{grid-template-columns:minmax(0,1fr);}}
+@media(max-width:430px){html[lang="ru"] .sr702-page{padding-left:17px;padding-right:17px;}html[lang="ru"] .sr702-benefits>div{padding:14px 10px;}html[lang="ru"] .sr702-benefits strong{font-size:17px;}html[lang="ru"] .sr702-number{flex-basis:43px;width:43px;height:43px;font-size:19px;}html[lang="ru"] .sr702-stage-head{gap:12px;}html[lang="ru"] .sr702-stage-head h2{font-size:23px;}html[lang="ru"] .sr702-final{margin-left:-7px;margin-right:-7px;padding-left:14px;padding-right:14px;}html[lang="ru"] .sr702-bottom{padding:24px 19px;}html[lang="ru"] .sr702-voice{padding:17px 19px;} }
+
+
+/* Decree 702 review refinements: typography, reading order, and non-destructive crops */
+html[lang="ru"] .sr702-page{font-family:Inter,system-ui,sans-serif;}
+html[lang="ru"] .sr702-strategy{padding:12px 0 16px;margin-bottom:16px!important;font-size:17px;line-height:1.5;}
+html[lang="ru"] .sr702-toc>div{grid-auto-flow:column;grid-template-rows:repeat(4,auto);grid-template-columns:repeat(2,minmax(0,1fr));}
+html[lang="ru"] .sr702-toc a{text-decoration:none!important;font-weight:750;transition:color .15s ease;}
+html[lang="ru"] .sr702-toc a:hover,html[lang="ru"] .sr702-toc a:focus-visible{text-decoration:underline!important;text-underline-offset:4px;}
+html[lang="ru"] .sr702-visual-crop{overflow:hidden;border:1px solid var(--line);border-radius:4px;background:var(--parchment);}
+html[lang="ru"] .sr702-visual-crop--arrival{aspect-ratio:680/600;}
+html[lang="ru"] .sr702-visual-crop--documents{aspect-ratio:569/310;}
+html[lang="ru"] .sr702-with-image .sr702-visual-crop>img{width:100%;height:auto;max-height:none;object-fit:unset;border:0;border-radius:0;display:block;}
+html[lang="ru"] .sr-top .sr-eyebrow{line-height:1.65;overflow-wrap:break-word;}
+@media(max-width:760px){html[lang="ru"] .sr702-toc>div{grid-auto-flow:row;grid-template-rows:none;grid-template-columns:1fr;}}
+@media(max-width:430px){html[lang="ru"] .sr-top .sr-eyebrow{font-size:11px;letter-spacing:.04em;}html[lang="ru"] .sr702-strategy{font-size:15px;}}
+
+/* Decree 702: identical Inter font, size and line-height across the three introduction paragraphs */
+html[lang="ru"] .sr702-overview > p.sr702-lead,
+html[lang="ru"] .sr702-overview > p.sr702-lead + p,
+html[lang="ru"] .sr702-overview > p.sr702-strategy {
+  font-family:Inter,system-ui,sans-serif;
+  font-size:17px;
+  font-weight:400;
+  line-height:1.75;
+  letter-spacing:normal;
+}
+html[lang="ru"] .sr702-overview > p.sr702-strategy {
+  padding:0;
+  margin-top:14px!important;
+  margin-bottom:24px!important;
+}
+html[lang="ru"] .sr702-overview > p strong {
+  font-family:inherit;
+  font-size:inherit;
+  line-height:inherit;
+  font-weight:700;
+}
+@media(max-width:430px) {
+ html[lang="ru"] .sr702-overview > p.sr702-lead,
+ html[lang="ru"] .sr702-overview > p.sr702-lead + p,
+ html[lang="ru"] .sr702-overview > p.sr702-strategy {font-size:16px;}
+}
+
+
+
+/* Stage 1: static, enlarged visa without outer white margins */
+html[lang="ru"] .sr702-with-image--visa{grid-template-columns:minmax(0,1.08fr) minmax(350px,1.12fr);gap:26px;}
+html[lang="ru"] .sr702-with-image--visa .sr702-visa-figure{width:100%;max-width:100%;margin:0;}
+html[lang="ru"] .sr702-visa-crop{display:block;position:relative;overflow:hidden;aspect-ratio:4/3;border:1px solid var(--line);border-radius:5px;background:var(--parchment);}
+html[lang="ru"] .sr702-with-image .sr702-visa-crop img{display:block;width:100%;height:100%;max-height:none;object-fit:cover;object-position:center center;transform:scale(1.045);border:0;border-radius:0;}
+html[lang="ru"] .sr702-visa-figure figcaption{padding:10px 6px 0;font-size:12px;line-height:1.5;color:var(--ink-text-soft);text-align:center;}
+@media(max-width:760px){html[lang="ru"] .sr702-with-image--visa{grid-template-columns:minmax(0,1fr);gap:16px;}html[lang="ru"] .sr702-with-image--visa .sr702-visa-figure{max-width:580px;margin:0 auto;}}
+
 '''
 (OUT/'assets'/'platform.css').write_text(CSS_ADD+LEGAL_CSS,encoding='utf-8')
 shutil.copy2(ROOT/'assets'/'expert-articles.css',OUT/'assets'/'expert-articles.css')
@@ -826,17 +934,122 @@ def contacts_page(lang):
 def decree_page(lang):
  ru=lang=='ru'
  url=path(lang,'migration/decree-702')
- title='Переезд в Россию по Указу № 702' if ru else 'S’installer en Russie selon le décret n° 702'
- desc='Условия специальной программы, вопросы для проверки и последовательность подготовки.' if ru else 'Conditions du dispositif, points à vérifier et préparation du dossier.'
+ title='Переезд в Россию по Указу 702' if ru else 'S’installer en Russie selon le décret n° 702'
+ desc='Переезд в Россию по Указу 702: разделение ценностей, идеологическая программа, список стран, оформление визы, документы, РВП и юридическая помощь.' if ru else 'Conditions du dispositif, points à vérifier et préparation du dossier.'
  source='https://kremlin.ru/acts/bank/51035'
  publication='https://publication.pravo.gov.ru/document/0001202408190001'
  countries='https://publication.pravo.gov.ru/document/0001202409200036'
  if ru:
-  body='''<article class="sr-content"><p class="sr-meta">Сверено 21.11.2026 с текстом на сайте Президента · Перед подачей сверяйте действующую редакцию</p><p>Указ Президента РФ от 19.08.2024 № 702 предусматривает специальный порядок для определённой группы иностранцев, желающих переехать в Россию. Это право <strong>обратиться</strong> за разрешением на временное проживание (РВП), а не обещание выдачи РВП или визы.</p><h2>Что предусматривает Указ</h2><ul><li>Обращение за РВП без учёта квоты и без подачи документа, подтверждающего знание русского языка, истории России и основ законодательства РФ — при выполнении условий Указа.</li><li>Однократную обыкновенную частную визу на три месяца по решению руководителя дипломатического представительства или консульского учреждения в предусмотренных Указом случаях.</li><li>Решение по РВП принимается в установленном порядке; применяются основания отказа, предусмотренные статьёй 7 закона № 115-ФЗ.</li></ul><p>Основа: <a href="SOURCE">текст Указа № 702 на сайте Президента</a> и <a href="PUBLICATION">карточка официального опубликования</a>. Перечень соответствующих государств установлен <a href="COUNTRIES">распоряжением Правительства РФ № 2560-р</a>. Гражданство, место постоянного проживания и действующую редакцию перечня нужно проверить для конкретного заявителя.</p><h2>Как подготовиться к правовому разбору</h2><ol><li>Запишите гражданство и государство постоянного проживания; укажите, где планируете подавать заявление на визу.</li><li>Опишите мотивы переезда и состав семьи без шаблонных формулировок.</li><li>Составьте перечень имеющихся паспортов, миграционных документов и прошлых въездов в Россию.</li><li>Проверьте применимость Указа, основания возможного отказа и текущий перечень стран.</li><li>После выбора маршрута уточните комплект, орган подачи и сроки по действующим нормативным актам и правилам консульства.</li></ol><h2>Частые вопросы</h2><h3>Виза гарантирована?</h3><p>Нет. Указ описывает основание и порядок принятия решения, но не гарантирует положительное решение консульства.</p><h3>РВП выдают автоматически?</h3><p>Нет. Указ сохраняет проверку заявления и оснований для отказа.</p><h3>Достаточно ли гражданства страны из перечня?</h3><p>Самого названия страны недостаточно для вывода. Важны остальные условия Указа, документы и индивидуальные обстоятельства.</p><p class="sr-note">Материал объясняет рамку программы. Конкретный комплект и сроки определяются после проверки действующих правил и вашего дела.</p></article>'''
+  body='''<article class="sr-content sr702-page">
+<section class="sr702-overview">
+ <p class="sr702-lead"><strong>Переезд в Россию по программе «разделения ценностей»</strong> — удобный маршрут для иностранцев, разделяющих традиционные российские ценности. По этой программе можно получить <strong>РВП (разрешение на временное проживание) на три года без квоты и без экзамена по русскому языку, истории и законодательству России</strong>. Также для въезда можно запросить специальную частную визу на три месяца.</p>
+ <p>Мы поможем определить, подходит ли программа вам и вашей семье, заранее подготовим документы для въезда и поможем последовательно пройти все необходимые процедуры в России.</p>
+ <p class="sr702-strategy"><strong>Сначала индивидуальная стратегия — затем сопровождение по согласованному плану.</strong></p>
+ <div class="sr702-benefits" aria-label="Особенности программы">
+  <div><strong>3 месяца</strong><span>специальная однократная частная виза</span></div>
+  <div><strong>Без квоты</strong><span>не нужно участвовать в «лотерее РВП»</span></div>
+  <div><strong>Без экзамена</strong><span>языковой документ для этого РВП не требуется</span></div>
+  <div><strong>На 3 года</strong><span>обычный срок выданного РВП</span></div>
+ </div>
+ <p><a class="btn btn-primary" data-analytics-event="consultation_click" href="/ru/consultations/">Проверить свой маршрут переезда →</a></p>
+</section>
+<nav class="sr702-toc" aria-label="Содержание">
+ <strong>Пошаговый маршрут</strong>
+ <div><a href="#step0">0. Подходит ли программа</a><a href="#step1">1. Виза и подготовка к выезду</a><a href="#step2">2. Прибытие в Россию</a><a href="#step3">3. Документы и процедуры</a><a href="#step4">4. Подача в МВД</a><a href="#life">После получения РВП</a><a href="#faq702">Частые вопросы</a></div>
+</nav>
+<section class="sr702-stage" id="step0">
+ <div class="sr702-stage-head"><span class="sr702-number">00</span><div><span class="sr702-kicker">Начните здесь · предварительная проверка</span><h2>Узнайте, подходит ли вам программа</h2></div></div>
+ <p>Программа рассчитана на иностранцев, которые разделяют российские традиционные ценности и хотят переехать жить в Россию из страны своего гражданства или постоянного проживания. Перечень государств и территорий определён распоряжением Правительства России № 2560-р. При подаче заявления потребуется указать мотивы переезда в соответствии с Указом 702.</p>
+ <p>Для предварительного анализа важно узнать ваше гражданство, страну постоянного проживания, сведения о предыдущих поездках в Россию и составе семьи. Гражданство страны из списка <strong>само по себе не означает автоматического получения миграционного статуса — нужно собрать необходимые документы и пройти миграционные процедуры. Однако в нашей практике это наиболее предсказуемый способ получить РВП.</strong></p><p>Если вы уже законно находитесь в России, вы также можете воспользоваться программой, в том числе при наличии рабочей или туристической визы. Порядок подачи зависит от ваших документов и региона пребывания.</p>
+ <details class="sr702-expand"><summary>Посмотреть полный список стран, участвующих в программе</summary>
+ <p>Страны и территории, включённые в распоряжение Правительства РФ от 17.09.2024 № 2560-р.</p>
+ <div class="sr702-countries">Австралия · Австрия · Албания · Андорра · Багамские Острова · Бельгия · Болгария · Великобритания (включая коронные владения и заморские территории) · Германия · Греция · Дания · Ирландия · Исландия · Испания · Италия · Канада · Кипр · Латвия · Литва · Лихтенштейн · Люксембург · Мальта · Микронезия · Монако · Нидерланды · Новая Зеландия · Норвегия · Польша · Португалия · Республика Корея · Румыния · Сан-Марино · Северная Македония · Сингапур · Словения · США · Тайвань (Китай) · Украина · Финляндия · Франция · Хорватия · Черногория · Чехия · Швейцария · Швеция · Эстония · Япония.</div>
+ <p>Порядок въезда для отдельных гражданств, в частности Украины, имеет особенности.</p>
+ </details>
+ <details class="sr702-expand"><summary>Если вы живёте не в стране своего гражданства</summary><p>Если у вас есть гражданство страны из перечня, но вы живёте в другой стране, вы также можете участвовать в программе. При оформлении частной визы могут быть особенности: при обращении в третьей стране потребуется подтвердить право законного длительного проживания — в ряде консульств более шести месяцев. Лучше заранее согласовать план действий с миграционным юристом и подготовить документы из страны вашего гражданства.</p></details>
+ <p class="sr702-note"><strong>Наш подход:</strong> сначала составляем план действий и календарь, затем оформляем визу и покупаем билеты. Так мы последовательно движемся к вашей цели — получению РВП и переезду в Россию.</p>
+</section>
+<section class="sr702-stage" id="step1">
+ <div class="sr702-stage-head"><span class="sr702-number">01</span><div><span class="sr702-kicker">До выезда из вашей страны</span><h2>Получение визы и подготовка документов</h2></div></div>
+ <div class="sr702-with-image sr702-with-image--visa"><div>
+ <p>По Указу 702 для въезда предусмотрена <strong>однократная обыкновенная частная виза на три месяца</strong>. Важно правильно подготовить документы, указать предполагаемые даты поездки и запросить подходящий срок. Даты действия визы фиксируются в решении российского консульства.</p>
+ <p><strong>Самое важное — получить справку об отсутствии судимости ещё до поездки.</strong> Для подачи на РВП в России справка действует <strong>три месяца с момента выдачи</strong>. Документ нужно оформить с апостилем либо другой предусмотренной легализацией. Нотариальный перевод на русский язык вы сделаете уже в России.</p><p><strong>Особое внимание — электронным справкам и электронным апостилям.</strong> Если в вашей стране справку выдают только в электронном виде, заранее обсудите оформление с миграционным юристом. При подтверждении подлинности таких документов в разных регионах России возникают нюансы, которые лучше решить ещё до выезда.</p>
+ <p>Подготовьте паспорт, документы о проживании, заявление о мотивах переезда и визовую анкету; проверьте правила того консульства, куда планируете обращаться.</p>
+ <p>Вам также потребуется медицинская страховка. Вы можете оформить страховку у нас через нашего официального партнёра — страховую компанию «Согласие».</p>
+ </div><figure class="sr702-visa-figure"><span class="sr702-visa-crop"><img src="/assets/decree702-stage1-visa.jpg" width="595" height="842" loading="lazy" alt="Пример частной визы по Указу 702 с закрытыми личными данными"></span><figcaption>Пример частной визы по Указу 702. Персональные данные закрыты.</figcaption></figure></div>
+ <details class="sr702-expand"><summary>Очень важно на этом этапе</summary><ul><li>Указывайте правильные даты поездки и запрашиваемый срок визы. Из-за ошибок при самостоятельной подаче иногда выдают визу на более короткий срок.</li><li>Правильно рассчитывайте срок действия справки об отсутствии судимости: к дате подачи в МВД она должна оставаться действительной.</li><li>Если вы уже законно находитесь в России, порядок обращения за РВП может зависеть от региона пребывания и категории вашей визы.</li><li>Специальная частная виза разрешает один въезд. Если потребуется выехать во время рассмотрения заявления, для возвращения может понадобиться новая виза.</li></ul></details>
+ <p class="sr702-note"><strong>Практический совет:</strong> сначала составьте план действий и календарь с учётом даты выдачи справки об отсутствии судимости, записи в консульство и подачи документов в МВД.</p>
+</section>
+<section class="sr702-consular-route" aria-labelledby="sr702-consular-heading">
+ <h3 id="sr702-consular-heading">РВП через консульство</h3>
+ <p>Вы можете подать заявление на РВП через российское консульство в стране проживания. Это предусмотрено законом, хотя используется нечасто. В нашей практике мы чаще сопровождали такие обращения через консульство во Франции.</p>
+ <p>Консульство только принимает документы и направляет их в МВД России. Поэтому заранее выберите регион будущего постоянного проживания.</p>
+ <p>Медицинское освидетельствование, дактилоскопию и фотографирование вы пройдёте после въезда в Россию.</p>
+ <p>Подача через консульство может увеличить общий срок примерно на два месяца. Но иногда это удобнее: вы завершаете дела за рубежом, пока МВД рассматривает заявление, и приезжаете ближе к ожидаемому решению, а не ждёте его в России.</p>
+ <p>У такой процедуры есть нюансы. Рекомендуем проходить её с опытным миграционным юристом.</p>
+</section>
+<section class="sr702-stage" id="step2">
+ <div class="sr702-stage-head"><span class="sr702-number">02</span><div><span class="sr702-kicker">Первые дни после пересечения границы</span><h2>Прибытие в Россию: что сделать в первую очередь</h2></div></div>
+ <div class="sr702-with-image"><div>
+ <p><strong>Добро пожаловать в Россию!</strong></p><p>После пересечения границы нужно спокойно, но оперативно выполнить миграционные формальности, чтобы сохранить возможность получения РВП.</p>
+ <ul><li>Получите при въезде и сохраните миграционную карту. Не теряйте её.</li><li>Оформите <strong>миграционный учёт по месту пребывания</strong> (его часто называют регистрацией). В гостинице уведомление отправляет администрация не позднее следующего рабочего дня; при проживании в квартире общий срок — семь рабочих дней, уведомление обычно подаёт принимающая сторона. <strong>Важно не только подать уведомление, но и получить подтверждение его принятия МВД: отрывную часть или электронный документ.</strong></li><li>Подготовьте нотариально удостоверенные переводы иностранных документов.</li><li>Выберите регион, где действительно планируете проживать и подавать документы.</li><li>При необходимости займитесь СНИЛС, Госуслугами, мобильной связью и банком: это полезные бытовые шаги, но не универсальные условия получения РВП.</li></ul>
+ </div><figure><div class="sr702-visual-crop sr702-visual-crop--arrival"><img src="/assets/decree702-stage2-arrival.jpg" width="680" height="720" loading="lazy" alt="Иллюстрация поездки семьи на самолёте в Россию"></div><figcaption>Переезд — это не только документы, но и начало новой жизни.</figcaption></figure></div>
+ <details class="sr702-expand"><summary>Чего нельзя делать после прибытия</summary><ul><li><strong>Не покупайте фиктивную регистрацию.</strong> Регистрация должна соответствовать реальному месту пребывания; фиктивная постановка на учёт может повлечь серьёзную ответственность, вплоть до выдворения и запрета на въезд.</li><li>Не выбирайте регион подачи только потому, что там якобы быстрее принимают документы (не слушайте таких советов). РВП всегда связано с определённым субъектом РФ. Вы сможете путешествовать по России, но должны выбрать один регион для постоянного места жительства.</li></ul></details>
+</section>
+<section class="sr702-stage" id="step3">
+ <div class="sr702-stage-head"><span class="sr702-number">03</span><div><span class="sr702-kicker">Подготовка к обращению в МВД</span><h2>Медицинские документы, переводы и заявление</h2></div></div>
+ <div class="sr702-with-image"><div>
+ <p>На этом этапе готовим заявление о выдаче РВП, проверяем иностранные документы и переводы, проходим медицинское освидетельствование, оформляем необходимые идентификационные номера и выполняем другие процедуры.</p>
+ <p><strong>Медицинское освидетельствование для РВП нужно проходить в России</strong>, только в уполномоченных медицинских организациях. При въезде по специальной процедуре Указа 702 (при подаче через консульство) медицинские документы необходимо представить в МВД в течение 30 суток со дня въезда.</p>
+ <p>В выбранном регионе нужно узнать адрес медицинского центра, уточнить график работы, пройти обязательную дактилоскопию и фотографирование. СНИЛС, ИНН и другие документы для дальнейшей жизни оформляем параллельно.</p>
+ </div><figure><div class="sr702-visual-crop sr702-visual-crop--documents"><img src="/assets/decree702-stage3-documents.png" width="569" height="376" loading="lazy" alt="Иллюстрация заполнения заявления и оформления документов"></div><figcaption>Подготовка и проверка комплекта до подачи заявления.</figcaption></figure></div>
+ <details class="sr702-expand"><summary>Контрольный список для подготовки РВП</summary><ul><li>Паспорт и нотариально удостоверенный перевод на русский язык.</li><li>Актуальная справка об отсутствии судимости, её легализация (например, апостиль) и нотариально удостоверенный перевод в России.</li><li>Заявление с мотивами переезда по Указу 702.</li><li>Медицинские документы установленной формы.</li><li>Две фотографии размером 35 × 45 мм и государственная пошлина.</li><li>Сведения о семье — вносятся в анкету.</li></ul><p>Для подтверждения законного пребывания держите под рукой визу (если она требуется), миграционную карту и подтверждение миграционного учёта.</p><p>Это ориентир для подготовки, а не закрытый юридический перечень. Перед подачей желательно сверить перечень с актуальной редакцией законодательства и регламента МВД или с миграционным юристом. Для документов из некоторых стран бывают особенности: например, различия в написании имён и фамилий, нюансы легализации и оформления переводов.</p></details>
+ <p class="sr702-note">Мы проверяем документы на соответствие требованиям <strong>до обращения в МВД</strong>: просроченные справки, неточные переводы и ошибки в заявлении часто стоят заявителю времени и могут снизить вероятность положительного решения.</p>
+</section>
+<section class="sr702-stage" id="step4">
+ <div class="sr702-stage-head"><span class="sr702-number">04</span><div><span class="sr702-kicker">Личная подача и ожидание решения</span><h2>Обращение за РВП в МВД России</h2></div></div>
+ <div class="sr702-with-image"><div>
+ <p>Заявление на РВП подаётся в территориальное подразделение МВД в регионе, который вы выбрали для проживания. Подача требует полного комплекта документов и соблюдения миграционных правил. Мы сопровождаем заявителя и взаимодействуем с должностными лицами.</p>
+ <p>Для всех регионов России федеральное законодательство едино, но как показывает наша практика – существуют региональные особенности в отношении некоторых важных нюансов.</p>
+ <p><strong>Подтверждение принятия заявления в МВД — один из самых важных документов.</strong> Пункт 2 статьи 5 закона № 115-ФЗ позволяет законно дожидаться решения в России после окончания первоначальной визы, если МВД приняло заявление и необходимые документы на РВП. <strong>Такое продолжение законного пребывания нужно надлежащим образом оформить и получить подтверждающие документы.</strong> В разных регионах и для разных категорий виз возможны особенности оформления.</p>
+ <p>Срок рассмотрения заявления определён законом; для обычной визовой процедуры действует срок до четырёх месяцев. На практике весь путь от подготовки документов и подачи до получения решения может занимать <strong>от двух до шести месяцев</strong>. Поэтому календарь переезда лучше составить заранее.</p>
+ </div><figure><img src="/assets/decree702-stage4-mvd.png" width="851" height="549" loading="lazy" alt="Здание подразделения МВД России по вопросам миграции"><figcaption>Подача заявления и взаимодействие с МВД.</figcaption></figure></div>
+ <details class="sr702-expand"><summary>Особенно важно на этом этапе</summary><ul><li>Уточняйте часы приёма, способ записи и требования к документам в компетентном подразделении.</li><li>Не используйте недостоверные сведения или фиктивную регистрацию.</li><li>Сохраняйте при себе: миграционную карту, документ о принятии заявления на РВП, подтверждение регистрации по месту пребывания, медицинскую страховку.</li><li>Отдельно отслеживайте миграционный учёт по фактическому месту пребывания и своевременно продлевайте его, когда это требуется.</li><li>Если планируете поездку за пределы России во время рассмотрения заявления, заранее позаботьтесь об оформлении визы для возвращения.</li></ul></details>
+</section>
+<section class="sr702-stage sr702-final" id="life">
+ <div class="sr702-stage-head"><span class="sr702-number">✓</span><div><span class="sr702-kicker">Следующий этап жизни в России</span><h2>После получения РВП: что меняется</h2></div></div>
+ <p>При положительном решении и оформлении РВП вы получаете статус временно проживающего иностранного гражданина. Обычный срок РВП — три года. Вы получаете доступ к общему с россиянами медицинскому страхованию (ОМС), можете работать или учиться, заниматься бизнесом, покупать недвижимость и инвестировать.</p>
+ <p>Это позволяет планировать жизнь, работу и развитие бизнеса в России в пределах условий вашего статуса, но сохраняет ряд обязанностей.</p>
+ <details class="sr702-expand"><summary>Что важно знать после получения РВП?</summary><ul><li>Зарегистрируйтесь по месту жительства в установленном порядке. Никогда не используйте фиктивный миграционный учёт.</li><li>Вы сможете работать в субъекте РФ, где выдано РВП, с учётом установленных законом исключений.</li><li>Вы сможете путешествовать по всей России, сохраняя место жительства и регистрацию в регионе выдачи РВП. Смена региона проживания требует соблюдения специального порядка.</li><li>Ежегодно подтверждайте проживание в России и представляйте предусмотренные законом сведения о доходах.</li><li>Чтобы сохранить РВП, не находитесь за пределами России более шести месяцев суммарно за календарный год, кроме установленных законом исключений.</li><li><strong>Через восемь месяцев проживания по РВП можно подать заявление на ВНЖ</strong>, если выполнены установленные законом требования, включая экзамен, когда он обязателен. ВНЖ обычно выдаётся без ограничения срока.</li><li>На гражданство по общему основанию можно претендовать после пяти лет постоянного проживания <strong>со дня принятия решения о выдаче ВНЖ</strong>. Для отдельных категорий предусмотрены и другие основания.</li></ul></details>
+</section>
+<section class="sr702-voice">
+ <p>«К нам обращаются разные люди: семьи с детьми и те, кто нашёл свою любовь в России; предприниматели и будущие фермеры; высококвалифицированные специалисты и студенты; те, кому комфортно жить и работать в России; и те, кто просто решил связать свою жизнь с Россией и узнать её получше. Я хотел описать программу понятным языком: показать её возможности и предупредить о действиях, которые могут осложнить переезд. Я могу подготовить индивидуальную миграционную стратегию для вас и пройти согласованные юридические этапы вместе с вами».</p>
+ <p><strong>Лев Втюрин</strong><br>Основатель SalutRussie · более 20 лет юридической практики</p>
+</section>
+<section class="sr702-stage" id="faq702">
+ <h2>Частые вопросы о переезде по Указу 702</h2>
+ <details class="sr702-expand"><summary>Нужно ли знать русский язык?</summary><p><strong>Нет.</strong> Для РВП по Указу 702 не требуется документ о знании русского языка, истории и законодательства России. За три года вы сможете выучить русский язык на уровне, необходимом для дальнейшего оформления ВНЖ.</p></details>
+ <details class="sr702-expand"><summary>Можно ли переехать всей семьёй?</summary><p><strong>Да, конечно.</strong> Мы уже помогали переезжать в Россию большим и маленьким семьям из Европы и США. Маршрут и документы заранее готовим для каждого члена семьи.</p></details>
+ <details class="sr702-expand"><summary>Можно ли обратиться за РВП, если я уже нахожусь в России?</summary><p><strong>Да.</strong> Важно знать, в каком регионе вы находитесь и по какой визе въехали. В отдельных регионах существуют особенности приёма документов и требования к справке об отсутствии судимости, включая её форму и способ подтверждения подлинности.</p></details>
+ <details class="sr702-expand"><summary>Обязательно ли получать специальную визу по Указу 702?</summary><p><strong>Нет, не обязательно.</strong> Такая виза удобна для стандартного маршрута, но обратиться за РВП по Указу 702 можно и при законном нахождении в России по другой визе, включая электронную, туристическую, деловую или рабочую. В разных регионах есть особенности, поэтому с другой визой лучше заранее обсудить порядок подачи с миграционным юристом.</p></details>
+ <details class="sr702-expand"><summary>Что делать, если срок визы заканчивается, а РВП ещё не выдано?</summary><p><strong>Пункт 2 статьи 5 закона № 115-ФЗ</strong> позволяет ожидать решение МВД в России, если заявление и необходимые документы на РВП уже приняты. Дальнейшее законное пребывание нужно документально оформить в МВД в применимом порядке. Не откладывайте это до последнего дня визы.</p></details>
+ <details class="sr702-expand"><summary>Когда можно получить ВНЖ и гражданство?</summary><p>По общему правилу заявление на ВНЖ можно подать <strong>не ранее чем через восемь месяцев проживания по РВП</strong>, если вы подтвердили знание русского языка, истории России и основ законодательства РФ (например, сдав экзамен). <strong>От подтверждения знаний освобождаются мужчины с 65 лет и женщины с 60 лет</strong>; законом предусмотрены и другие исключения. При положительном решении выдаётся бессрочный ВНЖ. На гражданство в общем порядке можно претендовать после <strong>пяти лет постоянного проживания со дня принятия решения о выдаче ВНЖ</strong>. Есть также другие основания и программы, которые могут оказаться проще для вашего индивидуального случая.</p></details>
+</section>
+<section class="sr702-bottom"><h2>Планируете переезд в Россию?</h2><p>Опишите ваше гражданство, страну проживания, состав семьи и предполагаемую дату переезда. Мы определим возможный правовой маршрут, документы и основные риски до начала затрат.</p><a class="btn btn-primary" data-analytics-event="consultation_click" href="/ru/consultations/">Получить консультацию по Указу 702 →</a></section>
+<section class="sr702-sources"><h2>Правовая основа и подробная инструкция</h2>
+ <ul><li><a href="https://www.garant.ru/products/ipo/prime/doc/409448235/">Указ Президента РФ от 19.08.2024 702</a>.</li>
+ <li><a href="https://www.garant.ru/products/ipo/prime/doc/410316959/">Распоряжение Правительства РФ от 17.09.2024 № 2560-р</a> — перечень государств.</li>
+ <li><a href="https://www.consultant.ru/document/cons_doc_LAW_37868/">Федеральный закон от 25.07.2002 № 115-ФЗ «О правовом положении иностранных граждан в Российской Федерации»</a>.</li>
+ <li>Приказы МВД России, регулирующие порядок подачи и рассмотрения документов на РВП.</li></ul>
+ <p>Для подробного юридического анализа читайте <a href="/ru/knowledge/articles/rvp-shared-values-702/">экспертную статью «РВП по Указу 702: условия, документы и правовые риски»</a>. Здесь изложен практический путь переезда и юридического сопровождения.</p>
+</section>
+</article>'''
  else:
-  body='''<article class="sr-content"><p class="sr-meta">Texte sur le site de la présidence consulté le 21 novembre 2026 · Vérifiez la version en vigueur avant toute demande</p><p>Le décret présidentiel russe n° 702 du 19 août 2024 prévoit une voie spécifique pour certaines personnes qui souhaitent s’installer en Russie. Il ouvre un droit de <strong>déposer une demande</strong> de permis de séjour temporaire (RVP), sans garantir l’obtention du permis ou du visa.</p><h2>Ce que prévoit le décret</h2><ul><li>Une demande de RVP hors quota, sans document attestant la connaissance de la langue russe, de l’histoire et du droit russes, sous réserve des conditions du décret.</li><li>Un visa privé ordinaire à entrée unique de trois mois, délivré sur décision du responsable du poste diplomatique ou consulaire dans les cas prévus.</li><li>L’examen du dossier selon la procédure applicable, avec les motifs de refus prévus à l’article 7 de la loi fédérale n° 115-FZ.</li></ul><p>Lisez le <a href="SOURCE">texte du décret n° 702 sur le site de la présidence</a>, sa <a href="PUBLICATION">notice de publication officielle</a> et la <a href="COUNTRIES">liste gouvernementale des États concernés</a> (ordonnance n° 2560-r). La nationalité, le lieu de résidence permanente et la version actuelle de cette liste doivent être vérifiés pour chaque personne.</p><h2>Préparer votre dossier</h2><ol><li>Notez votre nationalité, votre résidence permanente et le lieu prévu pour la demande de visa.</li><li>Décrivez les motifs de votre projet et les membres de votre famille concernés.</li><li>Rassemblez les informations sur vos passeports, vos séjours et vos entrées précédentes en Russie.</li><li>Vérifiez les conditions du décret et les éventuels motifs de refus.</li><li>Confirmez les pièces, l’autorité compétente et les délais selon les règles en vigueur avant le dépôt.</li></ol><h2>Questions fréquentes</h2><h3>Le visa est-il garanti ?</h3><p>Non. Le décret prévoit une décision consulaire ; il ne garantit pas une réponse favorable.</p><h3>Le RVP est-il automatique ?</h3><p>Non. Le dossier reste soumis à l’examen et aux motifs de refus applicables.</p><h3>La nationalité suffit-elle ?</h3><p>Non. Il faut examiner toutes les conditions et les faits du dossier.</p><p class="sr-note">Ce guide présente le cadre général. La liste des pièces et les délais doivent être confirmés pour votre situation.</p></article>'''
+  body='''<article class="sr-content"><p class="sr-meta">Texte sur le site de la présidence consulté le 21 novembre 2026 · Vérifiez la version en vigueur avant toute demande</p><p>Le décret présidentiel russe n° 702 du 19 août 2024 prévoit une voie spécifique pour certaines personnes qui souhaitent s’installer en Russie. Il ouvre un droit de <strong>déposer une demande</strong> de permis de séjour temporaire (RVP), sans garantir l’obtention du permis ou du visa.</p><h2>Ce que prévoit le décret</h2><ul><li>Une demande de RVP hors quota, sans document attestant la connaissance de la langue russe, de l’histoire et du droit russes, sous réserve des conditions du décret.</li><li>Un visa privé ordinaire à entrée unique de trois mois, délivré sur décision du responsable du poste diplomatique ou consulaire dans les cas prévus.</li><li>L’examen du dossier selon la procédure applicable, avec les motifs de refus prévus à l’article 7 de la loi fédérale n° 115-FZ.</li></ul><p>Lisez le <a href="SOURCE">texte du décret n° 702 sur le site de la présidence</a>, sa <a href="PUBLICATION">notice de publication officielle</a> et la <a href="COUNTRIES">liste gouvernementale des États concernés</a> (ordonnance n° 2560-r). La nationalité, le lieu de résidence permanente et la version actuelle de cette liste doivent être vérifiés pour chaque personne.</p><h2>Préparer votre dossier</h2><ol><li>Notez votre nationalité, votre résidence permanente et le lieu prévu pour la demande de visa.</li><li>Décrivez les motifs de votre projet et les membres de votre famille concernés.</li><li>Rassemblez les informations sur vos passeports, vos séjours et vos entrées précédentes en Russie.</li><li>Vérifiez les conditions du décret et les éventuels motifs de refus.</li><li>Confirmez les pièces, l’autorité compétente et les délais selon les règles en vigueur avant le dépôt.</li></ol><h2>Questions fréquentes</h2><h3>Le visa est-il garanti ?</h3><p>Non. Le décret prévoit une décision consulaire ; il ne garantit pas une réponse favorable.</p><h3>Le RVP est-il automatique ?</h3><p>Non. Le dossier reste soumis à l’examen et aux motifs de refus applicables.</p><h3>La nationalité suffit-elle ?</h3><p>Non. Il faut examiner toutes les conditions et les faits du dossier.</p><p class="sr-note">Ce guide présente le cadre général. La liste des pièces et les délais doivent être confirmés pour votre situation.</p>
+
+</article>'''
  body=body.replace('SOURCE',source).replace('PUBLICATION',publication).replace('COUNTRIES',countries)
- return shell(lang,url,title,desc,heading(lang,title,desc,'УКАЗ 702' if ru else 'DÉCRET 702')+body+cta(lang))
+ return shell(lang,url,title,desc,heading(lang,title,desc,'УКАЗ 702 · РАЗДЕЛЕНИЕ ЦЕННОСТЕЙ · ИДЕОЛОГИЧЕСКАЯ ПРОГРАММА' if ru else 'DÉCRET 702')+body+cta(lang))
 
 def b2b_page(lang,part):
  label,title,desc,body=get_page(lang,part)
