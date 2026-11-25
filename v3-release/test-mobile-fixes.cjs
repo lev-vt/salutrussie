@@ -1,0 +1,20 @@
+const {chromium,webkit}=require('playwright');const assert=require('node:assert/strict');const fs=require('node:fs');
+const base='http://127.0.0.1:8765/';const manifest=JSON.parse(fs.readFileSync('v3-release/v3-seo-manifest.json','utf8'));
+const output={staticFooters:0,missingFooters:[],cases:[],errors:[]};fs.mkdirSync('mobile-review',{recursive:true});
+for(const route of manifest.routes){const h=fs.readFileSync('release-indexable/'+route+'index.html','utf8');const f=h.match(/<footer\b[\s\S]*?<\/footer>/i)?.[0]||'';if(f.includes('1247700538370')&&f.includes('9721237517')){assert.ok(f.includes('sr-company-meta'),route+' unformatted company IDs');assert.ok(h.includes('name="format-detection" content="telephone=no"'),route+' missing format detection');output.staticFooters++}else output.missingFooters.push(route)}
+function rgb(s){return s.match(/[\d.]+/g).slice(0,3).map(Number)}
+function lum(s){return rgb(s).map(x=>x/255).map(x=>x<=.04045?x/12.92:((x+.055)/1.055)**2.4).reduce((a,x,i)=>a+x*[.2126,.7152,.0722][i],0)}
+function contrast(a,b){let x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)}
+(async()=>{for(const [engine,type] of [['webkit',webkit],['chromium',chromium]]){const browser=await type.launch();for(const lang of ['ru','en','fr'])for(const width of [320,390,430,1440]){const context=await browser.newContext({viewport:{width,height:900},deviceScaleFactor:1,locale:lang+'-'+({ru:'RU',en:'US',fr:'FR'}[lang])});const page=await context.newPage();let errors=[];page.on('pageerror',e=>errors.push(e.message));try{
+ await page.goto(base+lang+'/about/');await page.locator('.sr-about-services .service-col').first().waitFor();
+ const cards=await page.locator('.sr-about-services .service-col').evaluateAll(nodes=>nodes.map(c=>{const cs=getComputedStyle(c);const rect=c.getBoundingClientRect();return {bg:cs.backgroundColor,width:rect.width,height:rect.height,colors:[...c.querySelectorAll('.num,h3,p,a')].map(e=>({tag:e.tagName,color:getComputedStyle(e).color,opacity:getComputedStyle(e).opacity})),inside:c.scrollWidth<=c.clientWidth+1}}));
+ assert.equal(cards.length,6);for(const c of cards){assert.ok(c.inside,'Card overflow');for(const e of c.colors){assert.ok(Number(e.opacity)===1);assert.ok(contrast(e.color,c.bg)>=4.5,JSON.stringify(e)+' '+c.bg+' contrast '+contrast(e.color,c.bg))}}
+ const footer=await page.locator('.sr-footer .sr-company-meta').evaluate(e=>({width:e.clientWidth,scroll:e.scrollWidth,ids:[...e.querySelectorAll('.sr-company-id')].map(n=>({text:n.textContent.trim(),height:n.getBoundingClientRect().height,width:n.getBoundingClientRect().width,line:parseFloat(getComputedStyle(n).lineHeight),whiteSpace:getComputedStyle(n).whiteSpace}))}));
+ assert.ok(footer.scroll<=footer.width+1,JSON.stringify(footer));assert.ok(footer.ids.length>=2);for(const id of footer.ids){assert.ok(id.height<=id.line+1,JSON.stringify(id));assert.equal(id.whiteSpace,'nowrap')}
+ assert.deepEqual(errors,[]);
+ if(width===390){await page.locator('.sr-about-services').screenshot({path:'mobile-review/'+engine+'-'+lang+'-cards.png'});await page.locator('.sr-footer .sr-company-meta').screenshot({path:'mobile-review/'+engine+'-'+lang+'-footer.png'});}
+ await page.goto(base+lang+'/');const cta=page.locator('a[data-sr-direct-contact]:visible').first();await cta.click();await page.locator('dialog.sr-direct-contact').waitFor({state:'visible'});assert.deepEqual(await page.locator('dialog.sr-direct-contact a').evaluateAll(a=>a.map(x=>x.getAttribute('href'))),['https://wa.me/79685341915','https://t.me/lev_vt','mailto:salutrussie@salutrussie.ru']);await page.keyboard.press('Escape');await page.locator('dialog.sr-direct-contact').waitFor({state:'hidden'});assert.deepEqual(errors,[]);
+ output.cases.push({engine,lang,width,cards:cards.length,footerIds:footer.ids.length});
+ }catch(e){output.errors.push({engine,lang,width,error:String(e)})}finally{await context.close()}}await browser.close()}
+ fs.writeFileSync('mobile-review/report.json',JSON.stringify(output,null,2));console.log('MOBILE_REVIEW '+JSON.stringify(output));if(output.errors.length)process.exitCode=1;
+})().catch(e=>{console.error(e);process.exitCode=1});
