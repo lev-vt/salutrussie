@@ -93,12 +93,15 @@ def main():
     manifest_path = Path(__file__).with_name("v3-seo-manifest.json")
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     routes = set(manifest["routes"])
+    languages = tuple(lang for lang in ("ru", "en", "fr", "de") if lang + "/" in routes)
+    if {route.split("/", 1)[0] for route in routes} != set(languages):
+        parser.error("Every registered language must be supported and have a homepage.")
     for route in routes:
         if not (args.source / route / "index.html").is_file():
             parser.error(f"Missing required route: {route}")
     actual_routes = {
         path.parent.relative_to(args.source).as_posix() + "/"
-        for lang in ("ru", "en", "fr")
+        for lang in ("ru", "en", "fr", "de")
         for path in (args.source / lang).rglob("index.html")
         if path.parent.relative_to(args.source).as_posix() != "ru/migration/decree-702-design"
     }
@@ -127,7 +130,7 @@ def main():
         tags += '<link rel="canonical" href="' + escaped(canonical) + '">'
         tags += '<meta property="og:url" content="' + escaped(canonical) + '">'
         if suffix not in exclusion:
-            for other in ("ru", "en", "fr"):
+            for other in languages:
                 target = other + "/" + suffix
                 if target in routes:
                     tags += '<link rel="alternate" hreflang="' + other + '" href="' + escaped(base + target) + '">'
@@ -171,7 +174,7 @@ def main():
         doc = re.sub(r'<meta\s+name="robots"[^>]*>', '', doc, flags=re.I)
         tags = '<meta name="robots" content="' + ('index,follow' if args.enable_indexing else 'noindex,nofollow') + '">'
         tags += '<link rel="canonical" href="' + escaped(base) + '">'
-        for lang in ("ru", "en", "fr"):
+        for lang in languages:
             tags += '<link rel="alternate" hreflang="' + lang + '" href="' + escaped(base + lang + "/") + '">'
         tags += '<link rel="alternate" hreflang="x-default" href="' + escaped(base) + '">'
         doc = put_tags(doc, tags)

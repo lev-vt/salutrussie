@@ -56,6 +56,7 @@ class Page(HTMLParser):
 
 def validate(root, base, routes, excluded, indexing):
     errors = []
+    languages = tuple(lang for lang in ('ru', 'en', 'fr', 'de') if lang + '/' in routes)
     base_parts = urlsplit(base)
     def fail(route, msg):
         errors.append(f'{route or "/"}: {msg}')
@@ -110,7 +111,7 @@ def validate(root, base, routes, excluded, indexing):
             fail(route, f'incorrect HTML language: {page.lang}')
         expected_alts = []
         if suffix not in excluded:
-            expected_alts = [(l, base + l + '/' + suffix) for l in ('ru', 'en', 'fr') if l + '/' + suffix in routes]
+            expected_alts = [(l, base + l + '/' + suffix) for l in languages if l + '/' + suffix in routes]
             if not suffix:
                 expected_alts.append(('x-default', base))
         if Counter(page.alternates) != Counter(expected_alts):

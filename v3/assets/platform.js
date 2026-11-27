@@ -1,5 +1,5 @@
 // Remember only a deliberate language-switch click. Direct language URLs stay unchanged.
-(function(){document.addEventListener('click',function(event){var el=event.target;if(!el||!el.closest)return;var link=el.closest('a[hreflang]');if(!link)return;var lang=link.getAttribute('hreflang');if(['ru','en','fr'].indexOf(lang)<0)return;try{localStorage.setItem('salutrussie.language',lang)}catch(e){}},true)})();
+(function(){document.addEventListener('click',function(event){var el=event.target;if(!el||!el.closest)return;var link=el.closest('a[hreflang]');if(!link)return;var lang=link.getAttribute('hreflang');if(['ru','en','fr','de'].indexOf(lang)<0)return;try{localStorage.setItem('salutrussie.language',lang)}catch(e){}},true)})();
 (() => {
  const menu=document.getElementById('navLinks');
  const burger=document.getElementById('burger');
@@ -27,8 +27,8 @@
    let active='all';let format='all';let cards=[...document.querySelectorAll('.sr-result')];
    let normalize=x=>String(x||'').toLocaleLowerCase().normalize('NFKC');
    const update=()=>{let query=normalize(q.value.trim()),count=0;
-     cards.forEach(card=>{let match=(!query||normalize(card.dataset.index+' '+(document.documentElement.lang==='en'?card.textContent:'')).includes(query))&&(active==='all'||card.dataset.topic===active)&&(format==='all'||card.dataset.format===format);card.classList.toggle('sr-hidden',!match);if(match)count++});
-     const msg=document.getElementById('sr-count');if(msg)msg.textContent=count+' '+(document.documentElement.lang==='en'?(count===1?'result':'results'):document.documentElement.lang==='fr'?'résultats':'материалов');
+     cards.forEach(card=>{let match=(!query||normalize(card.dataset.index+' '+(['en','de'].includes(document.documentElement.lang)?card.textContent:'')).includes(query))&&(active==='all'||card.dataset.topic===active)&&(format==='all'||card.dataset.format===format);card.classList.toggle('sr-hidden',!match);if(match)count++});
+     const msg=document.getElementById('sr-count');if(msg)msg.textContent=count+' '+(document.documentElement.lang==='en'?(count===1?'result':'results'):document.documentElement.lang==='fr'?'résultats':document.documentElement.lang==='de'?(count===1?'Ergebnis':'Ergebnisse'):'материалов');
      document.getElementById('sr-empty')?.classList.toggle('sr-hidden',count!==0);
    };
    q.addEventListener('input',update);
@@ -46,7 +46,7 @@
    try{ok=document.execCommand('copy')}catch(e){}t.remove();
   }
   const locale=document.documentElement.lang;
-  const labels=locale==='fr'?['Copié','Sélectionnez et copiez le texte']:locale==='en'?['Copied','Select and copy the text']:['Скопировано','Выделите и скопируйте текст'];
+  const labels=locale==='fr'?['Copié','Sélectionnez et copiez le texte']:locale==='en'?['Copied','Select and copy the text']:locale==='de'?['Kopiert','Text markieren und kopieren']:['Скопировано','Выделите и скопируйте текст'];
   b.textContent=labels[ok?0:1];
   if(!ok){const sel=window.getSelection();const range=document.createRange();range.selectNodeContents(el);sel.removeAllRanges();sel.addRange(range);}
   b.focus();
@@ -56,13 +56,14 @@
 
 /* Shared V3.1 visual components. The original HTML remains the content source. */
 (()=>{
-const root=new URL('../',document.currentScript.src),lang=document.documentElement.lang,L=['ru','en','fr'].includes(lang)?lang:'ru';
-const suffix=location.pathname.slice(root.pathname.length).replace(/^(ru|en|fr)\//,'').replace(/index\.html$/,'').replace(/^\/|\/$/g,'');
+const root=new URL('../',document.currentScript.src),lang=document.documentElement.lang,L=['ru','en','fr','de'].includes(lang)?lang:'ru';
+const suffix=location.pathname.slice(root.pathname.length).replace(/^(ru|en|fr|de)\//,'').replace(/index\.html$/,'').replace(/^\/|\/$/g,'');
 const url=(s='',l=L)=>new URL(l+'/'+(s?s.replace(/\/$/,'')+'/':''),root).href;
 const d={
 ru:{nav:['Услуги','Переезд в Россию','B2B','Статьи','О нас','Контакты'],consult:'Консультация',toc:'Содержание',help:'Нужна помощь в вашем случае?',side:'Оценим ситуацию, предложим индивидуальную стратегию и согласуем сопровождение.',intro:'Сначала индивидуальная стратегия — затем сопровождение по согласованному плану.',benefits:['Юридическая практика с 2005 года','Индивидуальная правовая стратегия','Согласованные этапы работы','Юридическое сопровождение'],fees:'Стоимость услуг',offer:'Оферта',privacy:'Политика обработки данных',pay:'Оплата',author:'Редакция SalutRussie',bio:'Юридическая практика основателя с 2005 года',search:'Поиск по статьям',empty:'Ничего не найдено',menu:'Меню',lang:'Язык'},
 en:{nav:['Services','Move to Russia','B2B','Articles','About us','Contact'],consult:'Consultation',toc:'Contents',help:'Need legal advice?',side:'We assess your situation, develop an individual strategy and agree the scope of support.',intro:'First an individual legal strategy, then support according to the agreed plan.',benefits:['Legal practice since 2005','Individual legal strategy','Agreed scope and stages','Legal support'],fees:'Fees',offer:'Terms of service',privacy:'Privacy policy',pay:'Payment',author:'SalutRussie editorial team',bio:'Founder in legal practice since 2005',search:'Search articles',empty:'No articles found',menu:'Menu',lang:'Language'},
-fr:{nav:['Services','S’installer en Russie','B2B','Articles','À propos','Contact'],consult:'Consultation',toc:'Sommaire',help:'Besoin d’un conseil ?',side:'Nous analysons votre situation, élaborons une stratégie individuelle et convenons de l’accompagnement.',intro:'D’abord une stratégie juridique individuelle, puis l’accompagnement selon le plan convenu.',benefits:['Pratique juridique depuis 2005','Stratégie juridique individuelle','Étapes et mission convenues','Accompagnement juridique'],fees:'Honoraires',offer:'Conditions de service',privacy:'Données personnelles',pay:'Paiement',author:'Rédaction SalutRussie',bio:'Fondateur juriste depuis 2005',search:'Rechercher un article',empty:'Aucun article trouvé',menu:'Menu',lang:'Langue'}
+fr:{nav:['Services','S’installer en Russie','B2B','Articles','À propos','Contact'],consult:'Consultation',toc:'Sommaire',help:'Besoin d’un conseil ?',side:'Nous analysons votre situation, élaborons une stratégie individuelle et convenons de l’accompagnement.',intro:'D’abord une stratégie juridique individuelle, puis l’accompagnement selon le plan convenu.',benefits:['Pratique juridique depuis 2005','Stratégie juridique individuelle','Étapes et mission convenues','Accompagnement juridique'],fees:'Honoraires',offer:'Conditions de service',privacy:'Données personnelles',pay:'Paiement',author:'Rédaction SalutRussie',bio:'Fondateur juriste depuis 2005',search:'Rechercher un article',empty:'Aucun article trouvé',menu:'Menu',lang:'Langue'},
+de:{nav:['Leistungen','Nach Russland ziehen','B2B','Ratgeber','Über uns','Kontakt'],consult:'Beratung',toc:'Inhalt',help:'Benötigen Sie rechtliche Unterstützung?',side:'Wir prüfen Ihre Situation, entwickeln eine individuelle rechtliche Strategie und vereinbaren den Umfang der Begleitung.',intro:'Zuerst eine individuelle rechtliche Strategie, dann die Begleitung nach dem vereinbarten Plan.',benefits:['Juristische Praxis seit 2005','Individuelle rechtliche Strategie','Vereinbarte Leistungen und Schritte','Rechtliche Begleitung'],fees:'Honorare',offer:'Vertragsbedingungen',privacy:'Datenschutz',pay:'Zahlung',author:'Redaktion SalutRussie',bio:'Gründer mit juristischer Praxis seit 2005',search:'Ratgeber durchsuchen',empty:'Keine Beiträge gefunden',menu:'Menü',lang:'Sprache'}
 }[L];
 const el=(tag,cls,txt)=>{const x=document.createElement(tag);if(cls)x.className=cls;if(txt)x.textContent=txt;return x};
 const a=(href,txt,cls)=>{const x=el('a',cls,txt);x.href=href;return x};
@@ -95,6 +96,7 @@ if(header){
  if(menu){
  const labels=L==='ru'?{decree:'Указ 702',all:'Все услуги',catalog:'Другие услуги',categories:['Недвижимость','Бизнес в России','Инвестиции','Юридическая помощь','Переезд и адаптация']}:
  L==='fr'?{decree:'Décret 702',all:'Tous les services',catalog:'Autres services',categories:['Immobilier','Affaires en Russie','Investissements','Assistance juridique','Installation']}:
+ L==='de'?{decree:'Erlass 702',all:'Alle Leistungen',catalog:'Weitere Leistungen',categories:['Immobilien','Geschäftstätigkeit in Russland','Investitionen','Rechtliche Unterstützung','Umzug und Eingewöhnung']}:
  {decree:'Decree 702',all:'All services',catalog:'Other services',categories:['Property','Business in Russia','Investments','Legal assistance','Relocation']};
  const compact=matchMedia('(max-width:1279px)');
  const routes=['real-estate','business','investments','legal','relocation'];
@@ -126,14 +128,14 @@ const home=main.querySelector('.hero.v2-home'),hero=main.querySelector(':scope >
 if(hero&&!article&&!legal&&!listing){const w=hero.querySelector(':scope > .sr-width, :scope > .wrap');if(w){const inner=el('div','sr-ui-hero-inner'),art=el('div','sr-ui-hero-art');art.setAttribute('aria-hidden','true');if(suffix==='migration'){const img=el('img');img.src=new URL('assets/decree702-stage2-arrival.jpg',root).href;img.alt='';img.width=680;img.height=720;img.fetchPriority='high';art.classList.add('sr-ui-hero-photo');art.append(img)}else art.append(icon(kind(suffix)));w.before(inner);inner.append(w,art)}}
 const commercial=Boolean(home)||hero&&!article&&!legal&&!listing&&!['contacts','consultations','about'].includes(suffix);
 let endHero=home||hero;
-if(commercial&&endHero){const strip=el('div','sr-ui-benefits');strip.setAttribute('aria-label',L==='ru'?'Наш подход':L==='fr'?'Notre méthode':'Our approach');const group=suffix.split('/')[0];const groups={
-migration:{ru:['Выбор основания для переезда','Визы, РВП и ВНЖ','Документы и сроки','Правовая защита'],en:['Choosing a residence route','Visas and residence permits','Documents and deadlines','Legal protection'],fr:['Choix du fondement de séjour','Visas et titres de séjour','Documents et délais','Protection juridique'],icons:['plan','migration','calendar','legal']},
-'for-business':{ru:['Международный найм','Рабочие визы и разрешения','Миграционный аудит','Юридическая поддержка бизнеса'],en:['International hiring','Work visas and permits','Immigration compliance','Business legal support'],fr:['Recrutement international','Visas et permis de travail','Conformité migratoire','Conseil juridique aux entreprises'],icons:['people','migration','check','business']},
-'real-estate':{ru:['Проверка объекта','Договор и полномочия','Безопасные расчёты','Сопровождение сделки'],en:['Property checks','Contracts and authority','Payment arrangements','Transaction support'],fr:['Vérification du bien','Contrats et pouvoirs','Modalités de règlement','Accompagnement de la transaction'],icons:['property','document','payment','legal']},
-business:{ru:['Выбор структуры','Корпоративные документы','Налоги и договоры','Юридическое сопровождение'],en:['Choosing a structure','Corporate documentation','Tax and contracts','Legal support'],fr:['Choix de la structure','Documents sociaux','Fiscalité et contrats','Accompagnement juridique'],icons:['plan','document','check','business']},
-investments:{ru:['Проверка проекта','Правовые риски','Условия инвестирования','Сопровождение сделки'],en:['Project review','Legal risks','Investment terms','Transaction support'],fr:['Analyse du projet','Risques juridiques','Conditions d’investissement','Accompagnement de la transaction'],icons:['invest','shield','document','legal']},
-legal:{ru:['Анализ ситуации','Документы и доказательства','Правовая стратегия','Защита интересов'],en:['Case assessment','Documents and evidence','Legal strategy','Protection of your interests'],fr:['Analyse de la situation','Documents et preuves','Stratégie juridique','Défense de vos intérêts'],icons:['check','document','plan','legal']},
-relocation:{ru:['План переезда','Административные процедуры','Жильё и обустройство','Адаптация в России'],en:['Relocation plan','Administrative procedures','Housing and practical needs','Settling in Russia'],fr:['Plan d’installation','Démarches administratives','Logement et besoins pratiques','Adaptation en Russie'],icons:['plan','document','property','family']}
+if(commercial&&endHero){const strip=el('div','sr-ui-benefits');strip.setAttribute('aria-label',L==='ru'?'Наш подход':L==='fr'?'Notre méthode':L==='de'?'Unser Ansatz':'Our approach');const group=suffix.split('/')[0];const groups={
+migration:{ru:['Выбор основания для переезда','Визы, РВП и ВНЖ','Документы и сроки','Правовая защита'],en:['Choosing a residence route','Visas and residence permits','Documents and deadlines','Legal protection'],fr:['Choix du fondement de séjour','Visas et titres de séjour','Documents et délais','Protection juridique'],de:["Wahl des Aufenthaltsgrundes","Visa und Aufenthaltstitel","Unterlagen und Fristen","Rechtlicher Schutz"],icons:['plan','migration','calendar','legal']},
+'for-business':{ru:['Международный найм','Рабочие визы и разрешения','Миграционный аудит','Юридическая поддержка бизнеса'],en:['International hiring','Work visas and permits','Immigration compliance','Business legal support'],fr:['Recrutement international','Visas et permis de travail','Conformité migratoire','Conseil juridique aux entreprises'],de:["Internationale Personalgewinnung","Arbeitsvisa und Genehmigungen","Prüfung der Einhaltung des Migrationsrechts","Rechtliche Unterstützung für Unternehmen"],icons:['people','migration','check','business']},
+'real-estate':{ru:['Проверка объекта','Договор и полномочия','Безопасные расчёты','Сопровождение сделки'],en:['Property checks','Contracts and authority','Payment arrangements','Transaction support'],fr:['Vérification du bien','Contrats et pouvoirs','Modalités de règlement','Accompagnement de la transaction'],de:["Prüfung der Immobilie","Verträge und Vertretungsbefugnisse","Sichere Zahlungsabwicklung","Begleitung der Transaktion"],icons:['property','document','payment','legal']},
+business:{ru:['Выбор структуры','Корпоративные документы','Налоги и договоры','Юридическое сопровождение'],en:['Choosing a structure','Corporate documentation','Tax and contracts','Legal support'],fr:['Choix de la structure','Documents sociaux','Fiscalité et contrats','Accompagnement juridique'],de:["Wahl der Unternehmensstruktur","Gesellschaftsunterlagen","Steuern und Verträge","Rechtliche Begleitung"],icons:['plan','document','check','business']},
+investments:{ru:['Проверка проекта','Правовые риски','Условия инвестирования','Сопровождение сделки'],en:['Project review','Legal risks','Investment terms','Transaction support'],fr:['Analyse du projet','Risques juridiques','Conditions d’investissement','Accompagnement de la transaction'],de:["Prüfung des Projekts","Rechtliche Risiken","Investitionsbedingungen","Begleitung der Transaktion"],icons:['invest','shield','document','legal']},
+legal:{ru:['Анализ ситуации','Документы и доказательства','Правовая стратегия','Защита интересов'],en:['Case assessment','Documents and evidence','Legal strategy','Protection of your interests'],fr:['Analyse de la situation','Documents et preuves','Stratégie juridique','Défense de vos intérêts'],de:["Prüfung Ihrer Situation","Unterlagen und Beweismittel","Rechtliche Strategie","Wahrung Ihrer Interessen"],icons:['check','document','plan','legal']},
+relocation:{ru:['План переезда','Административные процедуры','Жильё и обустройство','Адаптация в России'],en:['Relocation plan','Administrative procedures','Housing and practical needs','Settling in Russia'],fr:['Plan d’installation','Démarches administratives','Logement et besoins pratiques','Adaptation en Russie'],de:["Umzugsplanung","Behördengänge","Wohnung und Alltag","Eingewöhnung in Russland"],icons:['plan','document','property','family']}
 };const set=groups[group];(set?.icons||['calendar','plan','check','legal']).forEach((k,i)=>{const b=el('div','sr-ui-benefit');b.append(icon(k),el('span','',set?.[L]?.[i]||d.benefits[i]));strip.append(b)});endHero.after(strip);endHero=strip;if(!home){const box=el('div','sr-ui-intro');const inner=el('div','sr-ui-intro-inner');inner.append(el('p','',d.intro),a(url('consultations'),d.consult+' →','btn btn-primary'));box.append(inner);endHero.after(box);endHero=box}}
 main.querySelectorAll('.sr-card').forEach(card=>{const h=card.querySelector('h3');if(!h)return;let slot=card.querySelector('.sr-icon');if(slot&&/^\d+$/.test(slot.textContent.trim()))return;let k=card.matches('a[href]')?kind(new URL(card.href).pathname):'check';if(!slot){slot=el('span','sr-icon');card.prepend(slot)}slot.setAttribute('aria-hidden','true');slot.replaceChildren(icon(k))});
 if(home){main.querySelectorAll('.sr-feature').forEach(f=>{const h=f.querySelector('h2');if(!h)return;const link=f.querySelector('a[href*="decree-702"]');const old=f.querySelector('.sr-star');if(link){const figure=el('figure');const img=el('img');img.src=new URL('assets/decree702-stage2-arrival.jpg',root).href;img.alt='';img.loading='lazy';figure.append(img);if(old)old.replaceWith(figure);else f.append(figure);f.classList.add('sr-ui-feature-grid')}else if(old){old.replaceChildren(icon('legal'))}})}
@@ -159,13 +161,14 @@ let pending=false;function update(){const offset=(header?.getBoundingClientRect(
 (function(){
  const script=document.currentScript;
  const root=script&&script.src?new URL('../',script.src):null;
- const lang=['ru','en','fr'].includes(document.documentElement.lang)?document.documentElement.lang:'en';
+ const lang=['ru','en','fr','de'].includes(document.documentElement.lang)?document.documentElement.lang:'en';
  if(!root)return;
  const contactURL=new URL(lang+'/contacts/',root).href;
  const labels={
   ru:{title:'Как вам удобнее связаться с нами?',lead:'Выберите удобный канал связи.',email:'Электронная почта',close:'Закрыть'},
   en:{title:'How would you like to contact us?',lead:'Choose your preferred contact method.',email:'Email',close:'Close'},
-  fr:{title:'Comment souhaitez-vous nous contacter ?',lead:'Choisissez votre moyen de contact préféré.',email:'E-mail',close:'Fermer'}
+  fr:{title:'Comment souhaitez-vous nous contacter ?',lead:'Choisissez votre moyen de contact préféré.',email:'E-mail',close:'Fermer'},
+  de:{title:'Wie möchten Sie uns kontaktieren?',lead:'Wählen Sie den für Sie passenden Kontaktweg.',email:'E-Mail',close:'Schließen'}
  }[lang];
  const channels=[
   {name:'WhatsApp',detail:'+7 968 534-19-15',href:'https://wa.me/79685341915',icon:'<path d="M20.5 11.5a8.5 8.5 0 0 1-12.7 7.4L3 20l1.2-4.7A8.5 8.5 0 1 1 20.5 11.5Z"/><path d="M8 8.5c1 4 3 6 7 7l1.5-2-2.5-1-1 1c-2-1-3-2-4-4l1-1-1-2.5Z"/>'},
