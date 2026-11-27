@@ -19,7 +19,7 @@ def direct_contact_links(doc, route):
         href = html.unescape(attrs.get("href", ""))
         parsed = urlsplit(href)
         is_contact = not parsed.netloc and not parsed.scheme and re.search(r'/(?:consultations|contacts)/?$', parsed.path)
-        is_channel = re.match(r'^(?:mailto:salutrussie@salutrussie\.ru(?:\?|$)|https://(?:wa\.me/79685341915|t\.me/lev_vt)(?:[/?#]|$))', href, flags=re.I)
+        is_channel = re.match(r'^(?:mailto:salutrussie@salutrussie\.ru(?:\?|$)|https://(?:wa\.me/79685341915|t\.me/RussiaLawLev)(?:[/?#]|$))', href, flags=re.I)
         if not (is_contact or is_channel):
             return tag
         dest = "../" * len(route.strip("/").split("/")) + route.split("/")[0] + "/contacts/"

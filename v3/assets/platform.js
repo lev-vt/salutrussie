@@ -169,7 +169,7 @@ let pending=false;function update(){const offset=(header?.getBoundingClientRect(
  }[lang];
  const channels=[
   {name:'WhatsApp',detail:'+7 968 534-19-15',href:'https://wa.me/79685341915',icon:'<path d="M20.5 11.5a8.5 8.5 0 0 1-12.7 7.4L3 20l1.2-4.7A8.5 8.5 0 1 1 20.5 11.5Z"/><path d="M8 8.5c1 4 3 6 7 7l1.5-2-2.5-1-1 1c-2-1-3-2-4-4l1-1-1-2.5Z"/>'},
-  {name:'Telegram',detail:'@lev_vt',href:'https://t.me/lev_vt',icon:'<path d="M3 10 21 3l-4 18-6-5-3 3 1-6 9-7-11 6Z"/>'},
+  {name:'Telegram',detail:'@RussiaLawLev',href:'https://t.me/RussiaLawLev',icon:'<path d="M3 10 21 3l-4 18-6-5-3 3 1-6 9-7-11 6Z"/>'},
   {name:labels.email,detail:'salutrussie@salutrussie.ru',href:'mailto:salutrussie@salutrussie.ru',icon:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>'}
  ];
  function qualifies(a){
@@ -178,7 +178,7 @@ let pending=false;function update(){const offset=(header?.getBoundingClientRect(
   if(!(a.matches('.nav-cta,.btn,.expert-cta,.sr-quick-consult,[data-analytics-event="consultation_click"]')||a.closest('.sr-mobile-consult')))return false;
   const raw=a.getAttribute('href')||'';
   try{const url=new URL(raw,location.href);
-   return (url.origin===location.origin&&/\/(?:consultations|contacts)\/?$/.test(url.pathname))||/^mailto:salutrussie@salutrussie\.ru(?:\?|$)/i.test(raw)||(/^https:\/\/(?:wa\.me\/79685341915|t\.me\/lev_vt)(?:[/?#]|$)/i.test(raw));
+   return (url.origin===location.origin&&/\/(?:consultations|contacts)\/?$/.test(url.pathname))||/^mailto:salutrussie@salutrussie\.ru(?:\?|$)/i.test(raw)||(/^https:\/\/(?:wa\.me\/79685341915|t\.me\/RussiaLawLev)(?:[/?#]|$)/i.test(raw));
   }catch(e){return false}
  }
  function element(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text)e.textContent=text;return e}
