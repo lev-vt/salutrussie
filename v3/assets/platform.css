@@ -947,3 +947,8 @@ html[lang] body .sr-footer .sr-company-id a{display:inline;color:inherit!importa
  html[lang] body .sr-footer .sr-company-ids{display:grid;grid-template-columns:minmax(0,1fr);gap:4px}
  html[lang] body .sr-footer .sr-company-id{justify-self:start}
 }
+
+/* DE localization: German compound words and a four-language switch. */
+html[lang="de"] :is(main h1,main h2,main h3,.sr-card,.sr-cta,.sr-feature,.sr-content,.sr-founder-copy){hyphens:auto;overflow-wrap:break-word;min-width:0}
+html[lang="de"] .sr-legal-identity :is(dt,dd){overflow-wrap:anywhere;min-width:0}
+@media(max-width:480px){html[lang="de"] body .sr-header.sr-nav-v33 .nav{grid-template-columns:minmax(0,1fr) auto auto;column-gap:5px}html[lang="de"] body .sr-header.sr-nav-v33 .lang-switch{gap:2px}html[lang="de"] body .sr-header.sr-nav-v33 .lang-switch a{min-width:25px;padding:4px;min-height:44px}html[lang="de"] body .sr-header.sr-nav-v33 .brand span{font-size:19px}html[lang="de"] body .sr-header.sr-nav-v33 .brand .seal-mark{width:22px;height:22px}}
